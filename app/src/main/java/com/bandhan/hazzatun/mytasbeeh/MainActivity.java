@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -76,29 +75,7 @@ public class MainActivity extends AppCompatActivity {
         //    Button sv = (Button) findViewById(R.id.save);
 
 
-            String text = et.getText().toString();
-            FileOutputStream fos = null;
 
-            try {
-                fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
-                fos.write(text.getBytes());
-
-                et.getText().clear();
-                Toast.makeText(this, "Saved to " + getFilesDir() + "/" + FILE_NAME,
-                        Toast.LENGTH_LONG).show();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (fos != null) {
-                    try {
-                        fos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
         }
 
 
