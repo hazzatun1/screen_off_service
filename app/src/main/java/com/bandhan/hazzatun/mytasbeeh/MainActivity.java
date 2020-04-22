@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -131,6 +132,26 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void viewAll(View view) {
+        view.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Cursor res= db.getAllData();
+                        if(res.getCount()==0){
+                            showMessage("Error","Nothing found");
+                            return;
+                        }
+                        StringBuffer buf=new StringBuffer();
+                        while(res.moveToNext()){
+                            buf.append("Id: "+res.getString(0)+"\n");
+                            buf.append("Name: "+res.getString(1)+"\n");
+                            buf.append("Age: "+res.getString(2)+"\n");
+
+                        }
+                        showMessage("Data",buf.toString());
+                    }
+                }
+        );
     }
 
 
@@ -161,6 +182,18 @@ public class MainActivity extends AppCompatActivity {
             value=txv.getText().toString();
             prefs.edit().putString("count",value).apply();
         }
+
+    public void showMessage(String title, String message){
+
+        AlertDialog.Builder builder= new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
+    }
+
+
+
 
 }
 
