@@ -1,11 +1,13 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,14 +26,13 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     Button cnt;
     TextView txv;
-    EditText et;
+    EditText et, etName;
     String value;
     boolean haveIBeenClicked;
     Database db;
 
     private ListView lv;
-    private CAdapter data;
-    private CountContructor dataModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             value = txv.getText().toString();
             int mr = Integer.parseInt(value);
             txv.setText(String.valueOf(mcounter = mr));
+
         }
     }
 
@@ -79,53 +81,62 @@ public class MainActivity extends AppCompatActivity {
         txv.setText(String.valueOf(mcounter = mr));
     }
 
-    public void saves(View view) {
-        //    Button sv = (Button) findViewById(R.id.save);
-        final EditText input = new EditText(MainActivity.this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setLayoutParams(lp);
 
-        AlertDialog alertDialog = new AlertDialog.Builder(this)
+
+
+    public void saves(View view) {
+
+        //    Button sv = (Button) findViewById(R.id.save);
+
+        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+        final View yourCustomView = inflater.inflate(R.layout.count_name, null);
+
+        final TextView etName = (EditText) yourCustomView.findViewById(R.id.edit_countname);
+        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
 
                 .setTitle("Save as")
 
-                .setMessage("Exiting will close the app")
-                .setView(input)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                .setMessage("Enter a name")
+                .setView(yourCustomView)
+                .setPositiveButton("Yes", null)
 
-                        String countName = input.getText().toString().trim();
-                        int count = Integer.valueOf(mcounter);
-                       long val = db.addName(new CountContructor(countName,count));
-
-                        if(val>0) {
-                            Toast.makeText(getApplicationContext(), "Saved successfully", Toast.LENGTH_LONG).show();
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(), "Save error", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                })
-
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        Toast.makeText(getApplicationContext(), "No Happened", Toast.LENGTH_LONG).show();
-                    }
-                })
+                .setNegativeButton("No", null)
                 .show();
-        }
+        Button positiveButton= dialog.getButton(dialog.BUTTON_POSITIVE);
+        positiveButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean isinserted= db.addName(etName.getText().toString(), txv.getText().toString());
+                        if(isinserted==true)
+                            Toast.makeText(MainActivity.this,"Data inserted", Toast.LENGTH_LONG).show();
+
+                        else
+                            Toast.makeText(MainActivity.this,"Data not inserted", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+        Button negButton= dialog.getButton(dialog.BUTTON_NEGATIVE);
+        negButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MainActivity.this, "No Happend", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+    }
 
 
 
 
+    public void viewAll(View view) {
+    }
 
 
-        public void lt(View view) {
+
+
+        public void lt(View view) { //light
             haveIBeenClicked=!haveIBeenClicked;
           //  Button lt = findViewById(R.id.light);
             if(haveIBeenClicked){
@@ -151,22 +162,6 @@ public class MainActivity extends AppCompatActivity {
             prefs.edit().putString("count",value).apply();
         }
 
-        public void view(View view) {
-            final ArrayList<CountContructor> contacts = new ArrayList<>(db.getAllCountss());
-            data=new CAdapter(this, contacts);
-
-            lv.setAdapter(data);
-
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    dataModel = contacts.get(position);
-
-                    Toast.makeText(getApplicationContext(),String.valueOf(dataModel.get_id()), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        }
+}
 
 

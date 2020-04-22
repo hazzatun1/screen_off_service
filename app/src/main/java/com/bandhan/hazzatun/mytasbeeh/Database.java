@@ -6,8 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
     public class Database extends SQLiteOpenHelper {
         public static final String DATABASE_NAME ="TasbeehCount.db";
@@ -20,77 +19,66 @@ import java.util.List;
 
 
         public Database(Context context) {
-            super(context, DATABASE_NAME, null, 2);
+
+            super(context, DATABASE_NAME, null, 1);
         }
 
         @Override
-        public void onCreate(SQLiteDatabase sqLiteDatabase) {
-            sqLiteDatabase.execSQL("CREATE TABLE registeruser " +
-                    "(ID INTEGER PRIMARY  KEY AUTOINCREMENT, CountName TEXT, Counts TEXT)");
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL("CREATE TABLE Counters " +
+                    "(CountId INTEGER PRIMARY  KEY AUTOINCREMENT, CountName TEXT, Counts TEXT)");
 
         }
+
+      //  @Override
+      //  public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+      //      sqLiteDatabase.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME);
+       //     onCreate(sqLiteDatabase);
+       // }
 
         @Override
-        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-            sqLiteDatabase.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME);
-            onCreate(sqLiteDatabase);
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
         }
 
-      public long addName(CountContructor countcons ){
+        public boolean addName(String cname, String count){
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
-            contentValues.put("CountName",countcons.get_name());
-            contentValues.put("Counts",countcons.get_count());
+            contentValues.put("CountName",cname);
+            contentValues.put("Counts",count);
 
-            long res = db.insert("Counters",null,contentValues);
-            db.close();
-            return  res;
-        }
-
-
-
-
-        public boolean checkName(String name){
-            String[] columns = { COL_1 };
-            SQLiteDatabase db = getReadableDatabase();
-            String selection = COL_2 + "=?";
-            String[] selectionArgs = { name};
-            Cursor cursor = db.query(TABLE_NAME,columns,selection,selectionArgs,null,null,null);
-            int count = cursor.getCount();
-            cursor.close();
-            db.close();
-
-            if(count>0)
-                return  true;
-            else
-                return  false;
-        }
-
-        public List<CountContructor> getAllCountss() {
-            List<CountContructor> contactList = new ArrayList<CountContructor>();
-            // Select All Query
-            String selectQuery = "SELECT  * FROM " + TABLE_NAME;
-
-            SQLiteDatabase db = this.getWritableDatabase();
-            Cursor cursor = db.rawQuery(selectQuery, null);
-
-            // looping through all rows and adding to list
-            if (cursor.moveToFirst()) {
-                do {
-                    CountContructor contact = new CountContructor();
-                    contact.set_id(Integer.parseInt(cursor.getString(0)));
-                    contact.set_name(cursor.getString(1));
-                    contact.set_count(Integer.parseInt(cursor.getString(2)));
-
-                    // Adding contact to list
-                    contactList.add(contact);
-                } while (cursor.moveToNext());
+            long res = db.insert("Counters",null, contentValues);
+            if(res==-1){
+                return false;
             }
+            else{
+                return true;
+            }
+        }
+        public Cursor getAllData(){
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor res=db.rawQuery("select * from "+TABLE_NAME,null);
+            return res;
+        }
+        public boolean updateName(String cid, String cname, String count ){
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("CountId",cid);
+            contentValues.put("CountName",cname);
+            contentValues.put("Counts",count);
 
-            // return contact list
-            return contactList;
+            db.update("Counters", contentValues, "CountId = ?", new String[] {cid});
+            return true;
+        }
+        public Integer deleteName(String cid ){
+            SQLiteDatabase db = this.getWritableDatabase();
+
+
+            return db.delete("Counters","CountId = ?", new String[] {cid});
+
         }
 
 
-    }
+        }
+        
 
