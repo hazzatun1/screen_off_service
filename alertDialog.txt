@@ -1,0 +1,88 @@
+  public void saves(View view) {
+        
+        //    Button sv = (Button) findViewById(R.id.save);
+
+        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+        final View yourCustomView = inflater.inflate(R.layout.count_name, null);
+
+        final TextView etName = (EditText) yourCustomView.findViewById(R.id.edit_countname);
+        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+
+                .setTitle("Save as")
+                .setMessage("Enter a name")
+                .setView(yourCustomView)
+                .setPositiveButton("Yes", null)
+
+                .setNegativeButton("No", null)
+                .show();
+        Button positiveButton= dialog.getButton(dialog.BUTTON_POSITIVE);
+        positiveButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean isInserted= db.addName(etName.getText().toString(), txv.getText().toString());
+                        if(isInserted == true)
+                            Toast.makeText(MainActivity.this,"Data inserted", Toast.LENGTH_LONG).show();
+
+                        else
+                            Toast.makeText(MainActivity.this,"Data not inserted", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+        Button negButton= dialog.getButton(dialog.BUTTON_NEGATIVE);
+        negButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MainActivity.this, "No Happend", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+    }
+
+
+
+
+
+
+
+  public void saves(View view) {
+        //    Button sv = (Button) findViewById(R.id.save);
+        final EditText input = new EditText(MainActivity.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+
+                .setTitle("Save as")
+
+                .setMessage("Exiting will close the app")
+                .setView(input)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        String countName = input.getText().toString().trim();
+                        int count = Integer.valueOf(mcounter);
+                       long val = db.addName(new CountContructor(countName,count));
+
+                        if(val>0) {
+                            Toast.makeText(getApplicationContext(), "Saved successfully", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), "Save error", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Toast.makeText(getApplicationContext(), "No Happened", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .show();
+        }
