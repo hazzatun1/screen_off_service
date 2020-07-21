@@ -17,6 +17,7 @@
         android:layout_marginBottom="90sp"
         android:gravity="center"
         android:maxLength="6"
+        android:textColor="@color/b"
         android:text="0"
         android:textSize="90sp"
         android:visibility="gone" />
@@ -29,7 +30,8 @@
         android:gravity="center"
         android:maxLength="6"
         android:text="0"
-        android:textSize="90sp" />
+        android:textSize="90sp"
+        android:textColor="@color/b"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -100,6 +102,7 @@
             android:layout_marginTop="100sp"
             android:onClick="play"
             android:text="COUNT"
+            android:textColor="@color/b"
             android:textSize="70sp" />
     </LinearLayout>
 

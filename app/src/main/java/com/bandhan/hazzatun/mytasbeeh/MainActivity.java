@@ -1,6 +1,7 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 
 import android.content.SharedPreferences;
@@ -10,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -18,19 +18,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
   //  private static final String FILE_NAME = "exampleTasbeeh.txt";
+  Database db;
     private int mcounter = 0;
     private SharedPreferences prefs;
     Button cnt;
     TextView txv;
-    EditText et, etName;
+    EditText et;
     String value;
     boolean haveIBeenClicked;
-    Database db;
 
     private ListView lv;
 
@@ -89,53 +88,57 @@ public class MainActivity extends AppCompatActivity {
 
         //    Button sv = (Button) findViewById(R.id.save);
 
-        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-        final View yourCustomView = inflater.inflate(R.layout.count_name, null);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
-        final TextView etName = (EditText) yourCustomView.findViewById(R.id.edit_countname);
-        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+        final EditText input = new EditText(MainActivity.this);
 
-                .setTitle("Save as")
+        alertDialog.setTitle("Save as")
 
-                .setMessage("Enter a name")
-                .setView(yourCustomView)
-                .setPositiveButton("Yes", null)
+                .setMessage("Enter Name")
+                .setView(input)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                .setNegativeButton("No", null)
+                        String countName = input.getText().toString().trim();
+                        String count = String.valueOf(mcounter);
+
+                       // boolean isInsert=db.addName(countName, count );
+                        db = new Database(getApplicationContext());
+                        boolean isInsert = false;
+                        if(null != db) {
+                            isInsert = db.addName(countName, count );
+                        }
+
+            if(isInsert==true)
+                Toast.makeText(MainActivity.this,"Data inserted", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(MainActivity.this,"Data not inserted", Toast.LENGTH_LONG).show();
+                    }
+                })
+
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String countName = input.getText().toString().trim();
+                        String count = String.valueOf(mcounter);
+                      //  Toast.makeText(getApplicationContext(), "No Happened", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this,countName, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this,count, Toast.LENGTH_LONG).show();
+
+                    }
+                })
+
                 .show();
-        Button positiveButton= dialog.getButton(dialog.BUTTON_POSITIVE);
-        positiveButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        boolean isinserted= db.addName(etName.getText().toString(), txv.getText().toString());
-                        if(isinserted==true)
-                            Toast.makeText(MainActivity.this,"Data inserted", Toast.LENGTH_LONG).show();
 
-                        else
-                            Toast.makeText(MainActivity.this,"Data not inserted", Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
-        Button negButton= dialog.getButton(dialog.BUTTON_NEGATIVE);
-        negButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(MainActivity.this, "No Happend", Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
     }
 
 
 
 
     public void viewAll(View view) {
-        view.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+
+
                         Cursor res= db.getAllData();
                         if(res.getCount()==0){
                             showMessage("Error","Nothing found");
@@ -150,9 +153,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                         showMessage("Data",buf.toString());
                     }
-                }
-        );
-    }
+
+
 
 
 
@@ -191,8 +193,6 @@ public class MainActivity extends AppCompatActivity {
         builder.setMessage(message);
         builder.show();
     }
-
-
 
 
 }
