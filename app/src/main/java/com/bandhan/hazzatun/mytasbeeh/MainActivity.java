@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+         db = new Database(getApplicationContext());
         prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
         String strPref = prefs.getString("count", null);
         et = (EditText) findViewById(R.id.uput);
@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity{
                         String count = String.valueOf(mcounter);
 
                        // boolean isInsert=db.addName(countName, count );
-                        db = new Database(getApplicationContext());
                         boolean isInsert = false;
                         if(null != db) {
                             isInsert = db.addName(countName, count );
@@ -122,9 +121,7 @@ public class MainActivity extends AppCompatActivity{
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String countName = input.getText().toString().trim();
                         String count = String.valueOf(mcounter);
-                      //  Toast.makeText(getApplicationContext(), "No Happened", Toast.LENGTH_LONG).show();
-                        Toast.makeText(MainActivity.this,countName, Toast.LENGTH_LONG).show();
-                        Toast.makeText(MainActivity.this,count, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "No Happened", Toast.LENGTH_LONG).show();
 
                     }
                 })
@@ -138,7 +135,6 @@ public class MainActivity extends AppCompatActivity{
 
     public void viewAll(View view) {
 
-
                         Cursor res= db.getAllData();
                         if(res.getCount()==0){
                             showMessage("Error","Nothing found");
@@ -146,9 +142,7 @@ public class MainActivity extends AppCompatActivity{
                         }
                         StringBuffer buf=new StringBuffer();
                         while(res.moveToNext()){
-                            buf.append("Id: "+res.getString(0)+"\n");
-                            buf.append("Name: "+res.getString(1)+"\n");
-                            buf.append("Age: "+res.getString(2)+"\n");
+                            buf.append(res.getString(0)+": Name: "+res.getString(1)+", Counts: "+res.getString(2)+"\n");
 
                         }
                         showMessage("Data",buf.toString());
