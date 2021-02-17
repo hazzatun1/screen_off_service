@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
          db = new Database(getApplicationContext());
         prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
@@ -135,17 +137,12 @@ public class MainActivity extends AppCompatActivity{
 
     public void viewAll(View view) {
 
-                        Cursor res= db.getAllData();
-                        if(res.getCount()==0){
-                            showMessage("Error","Nothing found");
-                            return;
-                        }
-                        StringBuffer buf=new StringBuffer();
-                        while(res.moveToNext()){
-                            buf.append(res.getString(0)+": Name: "+res.getString(1)+", Counts: "+res.getString(2)+"\n");
+        Intent intent3=new Intent(this,open_page.class);
+        intent3.putExtra("counts",mcounter);
+        startActivity(intent3);
 
-                        }
-                        showMessage("Data",buf.toString());
+
+
                     }
 
 

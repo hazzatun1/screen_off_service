@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class Database extends SQLiteOpenHelper {
     public static final String DATABASE_NAME ="TasbeehCount.db";
     public static final String TABLE_NAME ="Counters";
@@ -67,4 +69,30 @@ public class Database extends SQLiteOpenHelper {
         return db.delete("Counters","CountId = ?", new String[] {cid});
 
     }
+
+    public String getCounts(String cid ){
+
+        SQLiteDatabase db = getReadableDatabase();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("SELECT Counts FROM Counters WHERE CountId = '");
+        stringBuilder.append(cid);
+        stringBuilder.append("' ");
+        Cursor cursor = db.rawQuery(stringBuilder.toString(), null);
+        return cursor.moveToFirst() ? cursor.getString(cursor.getColumnIndex("Counts")) : null;
+    }
+
+    public ArrayList<viewConst> getUser() {
+        ArrayList<viewConst> arrayList = new ArrayList();
+        Cursor cursor = getWritableDatabase().rawQuery("SELECT  * FROM Counters", null);
+        if (cursor.moveToFirst())
+            do {
+                viewConst viewConst = new viewConst();
+                 viewConst.set_id(cursor.getString(0));
+                viewConst.set_name(cursor.getString(1));
+                viewConst.set_counts(cursor.getString(2));
+                arrayList.add(viewConst);
+            } while (cursor.moveToNext());
+        return arrayList;
+    }
+
 }
