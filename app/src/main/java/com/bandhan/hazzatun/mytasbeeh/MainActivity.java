@@ -49,12 +49,21 @@ public class MainActivity extends AppCompatActivity{
         txv = (TextView) findViewById(R.id.txt);
 
         if (strPref != null) {
-            txv.setText(prefs.getString("count", ""));
+            txv.setText(prefs.getString("count", "0"));
             value = txv.getText().toString();
             int mr = Integer.parseInt(value);
             txv.setText(String.valueOf(mcounter = mr));
 
         }
+
+
+           // mcounter = Integer.parseInt(getIntent().getStringExtra("counts"));
+           // txv.setText(String.valueOf(mcounter));
+        if(getIntent().hasExtra("counts")){
+          mcounter=  Integer.parseInt(getIntent().getStringExtra("counts"));
+            txv.setText(String.valueOf(mcounter));
+        }
+
     }
 
     public void play(View view) {
@@ -127,7 +136,14 @@ public class MainActivity extends AppCompatActivity{
 
                     }
                 })
+                .setNeutralButton("Exists", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
+                        Toast.makeText((Context)MainActivity.this, "Cancel", Toast.LENGTH_LONG).show();
+
+                        param2DialogInterface.cancel();
+                    }
+                })
                 .show();
 
     }

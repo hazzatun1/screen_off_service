@@ -3,6 +3,7 @@ package com.bandhan.hazzatun.mytasbeeh;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class open_page extends AppCompatActivity {
     Database db;
     private CustomAdapter data;
     private ListView lv;
-
+    private viewConst dataModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,32 +43,37 @@ public class open_page extends AppCompatActivity {
 
         db = new Database(this);
         lv = (ListView) findViewById(R.id.list1);
-
+        final ArrayList<viewConst> contacts = new ArrayList<>(db.getUser());
+        data=new CustomAdapter(getApplicationContext(), contacts);
 
         fillListView();
     }
 
 
     private void fillListView() {
-        final ArrayList<viewConst> contacts = new ArrayList<>(db.getUser());
-        data=new CustomAdapter(getApplicationContext(), contacts);
 
 
+        lv.setItemsCanFocus(true);
         lv.setAdapter(data);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
+
+               // final String selected =(String) (lv.getItemAtPosition(position));
                 AlertDialog.Builder builder = new AlertDialog.Builder((Context)open_page.this);
                 EditText editText = new EditText((Context)open_page.this);
                 builder.setTitle("Donate free or enter amount");
-                builder.setMessage("Enter demanded amount").setCancelable(false).setView((View)editText).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setMessage("Enter demanded amount")
+                        .setCancelable(false).setView((View)editText)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-                        open_page.this.updonate();
+
+                        Toast.makeText((Context)open_page.this, "hello", Toast.LENGTH_LONG).show();
                         param2DialogInterface.cancel();
                     }
                 }).setNegativeButton("Free Donate", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-                        open_page.this.updonate();
+                        Toast.makeText((Context)open_page.this, "nagative button", Toast.LENGTH_LONG).show();
                         param2DialogInterface.cancel();
                     }
                 }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
@@ -83,10 +90,13 @@ public class open_page extends AppCompatActivity {
     public void updonate(){
 
     }
-public void click(){
+    public void resume(View view){
+
+        Toast.makeText(this,"hai",Toast.LENGTH_SHORT).show();
 
 
-}
+
+    }
 
 
 }

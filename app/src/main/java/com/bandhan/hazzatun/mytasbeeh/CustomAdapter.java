@@ -1,6 +1,8 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +22,8 @@ public class CustomAdapter extends ArrayAdapter<viewConst> {
     private TextView itemListText;
     private Button itemButton;
 
-Database db;
-viewConst data;
+    Database db;
+    viewConst data;
     Holder viewHolder;
 
     public CustomAdapter(Context context, ArrayList<viewConst> dcontact){
@@ -39,7 +41,7 @@ viewConst data;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
 
          data = getItem(position);
@@ -65,47 +67,62 @@ viewConst data;
 
 
         viewHolder.idview.setText(data.get_id()+": ");
+        //viewHolder.idview.setTag(position);
         viewHolder.nameFV.setText("Name: "+data.get_name());
-        viewHolder.nameSV.setText("Counts: "+data.get_counts());
+        final String cid=data.get_counts();
+        viewHolder.nameSV.setText("Counts: "+cid);
 
         viewHolder.phoneV.setText("Resume");
-      //  int pos=position+1;
-        //viewHolder.idview.setTag(position);
-        viewHolder.nameSV.setTag(data.get_counts());
+        //int pos=position+1;
+
+        //viewHolder.nameSV.setTag(data.get_counts());
         // Return the completed view to render on screen
        // return convertView;
 
 
 
-       // String currentValue = mcontact.toString();
-        itemListText = (TextView)convertView.findViewById(R.id.name);
-        //itemListText.setText(currentValue);
-
-        itemListText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context,"Text Working",Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
-       // itemButton = (Button)convertView.findViewById(R.id.resume);
-        //To lazy to implement interface
         viewHolder.phoneV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                       //Toast.makeText(context,cid,Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(context, MainActivity.class);
+                i.putExtra("counts",cid);
+                context.startActivity(i);
+            }
+        });
+
+
+       // viewHolder.phoneV.setOnClickListener(new View.OnClickListener() {
+      //     @Override
+       //     public void onClick(View v) {
                 //Toast.makeText(context,"Button Working",Toast.LENGTH_SHORT).show();
 
 
-               // String cid = String.valueOf(viewHolder.idview.getTag());
-                String count =  String.valueOf(viewHolder.nameSV.getTag());
+        //        String cid = String.valueOf(viewHolder.idview.getTag());
+               // String count =  String.valueOf(db.getCounts(cid));
 
-                Toast.makeText(context,count,Toast.LENGTH_SHORT).show();
-            }
-        });
+         //       Toast.makeText(context,cid,Toast.LENGTH_SHORT).show();
+         //   }
+       // });
 
         return convertView;
 
 
     }
+
+    @Override
+    public int getPosition(@Nullable viewConst item) {
+        return super.getPosition(item);
+    }
+
+    @Nullable
+    @Override
+    public viewConst getItem(int position) {
+        return super.getItem(position);
+    }
+
 }
