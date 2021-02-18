@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomAdapter extends ArrayAdapter<viewConst> {
+public class CustomAdapter extends ArrayAdapter<viewConst>{
     private Context context;
 
      ArrayList<viewConst> mcontact;
@@ -26,11 +26,16 @@ public class CustomAdapter extends ArrayAdapter<viewConst> {
     viewConst data;
     Holder viewHolder;
 
+
+
+
     public CustomAdapter(Context context, ArrayList<viewConst> dcontact){
         super(context, R.layout.activity_open_page, dcontact);
         this.context=context;
         this.mcontact=dcontact;
     }
+
+
 
     public  class  Holder{
 
@@ -67,7 +72,7 @@ public class CustomAdapter extends ArrayAdapter<viewConst> {
 
         final String countId=data.get_id();
         viewHolder.idview.setText(data.get_id()+": ");
-        //viewHolder.idview.setTag(position);
+        final String cname=data.get_name();
         viewHolder.nameFV.setText("Name: "+data.get_name());
         final String cid=data.get_counts();
         viewHolder.nameSV.setText("Counts: "+cid);
@@ -92,6 +97,7 @@ public class CustomAdapter extends ArrayAdapter<viewConst> {
                 Intent i = new Intent(context, MainActivity.class);
                 i.putExtra("counts",cid);
                 i.putExtra("cID",countId);
+                i.putExtra("cName",cname);
                 context.startActivity(i);
             }
         });
@@ -115,15 +121,9 @@ public class CustomAdapter extends ArrayAdapter<viewConst> {
 
     }
 
-    @Override
-    public int getPosition(@Nullable viewConst item) {
-        return super.getPosition(item);
-    }
-
     @Nullable
     @Override
     public viewConst getItem(int position) {
         return super.getItem(position);
     }
-
 }

@@ -28,10 +28,12 @@ public class MainActivity extends AppCompatActivity{
     private SharedPreferences prefs;
     Button cnt;
     TextView txv;
+    TextView text;
     EditText et;
     String value;
     boolean haveIBeenClicked;
 String CID = "";
+String cname="";
     private ListView lv;
 
 
@@ -47,6 +49,8 @@ String CID = "";
         et = (EditText) findViewById(R.id.uput);
         cnt = (Button) findViewById(R.id.count);
         txv = (TextView) findViewById(R.id.txt);
+text = (TextView) findViewById(R.id.name);
+
 
         if (strPref != null) {
             txv.setText(prefs.getString("count", "0"));
@@ -63,6 +67,8 @@ String CID = "";
           mcounter=  Integer.parseInt(getIntent().getStringExtra("counts"));
             txv.setText(String.valueOf(mcounter));
             CID=getIntent().getStringExtra("cID");
+            cname=getIntent().getStringExtra("cName");
+            text.setText(cname);
         }
 
     }
@@ -75,6 +81,8 @@ String CID = "";
     public void resets(View view) {
         Button ret = (Button) findViewById(R.id.reset);
         txv.setText(String.valueOf(mcounter = 0));
+        text.setText("Unnamed");
+
     }
 
     public void edits(View view) {

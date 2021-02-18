@@ -62,13 +62,25 @@ public class Database extends SQLiteOpenHelper {
         db.update("Counters", contentValues, "CountId = ?", new String[] {cid});
         return true;
     }
+    public boolean updateData(String cid, String name ){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
 
+        contentValues.put("CountName",name);
+        //contentValues.put("Counts",count);
+        db.update("Counters", contentValues, "CountId = ?", new String[] {cid});
+        return true;
+    }
 
-    public Integer deleteName(String cid ){
+    public boolean deleteName(String cid ){
         SQLiteDatabase db = this.getWritableDatabase();
 
 
-        return db.delete("Counters","CountId = ?", new String[] {cid});
+        long hello = db.delete("Counters","CountId = ?", new String[] {cid});
+        if(hello > 0)
+            return true;
+        else
+            return false;
 
     }
 

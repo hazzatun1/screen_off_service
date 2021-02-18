@@ -25,10 +25,10 @@ import java.util.List;
 
 public class open_page extends AppCompatActivity {
 
-    Database db;
-    private CustomAdapter data;
-    private ListView lv;
-    private viewConst dataModel;
+     Database db;
+     CustomAdapter data;
+     ListView lv;
+     viewConst dataModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,24 +59,50 @@ public class open_page extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-               // final String selected =(String) (lv.getItemAtPosition(position));
+                dataModel = data.getItem(position);
+                //final String selected =(String) (lv.getItemAtPosition(position));
+               final String ccid=dataModel.get_id();
+               //
                 AlertDialog.Builder builder = new AlertDialog.Builder((Context)open_page.this);
-                EditText editText = new EditText((Context)open_page.this);
-                builder.setTitle("Donate free or enter amount");
-                builder.setMessage("Enter demanded amount")
-                        .setCancelable(false).setView((View)editText)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                final EditText editText1 = new EditText((Context)open_page.this);
+                //EditText editText2 = new EditText((Context)open_page.this);
+                builder.setTitle("Edit or Delete");
+                builder.setMessage("enter new name")
+                        .setCancelable(false).setView((View)editText1)
+                        .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
-                        Toast.makeText((Context)open_page.this, "hello", Toast.LENGTH_LONG).show();
-                        param2DialogInterface.cancel();
+
+
+                        String name= editText1.getText().toString();
+                        boolean upd=db.updateData(ccid, name);
+                        if(upd==true) {
+                            Toast.makeText((Context) open_page.this, "updated", Toast.LENGTH_LONG).show();
+                            startActivity(getIntent());
+                        }
+                        else
+                            Toast.makeText((Context)open_page.this, "failed to update", Toast.LENGTH_LONG).show();
+
+
+                       // Toast.makeText((Context)open_page.this, "hello", Toast.LENGTH_LONG).show();
+                       // param2DialogInterface.cancel();
                     }
-                }).setNegativeButton("Free Donate", new DialogInterface.OnClickListener() {
+                })
+                        .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-                        Toast.makeText((Context)open_page.this, "nagative button", Toast.LENGTH_LONG).show();
-                        param2DialogInterface.cancel();
+
+
+                        boolean del=db.deleteName(ccid);
+                        if(del==true) {
+                            Toast.makeText((Context) open_page.this, "deleted", Toast.LENGTH_LONG).show();
+                            startActivity(getIntent());
+                        }
+                        else
+                            Toast.makeText((Context)open_page.this, "failed to delete", Toast.LENGTH_LONG).show();
+                        //param2DialogInterface.cancel();
                     }
-                }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                })
+                        .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
                         Toast.makeText((Context)open_page.this, "Cancel", Toast.LENGTH_LONG).show();
                         param2DialogInterface.cancel();
@@ -87,16 +113,8 @@ public class open_page extends AppCompatActivity {
         });
 
     }
-    public void updonate(){
-
-    }
-    public void resume(View view){
-
-        Toast.makeText(this,"hai",Toast.LENGTH_SHORT).show();
 
 
-
-    }
 
 
 }
