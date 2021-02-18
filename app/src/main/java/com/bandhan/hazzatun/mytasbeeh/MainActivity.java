@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity{
     EditText et;
     String value;
     boolean haveIBeenClicked;
-
+String CID = "";
     private ListView lv;
 
 
@@ -59,9 +59,10 @@ public class MainActivity extends AppCompatActivity{
 
            // mcounter = Integer.parseInt(getIntent().getStringExtra("counts"));
            // txv.setText(String.valueOf(mcounter));
-        if(getIntent().hasExtra("counts")){
+        if(getIntent().hasExtra("counts") && getIntent().hasExtra("cID") ){
           mcounter=  Integer.parseInt(getIntent().getStringExtra("counts"));
             txv.setText(String.valueOf(mcounter));
+            CID=getIntent().getStringExtra("cID");
         }
 
     }
@@ -138,13 +139,20 @@ public class MainActivity extends AppCompatActivity{
                 })
                 .setNeutralButton("Exists", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+                        String count = String.valueOf(mcounter);
+                        boolean isUpdate = false;
+                        if(null != db) {
+                             isUpdate = db.updateCount(CID, count);
+                        }
+ if(isUpdate==true)
+                Toast.makeText(MainActivity.this,"Data inserted", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(MainActivity.this,"Data not inserted", Toast.LENGTH_LONG).show();
 
-                        Toast.makeText((Context)MainActivity.this, "Cancel", Toast.LENGTH_LONG).show();
-
-                        param2DialogInterface.cancel();
+                  param2DialogInterface.cancel();
                     }
-                })
-                .show();
+                });
+        alertDialog.create().show();
 
     }
 

@@ -65,7 +65,7 @@ public class CustomAdapter extends ArrayAdapter<viewConst> {
             viewHolder = (Holder) convertView.getTag();
         }
 
-
+        final String countId=data.get_id();
         viewHolder.idview.setText(data.get_id()+": ");
         //viewHolder.idview.setTag(position);
         viewHolder.nameFV.setText("Name: "+data.get_name());
@@ -91,6 +91,7 @@ public class CustomAdapter extends ArrayAdapter<viewConst> {
                        //Toast.makeText(context,cid,Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(context, MainActivity.class);
                 i.putExtra("counts",cid);
+                i.putExtra("cID",countId);
                 context.startActivity(i);
             }
         });

@@ -52,16 +52,18 @@ public class Database extends SQLiteOpenHelper {
         Cursor res=db.rawQuery("select * from "+TABLE_NAME,null);
         return res;
     }
-    public boolean updateName(String cid, String cname, String count ){
+
+    public boolean updateCount(String cid, String count ){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("CountId",cid);
-        contentValues.put("CountName",cname);
+
         contentValues.put("Counts",count);
 
         db.update("Counters", contentValues, "CountId = ?", new String[] {cid});
         return true;
     }
+
+
     public Integer deleteName(String cid ){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -70,15 +72,31 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
-    public String getCounts(String cid ){
 
-        SQLiteDatabase db = getReadableDatabase();
+
+    public boolean CheckIsDataAlreadyInDBorNot(String TableName,
+                                                      String dbfield, String fieldValue) {
+        SQLiteDatabase sqldb = getWritableDatabase();
+        String Query = "Select * from " + TABLE_NAME + " where " + COL_1 + " = " + fieldValue;
+        Cursor cursor = sqldb.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
+    }
+
+
+    public String getCountId(String paramString1, String paramString2) {
+        SQLiteDatabase sQLiteDatabase = getReadableDatabase();
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SELECT Counts FROM Counters WHERE CountId = '");
-        stringBuilder.append(cid);
+        stringBuilder.append("SELECT CountId  FROM Counters WHERE CountName = '");
+        stringBuilder.append(paramString1);
+
         stringBuilder.append("' ");
-        Cursor cursor = db.rawQuery(stringBuilder.toString(), null);
-        return cursor.moveToFirst() ? cursor.getString(cursor.getColumnIndex("Counts")) : null;
+        Cursor cursor = sQLiteDatabase.rawQuery(stringBuilder.toString(), null);
+        return cursor.moveToFirst() ? cursor.getString(cursor.getColumnIndex("CountId")) : null;
     }
 
     public ArrayList<viewConst> getUser() {
