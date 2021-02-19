@@ -63,7 +63,7 @@ text = (TextView) findViewById(R.id.name);
 
            // mcounter = Integer.parseInt(getIntent().getStringExtra("counts"));
            // txv.setText(String.valueOf(mcounter));
-        if(getIntent().hasExtra("counts") && getIntent().hasExtra("cID") ){
+        if(getIntent().hasExtra("counts") && getIntent().hasExtra("cID")&& getIntent().hasExtra("cName") ){
           mcounter=  Integer.parseInt(getIntent().getStringExtra("counts"));
             txv.setText(String.valueOf(mcounter));
             CID=getIntent().getStringExtra("cID");

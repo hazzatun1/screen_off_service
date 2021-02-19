@@ -98,7 +98,9 @@ public class CustomAdapter extends ArrayAdapter<viewConst>{
                 i.putExtra("counts",cid);
                 i.putExtra("cID",countId);
                 i.putExtra("cName",cname);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 context.startActivity(i);
+
             }
         });
 
