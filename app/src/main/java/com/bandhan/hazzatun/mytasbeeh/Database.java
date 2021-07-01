@@ -103,7 +103,7 @@ public class Database extends SQLiteOpenHelper {
 return string;
         }
 
-    public String ifExists(String searchItem) {
+    public boolean ifExists(String searchItem) {
 
         String[] columns = { COL_2 };
         String selection = COL_2 + " =?";
@@ -114,11 +114,13 @@ return string;
         Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null, limit);
         if(cursor.moveToFirst())
         {
-            return  cursor.getString(cursor.getColumnIndex(COL_2));
+            db.close();
+            return  true;
         }
         else
         {
-            return ("nothing to show");
+            db.close();
+            return false;
         }
 
         //boolean exists = (cursor.getCount() > 0);

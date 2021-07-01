@@ -127,25 +127,25 @@ if(name_input_et.getVisibility() == View.VISIBLE) {
 
         String countName = name_input.getText().toString().trim();
         String count = String.valueOf(mcounter).trim();
-        String isData = db.ifExists(countName);
+        boolean isData = db.ifExists(countName);
         boolean isInsert = db.addName(countName, count);
         boolean cName = db.updateNewData(CID, countName, count);
 
 
             // boolean cupdate = db.updateCount(CID, count);
-            if (cName == true) {
+            if (cName == true && isData == true) {
 
                 Toast.makeText(MainActivity.this, "Existing data updated", Toast.LENGTH_LONG).show();
             }
-            else if (cName == false) {
+            else if (cName == false && isData == false) {
                 Toast.makeText(MainActivity.this, "Existing data not updated", Toast.LENGTH_LONG).show();
             }
 
 
 
-            else if (isInsert == true)
+            else if (isData == false && isInsert == true)
                 Toast.makeText(MainActivity.this, "New Data inserted", Toast.LENGTH_LONG).show();
-            else if (isInsert == false)
+            else
                 Toast.makeText(MainActivity.this, "Something Error", Toast.LENGTH_LONG).show();
                  }
 
