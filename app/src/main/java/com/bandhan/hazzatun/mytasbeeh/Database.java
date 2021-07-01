@@ -17,41 +17,48 @@ public class Database extends SQLiteOpenHelper {
     public static final String COL_3 ="Counts";
 
     public Database(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 2);
 
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE Counters " +//exec means execute, parameter db
-                "(CountId INTEGER PRIMARY  KEY AUTOINCREMENT, CountName TEXT, Counts TEXT)");
+
+        db.execSQL("create table " + TABLE_NAME + " (CountId INTEGER PRIMARY KEY AUTOINCREMENT, CountName TEXT, Counts TEXT )");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
     }
 
 
-    public boolean addName(String cname, String count ){
+    public boolean addName(String cname, String count ) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("CountName",cname);
-        contentValues.put("Counts",count);
+        contentValues.put(COL_2, cname);
+        contentValues.put(COL_3, count);
 
-        long res = db.insert("Counters",null, contentValues);
-        if(res==-1){
+        long res = db.insert(TABLE_NAME, null, contentValues);
+
+
+        if ((int)res <= 0) {
+            db.close();
             return false;
         }
-        else{
+        else
+            db.close();
             return true;
-        }
+  //   return  (int) res == -1;
     }
+
+
     public Cursor getAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res=db.rawQuery("select * from "+TABLE_NAME,null);
         return res;
     }
+
 
     public boolean updateCount(String cid, String count ){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -62,12 +69,13 @@ public class Database extends SQLiteOpenHelper {
         db.update("Counters", contentValues, "CountId = ?", new String[] {cid});
         return true;
     }
+
     public boolean updateData(String cid, String name ){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("CountName",name);
-        //contentValues.put("Counts",count);
+       // contentValues.put("Counts",count);
         db.update("Counters", contentValues, "CountId = ?", new String[] {cid});
         return true;
     }
@@ -86,30 +94,39 @@ public class Database extends SQLiteOpenHelper {
 
 
 
-    public boolean CheckIsDataAlreadyInDBorNot(String TableName,
-                                                      String dbfield, String fieldValue) {
-        SQLiteDatabase sqldb = getWritableDatabase();
-        String Query = "Select * from " + TABLE_NAME + " where " + COL_1 + " = " + fieldValue;
-        Cursor cursor = sqldb.rawQuery(Query, null);
-        if(cursor.getCount() <= 0){
-            cursor.close();
-            return false;
+   public String CheckIsDataAlready(String fieldValue) {
+       String[] columns = { COL_2 };
+       String[] selectionArgs = { fieldValue };
+        SQLiteDatabase db = this.getWritableDatabase();
+       Cursor sql =db.query(TABLE_NAME, columns, COL_2, selectionArgs, null, null, null, "1");
+       String string=sql.getString(1);
+return string;
         }
-        cursor.close();
-        return true;
+
+    public String ifExists(String searchItem) {
+
+        String[] columns = { COL_2 };
+        String selection = COL_2 + " =?";
+        String[] selectionArgs = { searchItem };
+        String limit = "1";
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null, limit);
+        if(cursor.moveToFirst())
+        {
+            return  cursor.getString(cursor.getColumnIndex(COL_2));
+        }
+        else
+        {
+            return ("nothing to show");
+        }
+
+        //boolean exists = (cursor.getCount() > 0);
+       // cursor.close();
+      //  return exists;
     }
 
 
-    public String getCountId(String paramString1, String paramString2) {
-        SQLiteDatabase sQLiteDatabase = getReadableDatabase();
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SELECT CountId  FROM Counters WHERE CountName = '");
-        stringBuilder.append(paramString1);
-
-        stringBuilder.append("' ");
-        Cursor cursor = sQLiteDatabase.rawQuery(stringBuilder.toString(), null);
-        return cursor.moveToFirst() ? cursor.getString(cursor.getColumnIndex("CountId")) : null;
-    }
 
     public ArrayList<viewConst> getUser() {
         ArrayList<viewConst> arrayList = new ArrayList();
@@ -124,5 +141,25 @@ public class Database extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         return arrayList;
     }
+
+
+    public boolean updateNewData(String cid, String name, String count){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("CountName ", name);
+         contentValues.put("Counts ", count);
+     long res = db.update("Counters ", contentValues, "CountId = ?", new String[] {cid});
+        if ((int)res <= 0) {
+            db.close();
+            return false;
+        }
+        else
+            db.close();
+        return true;
+    }
+
+
+
 
 }

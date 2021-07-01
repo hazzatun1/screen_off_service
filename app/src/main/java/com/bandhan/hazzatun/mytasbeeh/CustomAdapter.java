@@ -2,7 +2,9 @@ package com.bandhan.hazzatun.mytasbeeh;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +14,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CustomAdapter extends ArrayAdapter<viewConst>{
-    private Context context;
+private Context context;
 
      ArrayList<viewConst> mcontact;
 
     private TextView itemListText;
     private Button itemButton;
 
-    Database db;
+   // Database db;
     viewConst data;
     Holder viewHolder;
+    public myInterface myInterface;
 
 
+
+    public Context getContext() {
+        return context;
+    }
 
 
     public CustomAdapter(Context context, ArrayList<viewConst> dcontact){
@@ -41,7 +47,7 @@ public class CustomAdapter extends ArrayAdapter<viewConst>{
 
         TextView nameFV;
         TextView nameSV;
-        Button phoneV;
+        TextView phoneV;
         TextView idview;
     }
 
@@ -49,10 +55,10 @@ public class CustomAdapter extends ArrayAdapter<viewConst>{
     public View getView(final int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
 
-         data = getItem(position);
+        data = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
 
-         // view lookup cache stored in tag
+        // view lookup cache stored in tag
 
         if (convertView == null) {
 
@@ -63,60 +69,28 @@ public class CustomAdapter extends ArrayAdapter<viewConst>{
             viewHolder.idview = (TextView) convertView.findViewById(R.id.id);
             viewHolder.nameFV = (TextView) convertView.findViewById(R.id.name);
             viewHolder.nameSV = (TextView) convertView.findViewById(R.id.count);
-            viewHolder.phoneV = (Button) convertView.findViewById(R.id.resume);
+            viewHolder.phoneV = (Button) convertView.findViewById(R.id.edit_open_page);
 
             convertView.setTag(viewHolder);
-        } else {
+
+        }
+
+        else {
             viewHolder = (Holder) convertView.getTag();
         }
 
-        final String countId=data.get_id();
-        viewHolder.idview.setText(data.get_id()+": ");
-        final String cname=data.get_name();
-        viewHolder.nameFV.setText("Name: "+data.get_name());
-        final String cid=data.get_counts();
-        viewHolder.nameSV.setText("Counts: "+cid);
+        final String countId = data.get_id();
+        viewHolder.idview.setText(data.get_id() + ": ");
+        final String cname = data.get_name();
+        viewHolder.nameFV.setText(data.get_name());
+        final String cid = data.get_counts();
+        viewHolder.nameSV.setText(cid);
 
-        viewHolder.phoneV.setText("Resume");
-        //int pos=position+1;
 
-        //viewHolder.nameSV.setTag(data.get_counts());
-        // Return the completed view to render on screen
-       // return convertView;
+       // viewHolder.phoneV.setTextColor(Color.RED);
 
 
 
-
-
-        viewHolder.phoneV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                       //Toast.makeText(context,cid,Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(context, MainActivity.class);
-                i.putExtra("counts",cid);
-                i.putExtra("cID",countId);
-                i.putExtra("cName",cname);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                context.startActivity(i);
-
-            }
-        });
-
-
-       // viewHolder.phoneV.setOnClickListener(new View.OnClickListener() {
-      //     @Override
-       //     public void onClick(View v) {
-                //Toast.makeText(context,"Button Working",Toast.LENGTH_SHORT).show();
-
-
-        //        String cid = String.valueOf(viewHolder.idview.getTag());
-               // String count =  String.valueOf(db.getCounts(cid));
-
-         //       Toast.makeText(context,cid,Toast.LENGTH_SHORT).show();
-         //   }
-       // });
 
         return convertView;
 

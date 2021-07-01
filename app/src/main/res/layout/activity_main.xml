@@ -6,38 +6,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bk"
-    android:gravity="center"
+    android:gravity="center_vertical"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity"
+
+    >
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10sp"
+        android:text="MyTasbeeh"
+        android:textSize="20sp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"/>
+
+
+
+
+    <TextView
+        android:id="@+id/count_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:text="Unnamed"
+        android:text="@string/default_title"
         android:textSize="55sp"
-        android:textColor="@color/b"/>
+        android:textColor="@color/b"
+
+        />
+
+    <EditText
+
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:id="@+id/count_name_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+
+        android:gravity="left"
+        android:text="@string/default_title"
+        android:textColor="@color/b"
+        android:visibility="gone"
+        android:textSize="55sp"
+        android:maxLength="12"
+
+        />
+
 
 
     <EditText
+
         android:id="@+id/uput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50sp"
+        android:layout_marginBottom="30sp"
         android:gravity="center"
         android:maxLength="6"
         android:textColor="@color/b"
         android:text="0"
         android:textSize="90sp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        />
 
     <TextView
         android:id="@+id/txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50sp"
+        android:layout_marginBottom="30sp"
         android:gravity="center"
         android:maxLength="6"
         android:text="0"
@@ -47,7 +86,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center_vertical"
+        android:weightSum="3">
 
 
         <Button
@@ -56,7 +96,9 @@
             android:layout_height="wrap_content"
             android:onClick="lt"
             android:text="Light"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+           android:layout_weight="1"
+           />
 
 
 
@@ -65,9 +107,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="edits"
-            android:layout_marginHorizontal="30sp"
+            android:layout_weight="1"
             android:text="Edit"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            />
 
         <Button
             android:id="@+id/reset"
@@ -75,8 +118,13 @@
             android:layout_height="wrap_content"
             android:onClick="resets"
             android:text="Reset"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:layout_weight="1"
+      />
+
+
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,7 +136,7 @@
             android:layout_height="wrap_content"
             android:onClick="saves"
             android:text="Save"
-            android:layout_marginHorizontal="20sp"
+            android:layout_weight="1"
 
             android:textSize="20sp"/>
 
@@ -98,19 +146,23 @@
             android:layout_height="wrap_content"
             android:onClick="viewAll"
             android:text="Open"
+
+            android:layout_weight="1"
             android:textSize="20sp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
 
         <Button
             android:id="@+id/count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="70sp"
+            android:layout_weight="1"
+            android:layout_marginTop="30dp"
             android:onClick="play"
             android:text="COUNT"
             android:textColor="@color/b"

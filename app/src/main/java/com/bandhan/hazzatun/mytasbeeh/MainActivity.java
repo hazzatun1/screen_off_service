@@ -1,16 +1,14 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
+
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 
 public class MainActivity extends AppCompatActivity{
@@ -30,11 +27,13 @@ public class MainActivity extends AppCompatActivity{
     TextView txv;
     TextView text;
     EditText et;
+    TextView name_input;
+    EditText name_input_et;
     String value;
     boolean haveIBeenClicked;
 String CID = "";
 String cname="";
-    private ListView lv;
+    String names="";
 
 
     @Override
@@ -43,13 +42,19 @@ String cname="";
         setContentView(R.layout.activity_main);
 
 
-         db = new Database(getApplicationContext());
+
+
+
+         db = new Database(this);
         prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
         String strPref = prefs.getString("count", null);
         et = (EditText) findViewById(R.id.uput);
         cnt = (Button) findViewById(R.id.count);
         txv = (TextView) findViewById(R.id.txt);
-text = (TextView) findViewById(R.id.name);
+       // text = (TextView) findViewById(R.id.name);
+
+         name_input = (TextView) findViewById(R.id.count_name);
+         name_input_et = (EditText) findViewById(R.id.count_name_et);
 
 
         if (strPref != null) {
@@ -60,18 +65,18 @@ text = (TextView) findViewById(R.id.name);
 
         }
 
-
-           // mcounter = Integer.parseInt(getIntent().getStringExtra("counts"));
-           // txv.setText(String.valueOf(mcounter));
         if(getIntent().hasExtra("counts") && getIntent().hasExtra("cID")&& getIntent().hasExtra("cName") ){
           mcounter=  Integer.parseInt(getIntent().getStringExtra("counts"));
             txv.setText(String.valueOf(mcounter));
             CID=getIntent().getStringExtra("cID");
             cname=getIntent().getStringExtra("cName");
-            text.setText(cname);
+            name_input.setText(cname);
+            name_input_et.setText(cname);
         }
 
     }
+
+
 
     public void play(View view) {
         mcounter++;
@@ -81,7 +86,7 @@ text = (TextView) findViewById(R.id.name);
     public void resets(View view) {
         Button ret = (Button) findViewById(R.id.reset);
         txv.setText(String.valueOf(mcounter = 0));
-        text.setText("Unnamed");
+        name_input.setText("default");
 
     }
 
@@ -97,8 +102,21 @@ text = (TextView) findViewById(R.id.name);
         if (value != String.valueOf(0)) {
             et.setText((value = String.valueOf(mcounter)));
         }
-
         txv.setText(String.valueOf(mcounter = mr));
+
+
+        name_input.setVisibility(name_input.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+        name_input_et.setVisibility(name_input_et.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+
+if(name_input_et.getVisibility() == View.VISIBLE) {
+    names = name_input.getText().toString();
+    name_input_et.setText(names);
+}
+  else {
+    names = name_input_et.getText().toString();
+    name_input.setText(names);
+}
+
     }
 
 
@@ -106,63 +124,31 @@ text = (TextView) findViewById(R.id.name);
 
     public void saves(View view) {
 
-        //    Button sv = (Button) findViewById(R.id.save);
 
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        String countName = name_input.getText().toString().trim();
+        String count = String.valueOf(mcounter).trim();
+        String isData = db.ifExists(countName);
+        boolean isInsert = db.addName(countName, count);
+        boolean cName = db.updateNewData(CID, countName, count);
 
-        final EditText input = new EditText(MainActivity.this);
 
-        alertDialog.setTitle("Save as")
+            // boolean cupdate = db.updateCount(CID, count);
+            if (cName == true) {
 
-                .setMessage("Enter Name")
-                .setView(input)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(MainActivity.this, "Existing data updated", Toast.LENGTH_LONG).show();
+            }
+            else if (cName == false) {
+                Toast.makeText(MainActivity.this, "Existing data not updated", Toast.LENGTH_LONG).show();
+            }
 
-                        String countName = input.getText().toString().trim();
-                        String count = String.valueOf(mcounter);
 
-                       // boolean isInsert=db.addName(countName, count );
-                        boolean isInsert = false;
-                        if(null != db) {
-                            isInsert = db.addName(countName, count );
-                        }
 
-            if(isInsert==true)
-                Toast.makeText(MainActivity.this,"Data inserted", Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(MainActivity.this,"Data not inserted", Toast.LENGTH_LONG).show();
-                    }
-                })
+            else if (isInsert == true)
+                Toast.makeText(MainActivity.this, "New Data inserted", Toast.LENGTH_LONG).show();
+            else if (isInsert == false)
+                Toast.makeText(MainActivity.this, "Something Error", Toast.LENGTH_LONG).show();
+                 }
 
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String countName = input.getText().toString().trim();
-                        String count = String.valueOf(mcounter);
-                        Toast.makeText(getApplicationContext(), "No Happened", Toast.LENGTH_LONG).show();
-
-                    }
-                })
-                .setNeutralButton("Exists", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-                        String count = String.valueOf(mcounter);
-                        boolean isUpdate = false;
-                        if(null != db) {
-                             isUpdate = db.updateCount(CID, count);
-                        }
- if(isUpdate==true)
-                Toast.makeText(MainActivity.this,"Data inserted", Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(MainActivity.this,"Data not inserted", Toast.LENGTH_LONG).show();
-
-                  param2DialogInterface.cancel();
-                    }
-                });
-        alertDialog.create().show();
-
-    }
 
 
 
@@ -170,16 +156,11 @@ text = (TextView) findViewById(R.id.name);
     public void viewAll(View view) {
 
         Intent intent3=new Intent(this,open_page.class);
-        intent3.putExtra("counts",mcounter);
+        intent3.putExtra("countName", names);
+        intent3.putExtra("counts", mcounter);
         startActivity(intent3);
 
-
-
                     }
-
-
-
-
 
 
         public void lt(View view) { //light

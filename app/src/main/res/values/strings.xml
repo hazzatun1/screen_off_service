@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">MyTasbeeh</string>
+    <string name="serial">No:</string>
+    <string name="CountName">Name</string>
+    <string name="Count">counts</string>
+    <string name="resume_count">resume</string>
+    <string name="edit">edit</string>
+    <string name="default_title">default</string>
+    <string name="c">c</string>
+    <string name="d">d</string>
+    <string name="e">e</string>
+    <string name="f">f</string>
+    <string name="g">g</string>
 </resources>

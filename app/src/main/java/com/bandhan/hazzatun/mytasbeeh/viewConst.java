@@ -1,5 +1,7 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
+import android.content.Context;
+
 public class viewConst {
 
 
@@ -46,6 +48,9 @@ public class viewConst {
     public void set_id(String _id) {
         this._id = _id;
     }
+
+
+
 
     // constructor
 
