@@ -6,6 +6,7 @@
     android:id="@+id/tv"
     android:orientation="horizontal"
 tools:context=".open_page"
+
     >
 
 <TableLayout
@@ -25,7 +26,6 @@ android:weightSum="4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="3dp"
-
         >
 
         <TextView
@@ -59,7 +59,7 @@ android:weightSum="4"
             android:focusableInTouchMode="false"
             android:onClick="edit"
             android:gravity="left"
-android:text="@string/edit"
+            android:text="@string/edit"
             android:maxLength="20"
             android:textSize="28sp" />
 

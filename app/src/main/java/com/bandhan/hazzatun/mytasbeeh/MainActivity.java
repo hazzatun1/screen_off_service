@@ -25,15 +25,14 @@ public class MainActivity extends AppCompatActivity{
     private SharedPreferences prefs;
     Button cnt;
     TextView txv;
-    TextView text;
     EditText et;
     TextView name_input;
     EditText name_input_et;
     String value;
     boolean haveIBeenClicked;
-String CID = "";
-String cname="";
-    String names="";
+    String CID = "";
+    String cname= "";
+    String names= "";
 
 
     @Override
@@ -123,35 +122,42 @@ if(name_input_et.getVisibility() == View.VISIBLE) {
 
 
     public void saves(View view) {
-
-
         String countName = name_input.getText().toString().trim();
         String count = String.valueOf(mcounter).trim();
-        boolean isData = db.ifExists(countName);
-        boolean isInsert = db.addName(countName, count);
-        boolean cName = db.updateNewData(CID, countName, count);
+        boolean isInsert;
+        boolean updt;
+//condition ? exprIfTrue : exprIfFalse
 
 
-            // boolean cupdate = db.updateCount(CID, count);
-            if (cName == true && isData == true) {
+        if(CID.equals("")) {
 
-                Toast.makeText(MainActivity.this, "Existing data updated", Toast.LENGTH_LONG).show();
+            boolean isDataCount = db.updateCount(CID, count);
+            boolean isDataName = db.updateData(CID, countName);
+
+
+            if(!isDataName && !isDataCount) {
+                isInsert = db.addName(countName, count);
+
+                if (isInsert) Toast.makeText(MainActivity.this, "new Data inserted", Toast.LENGTH_LONG).show();
+                else Toast.makeText(MainActivity.this, "data not inserted", Toast.LENGTH_LONG).show();
             }
-            else if (cName == false && isData == false) {
-                Toast.makeText(MainActivity.this, "Existing data not updated", Toast.LENGTH_LONG).show();
+
+            else if(isDataName || isDataCount) {
+                updt = db.updateNewData(CID, countName, count);
+
+                if (updt) Toast.makeText(MainActivity.this, "Data updated", Toast.LENGTH_LONG).show();
+                else if (!updt) Toast.makeText(MainActivity.this, "Data not updated", Toast.LENGTH_LONG).show();
             }
 
+        }
 
+        else if(!CID.equals("")) {
+            updt = db.updateNewData(CID, countName, count);
+            if (updt) Toast.makeText(MainActivity.this, "Existing data updated", Toast.LENGTH_LONG).show();
+            else Toast.makeText(MainActivity.this, "Existing data not updated", Toast.LENGTH_LONG).show();
+    }
 
-            else if (isData == false && isInsert == true)
-                Toast.makeText(MainActivity.this, "New Data inserted", Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(MainActivity.this, "Something Error", Toast.LENGTH_LONG).show();
-                 }
-
-
-
-
+        }
 
     public void viewAll(View view) {
 
@@ -185,19 +191,9 @@ if(name_input_et.getVisibility() == View.VISIBLE) {
         @Override
         protected void onPause() {
             super.onPause();
-            value=txv.getText().toString();
-            prefs.edit().putString("count",value).apply();
+            value = txv.getText().toString();
+            prefs.edit().putString("count", value).apply();
         }
-
-    public void showMessage(String title, String message){
-
-        AlertDialog.Builder builder= new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.show();
-    }
-
 
 }
 

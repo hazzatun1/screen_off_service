@@ -32,8 +32,8 @@ public class open_page extends AppCompatActivity{
      ListView lv;
      viewConst dataModel;
      TextView edit_button;
-  Context context;
-
+   // String ccid;
+    String countId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +46,10 @@ public class open_page extends AppCompatActivity{
         edit_button=(TextView) findViewById(R.id.edit_openPage);
         final ArrayList<viewConst> contacts = new ArrayList<>(db.getUser());
         data=new CustomAdapter(getApplicationContext(), contacts);
-      //  db.getAllData();
+       // db.getAllData();
 
         fillListView();
-        resume_count();
+      //  resume_count();
 
     }
 
@@ -61,10 +61,6 @@ public class open_page extends AppCompatActivity{
         lv.setAdapter(data);
       //  data.notifyDataSetChanged();
 
-      //
-    }
-
-    private void resume_count(){
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -72,7 +68,7 @@ public class open_page extends AppCompatActivity{
                 dataModel = data.getItem(position);
                 //final String selected =(String) (lv.getItemAtPosition(position));
                 final String counts=dataModel.get_counts();
-                final String countId= dataModel.get_id();
+                countId= dataModel.get_id();
                 final String cname=dataModel.get_name();
 
 
@@ -86,18 +82,11 @@ public class open_page extends AppCompatActivity{
 
             }
         });
-
     }
-
-
-
 
 
     public void edit(View view){
 
-            final String ccid=dataModel.get_id();
-
-            //
             AlertDialog.Builder builder = new AlertDialog.Builder((Context)open_page.this);
             final EditText editText1 = new EditText((Context)open_page.this);
             //EditText editText2 = new EditText((Context)open_page.this);
@@ -110,7 +99,8 @@ public class open_page extends AppCompatActivity{
 
 
                             String name= editText1.getText().toString();
-                            boolean upd=db.updateData(ccid, name);
+                            boolean upd=db.updateData(countId, name);
+
                             if(upd==true) {
                                 Toast.makeText((Context) open_page.this, "updated", Toast.LENGTH_LONG).show();
                                 startActivity(getIntent());
@@ -127,7 +117,7 @@ public class open_page extends AppCompatActivity{
                         public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
 
-                            boolean del=db.deleteName(ccid);
+                            boolean del=db.deleteName(countId);
                             if(del==true) {
                                 Toast.makeText((Context) open_page.this, "deleted", Toast.LENGTH_LONG).show();
                                 startActivity(getIntent());

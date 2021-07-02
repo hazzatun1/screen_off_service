@@ -6,8 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static android.icu.text.MessagePattern.ArgType.SELECT;
 
 public class Database extends SQLiteOpenHelper {
     public static final String DATABASE_NAME ="TasbeehCount.db";
@@ -17,14 +20,14 @@ public class Database extends SQLiteOpenHelper {
     public static final String COL_3 ="Counts";
 
     public Database(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, 3);
 
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create table " + TABLE_NAME + " (CountId INTEGER PRIMARY KEY AUTOINCREMENT, CountName TEXT, Counts TEXT )");
+        db.execSQL("create table " + TABLE_NAME + " (CountId INTEGER PRIMARY KEY AUTOINCREMENT, CountName TEXT UNIQUE NOT NULL, Counts TEXT NOT NULL)");
     }
 
     @Override
@@ -93,21 +96,11 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
+    public boolean ifExists(String searchItem1, String searchItem2) {
 
-   public String CheckIsDataAlready(String fieldValue) {
-       String[] columns = { COL_2 };
-       String[] selectionArgs = { fieldValue };
-        SQLiteDatabase db = this.getWritableDatabase();
-       Cursor sql =db.query(TABLE_NAME, columns, COL_2, selectionArgs, null, null, null, "1");
-       String string=sql.getString(1);
-return string;
-        }
-
-    public boolean ifExists(String searchItem) {
-
-        String[] columns = { COL_2 };
-        String selection = COL_2 + " =?";
-        String[] selectionArgs = { searchItem };
+        String[] columns = { COL_2, COL_3 };
+        String selection = COL_1 + " =?";
+        String[] selectionArgs = { searchItem1, searchItem2 };
         String limit = "1";
         SQLiteDatabase db = this.getWritableDatabase();
 

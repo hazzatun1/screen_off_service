@@ -26,7 +26,7 @@ private Context context;
    // Database db;
     viewConst data;
     Holder viewHolder;
-    public myInterface myInterface;
+    //public myInterface myInterface;
 
 
 
