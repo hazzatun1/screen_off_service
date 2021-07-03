@@ -97,8 +97,8 @@ public class MainActivity extends AppCompatActivity{
         et.setVisibility(et.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
 
         value = et.getText().toString();
-        int mr = Integer.valueOf(value);
-        if (value != String.valueOf(0)) {
+        int mr = Integer.parseInt(value);
+        if (!value.equals(String.valueOf(0))) {
             et.setText((value = String.valueOf(mcounter)));
         }
         txv.setText(String.valueOf(mcounter = mr));
@@ -143,16 +143,16 @@ if(name_input_et.getVisibility() == View.VISIBLE) {
                 else Toast.makeText(MainActivity.this, "data not inserted", Toast.LENGTH_LONG).show();
             }
 
-            else if(!isDataName || !isDataCount) {
+            else {
                 updt = db.updateNewData(CID, countName, count);
 
                 if (updt) Toast.makeText(MainActivity.this, "Data updated", Toast.LENGTH_LONG).show();
-                else if (!updt) Toast.makeText(MainActivity.this, "Data not updated", Toast.LENGTH_LONG).show();
+                else Toast.makeText(MainActivity.this, "Data not updated", Toast.LENGTH_LONG).show();
            }
 
         }
 
-        else if(!CID.equals("")) {
+        else {
             updt = db.updateNewData(CID, countName, count);
             if (updt) Toast.makeText(MainActivity.this, "Existing data updated", Toast.LENGTH_LONG).show();
             else Toast.makeText(MainActivity.this, "Existing data not updated", Toast.LENGTH_LONG).show();
