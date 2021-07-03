@@ -80,14 +80,22 @@ private Context context;
         }
 
         final String countId = data.get_id();
-        viewHolder.idview.setText(data.get_id() + ": ");
+
+        viewHolder.idview.setText(countId + ": ");
+        viewHolder.idview.setTextColor(Color.BLACK);
         final String cname = data.get_name();
-        viewHolder.nameFV.setText(data.get_name());
+
+        viewHolder.nameFV.setText(cname);
+        viewHolder.nameFV.setTextColor(Color.BLACK);
         final String cid = data.get_counts();
+
         viewHolder.nameSV.setText(cid);
+        viewHolder.nameSV.setTextColor(Color.BLACK);
 
 
-       // viewHolder.phoneV.setTextColor(Color.RED);
+      //  viewHolder.phoneV.setText("EDIT");
+       // viewHolder.phoneV.setTextColor(Color.BLACK);
+
 
 
 

@@ -40,10 +40,6 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
-
          db = new Database(this);
         prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
         String strPref = prefs.getString("count", null);
@@ -86,6 +82,10 @@ public class MainActivity extends AppCompatActivity{
         Button ret = (Button) findViewById(R.id.reset);
         txv.setText(String.valueOf(mcounter = 0));
         name_input.setText("default");
+        if(!CID.equals("")){
+            CID="";
+        }
+
 
     }
 
@@ -135,19 +135,20 @@ if(name_input_et.getVisibility() == View.VISIBLE) {
             boolean isDataName = db.updateData(CID, countName);
 
 
-            if(!isDataName && !isDataCount) {
+          if(isDataName || isDataCount) {
+
                 isInsert = db.addName(countName, count);
 
                 if (isInsert) Toast.makeText(MainActivity.this, "new Data inserted", Toast.LENGTH_LONG).show();
                 else Toast.makeText(MainActivity.this, "data not inserted", Toast.LENGTH_LONG).show();
             }
 
-            else if(isDataName || isDataCount) {
+            else if(!isDataName || !isDataCount) {
                 updt = db.updateNewData(CID, countName, count);
 
                 if (updt) Toast.makeText(MainActivity.this, "Data updated", Toast.LENGTH_LONG).show();
                 else if (!updt) Toast.makeText(MainActivity.this, "Data not updated", Toast.LENGTH_LONG).show();
-            }
+           }
 
         }
 
@@ -161,7 +162,7 @@ if(name_input_et.getVisibility() == View.VISIBLE) {
 
     public void viewAll(View view) {
 
-        Intent intent3=new Intent(this,open_page.class);
+        Intent intent3 = new Intent(this,open_page.class);
         intent3.putExtra("countName", names);
         intent3.putExtra("counts", mcounter);
         startActivity(intent3);

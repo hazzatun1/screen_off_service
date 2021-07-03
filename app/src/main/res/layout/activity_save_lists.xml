@@ -43,17 +43,14 @@ android:weightSum="4"
             android:textColor="@color/b"
             android:textSize="28sp" />
 
-        <Button
+        <TextView
             android:id="@+id/edit_open_page"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:textColor="@color/b"
-            android:autoSizeMaxTextSize="20sp"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeStepGranularity="2sp"
-            android:autoSizeTextType="uniform"
+
             android:focusable="false"
             android:background="#ff00ff"
             android:focusableInTouchMode="false"
