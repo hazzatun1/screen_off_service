@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyTasbeeh</string>
+    <string name="app_name">MyCounter</string>
     <string name="serial">No:</string>
     <string name="CountName">Name</string>
     <string name="Count">counts</string>
