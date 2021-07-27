@@ -1,19 +1,14 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
-import android.content.DialogInterface;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
-
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,16 +35,16 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-         db = new Database(this);
+        db = new Database(this);
         prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
         String strPref = prefs.getString("count", null);
-        et = (EditText) findViewById(R.id.uput);
-        cnt = (Button) findViewById(R.id.count);
-        txv = (TextView) findViewById(R.id.txt);
-       // text = (TextView) findViewById(R.id.name);
+        et = findViewById(R.id.uput);
+        cnt = findViewById(R.id.count);
+        txv = findViewById(R.id.txt);
+        // text = (TextView) findViewById(R.id.name);
 
-         name_input = (TextView) findViewById(R.id.count_name);
-         name_input_et = (EditText) findViewById(R.id.count_name_et);
+        name_input = findViewById(R.id.count_name);
+        name_input_et = findViewById(R.id.count_name_et);
 
 
         if (strPref != null) {
@@ -79,7 +74,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void resets(View view) {
-        Button ret = (Button) findViewById(R.id.reset);
+        Button ret = findViewById(R.id.reset);
         txv.setText(String.valueOf(mcounter = 0));
         name_input.setText("default");
         if(!CID.equals("")){
@@ -173,28 +168,44 @@ if(name_input_et.getVisibility() == View.VISIBLE) {
         public void lt(View view) { //light
             haveIBeenClicked=!haveIBeenClicked;
           //  Button lt = findViewById(R.id.light);
-            if(haveIBeenClicked){
+            if (haveIBeenClicked) {
                 et.setTextColor(getResources().getColor(R.color.y));
                 txv.setTextColor(getResources().getColor(R.color.y));
                 cnt.setTextColor(getResources().getColor(R.color.y));
-                LinearLayout layout =(LinearLayout)findViewById(R.id.lb);
+                LinearLayout layout = findViewById(R.id.lb);
                 layout.setBackgroundResource(R.drawable.bl);
-            }
-            else{
+            } else {
                 et.setTextColor(getResources().getColor(R.color.b));
                 txv.setTextColor(getResources().getColor(R.color.b));
                 cnt.setTextColor(getResources().getColor(R.color.b));
-                LinearLayout layout =(LinearLayout)findViewById(R.id.lb);
+                LinearLayout layout = findViewById(R.id.lb);
                 layout.setBackgroundResource(R.drawable.bk);
 
             }
         }
-        @Override
-        protected void onPause() {
-            super.onPause();
-            value = txv.getText().toString();
-            prefs.edit().putString("count", value).apply();
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        value = txv.getText().toString();
+        prefs.edit().putString("count", value).apply();
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
+
+            //handle click
+            int k = mcounter;
+            k++;
+            mcounter = k;
+            txv.setText(String.valueOf(mcounter));
+
+            return true;
         }
+        return super.onKeyDown(keyCode, event);
+    }
 
 }
 
