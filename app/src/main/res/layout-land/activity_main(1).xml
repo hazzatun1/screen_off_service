@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lb"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bk"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+
+    >
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:text="MyTasbeeh"
+        android:textSize="20sp" />
+
+
+    <TextView
+        android:id="@+id/count_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="@string/default_title"
+        android:textColor="@color/b"
+        android:textSize="55sp"
+
+        />
+
+    <EditText
+
+        android:id="@+id/count_name_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+
+        android:gravity="center"
+        android:maxLength="12"
+        android:text="@string/default_title"
+        android:textColor="@color/b"
+        android:textSize="55sp"
+        android:visibility="gone"
+
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+
+        <EditText
+
+            android:id="@+id/uput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30sp"
+            android:gravity="left"
+            android:maxLength="6"
+            android:text="0"
+            android:textColor="@color/b"
+            android:textSize="90sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30sp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:maxLength="6"
+            android:text="0"
+            android:textColor="@color/b"
+            android:textSize="90sp" />
+
+        <Button
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30sp"
+            android:layout_weight="1"
+            android:maxLexngth="6"
+            android:text="COUNT"
+            android:textColor="@color/b"
+            android:textSize="90sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:weightSum="3">
+
+
+        <Button
+            android:id="@+id/light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="lt"
+            android:text="Light"
+            android:textSize="20sp" />
+
+
+        <Button
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="edits"
+            android:text="Edit"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="resets"
+            android:text="Reset"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="saves"
+            android:text="Save"
+
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="viewAll"
+
+            android:text="Open"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+
+</LinearLayout>

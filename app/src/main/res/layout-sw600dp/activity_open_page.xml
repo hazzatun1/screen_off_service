@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    tools:context=".open_page">
+
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*">
+
+        <include layout="@layout/activity_save_lists" />
+
+
+        <ListView
+
+            android:id="@+id/list1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </TableLayout>
+
+</LinearLayout>
+
