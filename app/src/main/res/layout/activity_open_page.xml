@@ -12,14 +12,13 @@
         android:layout_height="wrap_content"
         android:stretchColumns="*">
 
-        <include layout="@layout/activity_save_lists" />
-
 
         <ListView
 
             android:id="@+id/list1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
     </TableLayout>
 
 </LinearLayout>

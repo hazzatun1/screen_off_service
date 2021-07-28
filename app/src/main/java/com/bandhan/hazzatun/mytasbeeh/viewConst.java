@@ -1,7 +1,5 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
-import android.content.Context;
-
 public class viewConst {
 
 
@@ -9,23 +7,28 @@ public class viewConst {
     String _id;
 
 
-
     String _name;
 
 
     String _counts;
 
+    String _date;
+
 
     // Empty constructor
-    public viewConst(){
+    public viewConst() {
 
     }
-    public viewConst(String id, String name, String counts){
-        this._id=id;
+
+
+    public viewConst(String id, String name, String counts, String date) {
+        this._id = id;
         this._name = name;
         this._counts = counts;
+        this._date = date;
 
     }
+
     public String get_counts() {
         return _counts;
     }
@@ -41,6 +44,7 @@ public class viewConst {
     public void set_name(String _name) {
         this._name = _name;
     }
+
     public String get_id() {
         return _id;
     }
@@ -49,8 +53,13 @@ public class viewConst {
         this._id = _id;
     }
 
+    public String get_date() {
+        return _date;
+    }
 
-
+    public void set_date(String _date) {
+        this._date = _date;
+    }
 
     // constructor
 

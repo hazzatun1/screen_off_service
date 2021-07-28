@@ -12,10 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity{
-  //  private static final String FILE_NAME = "exampleTasbeeh.txt";
-  Database db;
+
+public class MainActivity extends AppCompatActivity {
+    //  private static final String FILE_NAME = "exampleTasbeeh.txt";
+    Database db;
     private int mcounter = 0;
     private SharedPreferences prefs;
     Button cnt;
@@ -27,8 +32,8 @@ public class MainActivity extends AppCompatActivity{
     boolean haveIBeenClicked;
     String CID = "";
     String cname= "";
-    String names= "";
-
+    String names = "";
+    String formattedDate = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +60,20 @@ public class MainActivity extends AppCompatActivity{
 
         }
 
-        if(getIntent().hasExtra("counts") && getIntent().hasExtra("cID")&& getIntent().hasExtra("cName") ){
-          mcounter=  Integer.parseInt(getIntent().getStringExtra("counts"));
-            txv.setText(String.valueOf(mcounter));
-            CID=getIntent().getStringExtra("cID");
-            cname=getIntent().getStringExtra("cName");
+        if (getIntent().hasExtra("cID") && getIntent().hasExtra("counts") && getIntent().hasExtra("cName")) {
+
+            CID = getIntent().getStringExtra("cID");
+            cname = getIntent().getStringExtra("cName");
             name_input.setText(cname);
             name_input_et.setText(cname);
+            mcounter = Integer.parseInt(getIntent().getStringExtra("counts"));
+            txv.setText(String.valueOf(mcounter));
         }
+
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        formattedDate = df.format(c);
+
 
     }
 
@@ -74,9 +85,9 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void resets(View view) {
-        Button ret = findViewById(R.id.reset);
+        // Button ret = findViewById(R.id.reset);
         txv.setText(String.valueOf(mcounter = 0));
-        name_input.setText("default");
+        name_input.setText(R.string.default_title);
         if(!CID.equals("")){
             CID="";
         }
@@ -124,36 +135,30 @@ if(name_input_et.getVisibility() == View.VISIBLE) {
 //condition ? exprIfTrue : exprIfFalse
 
 
-        if(CID.equals("")) {
+        if (CID.equals("")) {
 
-            boolean isDataCount = db.updateCount(CID, count);
-            boolean isDataName = db.updateData(CID, countName);
+            isInsert = db.addName(countName, count, formattedDate);
+
+            if (isInsert)
+                Toast.makeText(MainActivity.this, "new Data inserted", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(MainActivity.this, "Name already exists", Toast.LENGTH_LONG).show();
 
 
-          if(isDataName || isDataCount) {
-
-                isInsert = db.addName(countName, count);
-
-                if (isInsert) Toast.makeText(MainActivity.this, "new Data inserted", Toast.LENGTH_LONG).show();
-                else Toast.makeText(MainActivity.this, "data not inserted", Toast.LENGTH_LONG).show();
-            }
-
-            else {
-                updt = db.updateNewData(CID, countName, count);
-
-                if (updt) Toast.makeText(MainActivity.this, "Data updated", Toast.LENGTH_LONG).show();
-                else Toast.makeText(MainActivity.this, "Data not updated", Toast.LENGTH_LONG).show();
-           }
-
+        } else {
+            updt = db.updateCount(CID, countName, count, formattedDate);
+            if (updt)
+                Toast.makeText(MainActivity.this, "Existing data updated", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(MainActivity.this, "Existing data not updated", Toast.LENGTH_LONG).show();
         }
 
-        else {
-            updt = db.updateNewData(CID, countName, count);
-            if (updt) Toast.makeText(MainActivity.this, "Existing data updated", Toast.LENGTH_LONG).show();
-            else Toast.makeText(MainActivity.this, "Existing data not updated", Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(getBaseContext(), open_page.class);
+        intent.putExtra("EXTRA_SESSION_ID", formattedDate);
+
+
     }
-
-        }
 
     public void viewAll(View view) {
 
@@ -206,6 +211,7 @@ if(name_input_et.getVisibility() == View.VISIBLE) {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 
 }
 

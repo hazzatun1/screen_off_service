@@ -11,86 +11,60 @@ tools:context=".open_page"
 
 <TableLayout
     android:id="@+id/tv1"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_margin="3dp"
-android:background="#ff00ff"
-android:stretchColumns="*"
-android:shrinkColumns="*"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+    android:background="#ff00ff"
+    android:stretchColumns="*"
+    android:shrinkColumns="*"
 
-android:weightSum="4"
-    >
+    android:weightSum="4"
+    tools:ignore="UselessParent">
 
     <TableRow
         android:id="@+id/tableRow1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="3dp"
-        >
+        android:layout_margin="3dp">
+
 
         <TextView
             android:id="@+id/id"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1"
-            android:autoSizeMaxTextSize="20sp"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeStepGranularity="2sp"
-            android:autoSizeTextType="uniform"
-            android:gravity="left"
-            android:maxLength="10"
-            android:text="@string/serial"
-            android:textColor="@color/b"
-            android:textSize="28sp" />
+            android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/edit_open_page"
-            android:layout_width="match_parent"
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_margin="5dp"
             android:layout_weight="1"
-            android:textColor="@color/b"
-
             android:focusable="false"
-            android:background="#ff00ff"
+
             android:focusableInTouchMode="false"
-            android:onClick="edit"
-            android:gravity="left"
-            android:text="@string/edit"
-            android:maxLength="20"
-            android:textSize="28sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1"
-            android:autoSizeMaxTextSize="20sp"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeStepGranularity="2sp"
-            android:autoSizeTextType="uniform"
-            android:gravity="left"
-            android:maxLength="12"
-            android:text="@string/CountName"
-            android:textColor="@color/b"
-            android:textSize="28sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/count"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_margin="5dp"
             android:layout_weight="1"
-            android:autoSizeMaxTextSize="20sp"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeStepGranularity="2sp"
-            android:autoSizeTextType="uniform"
-            android:gravity="left"
-            android:maxLength="10"
-            android:text="@string/Count"
-            android:textColor="@color/b"
-            android:textSize="28sp" />
+            android:textSize="20sp" />
+
     </TableRow>
+
 
 </TableLayout>
 

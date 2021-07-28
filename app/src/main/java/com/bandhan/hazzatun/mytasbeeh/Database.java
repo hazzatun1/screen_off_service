@@ -6,28 +6,26 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-
-import static android.icu.text.MessagePattern.ArgType.SELECT;
 
 public class Database extends SQLiteOpenHelper {
     public static final String DATABASE_NAME ="TasbeehCount.db";
     public static final String TABLE_NAME ="Counters";
     public static final String COL_1 ="CountId";
     public static final String COL_2 ="CountName";
-    public static final String COL_3 ="Counts";
+    public static final String COL_3 = "Counts";
+    public static final String COL_4 = "Date";
 
     public Database(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 3);
+        super(context, DATABASE_NAME, null, 4);
 
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create table " + TABLE_NAME + " (CountId INTEGER PRIMARY KEY AUTOINCREMENT, CountName TEXT UNIQUE NOT NULL, Counts TEXT NOT NULL)");
+        db.execSQL("create table " + TABLE_NAME + " (CountId INTEGER PRIMARY KEY AUTOINCREMENT, CountName TEXT UNIQUE NOT NULL, Counts TEXT NOT NULL, Date TEXT NOT NULL)");
     }
 
     @Override
@@ -36,22 +34,22 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-    public boolean addName(String cname, String count ) {
+    public boolean addName(String cname, String count, String Date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, cname);
         contentValues.put(COL_3, count);
-
+        contentValues.put(COL_4, Date);
         long res = db.insert(TABLE_NAME, null, contentValues);
 
 
-        if ((int)res <= 0) {
+        if ((int) res <= 0) {
             db.close();
             return false;
-        }
-        else
+        } else {
             db.close();
             return true;
+        }
   //   return  (int) res == -1;
     }
 
@@ -63,63 +61,29 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-    public boolean updateCount(String cid, String count ){
+    public boolean updateCount(String cid, String Name, String count, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("Counts",count);
+        contentValues.put(COL_2, Name);
+        contentValues.put(COL_3, count);
+        contentValues.put(COL_4, date);
 
-        db.update("Counters", contentValues, "CountId = ?", new String[] {cid});
+        db.update("Counters", contentValues, "CountId = ?", new String[]{cid});
         return true;
     }
 
-    public boolean updateData(String cid, String name ){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put("CountName",name);
-       // contentValues.put("Counts",count);
-        db.update("Counters", contentValues, "CountId = ?", new String[] {cid});
-        return true;
-    }
 
     public boolean deleteName(String cid ){
         SQLiteDatabase db = this.getWritableDatabase();
 
 
         long hello = db.delete("Counters","CountId = ?", new String[] {cid});
-        if(hello > 0)
-            return true;
-        else
-            return false;
+        return hello > 0;
 
     }
 
 
-    public boolean ifExists(String searchItem1, String searchItem2) {
-
-        String[] columns = { COL_2, COL_3 };
-        String selection = COL_1 + " =?";
-        String[] selectionArgs = { searchItem1, searchItem2 };
-        String limit = "1";
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null, limit);
-        if(cursor.moveToFirst())
-        {
-            db.close();
-            return  true;
-        }
-        else
-        {
-            db.close();
-            return false;
-        }
-
-        //boolean exists = (cursor.getCount() > 0);
-       // cursor.close();
-      //  return exists;
-    }
 
 
 
@@ -132,27 +96,14 @@ public class Database extends SQLiteOpenHelper {
                  viewConst.set_id(cursor.getString(0));
                 viewConst.set_name(cursor.getString(1));
                 viewConst.set_counts(cursor.getString(2));
+                viewConst.set_date(cursor.getString(3));
                 arrayList.add(viewConst);
             } while (cursor.moveToNext());
         return arrayList;
     }
 
 
-    public boolean updateNewData(String cid, String name, String count){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
 
-        contentValues.put("CountName ", name);
-         contentValues.put("Counts ", count);
-     long res = db.update("Counters ", contentValues, "CountId = ?", new String[] {cid});
-        if ((int)res <= 0) {
-            db.close();
-            return false;
-        }
-        else
-            db.close();
-        return true;
-    }
 
 
 

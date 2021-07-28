@@ -1,11 +1,10 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -16,15 +15,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class open_page extends AppCompatActivity{
+public class open_page extends AppCompatActivity {
 
-     Database db;
-     CustomAdapter data;
-     ListView lv;
-     viewConst dataModel;
-     TextView edit_button;
-   // String ccid;
+    Database db;
+    CustomAdapter data;
+    ListView lv;
+    viewConst dataModel;
     String countId;
+    TextView date;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +31,21 @@ public class open_page extends AppCompatActivity{
         setContentView(R.layout.activity_open_page);
 
 
+        date = findViewById(R.id.date);
+
+
         db = new Database(this);
-        lv = (ListView) findViewById(R.id.list1);
-        edit_button=(TextView) findViewById(R.id.edit_openPage);
+        lv = findViewById(R.id.list1);
+
         final ArrayList<viewConst> contacts = new ArrayList<>(db.getUser());
-        data=new CustomAdapter(getApplicationContext(), contacts);
-       // db.getAllData();
+        data = new CustomAdapter(getApplicationContext(), contacts);
+
+        String sessionId = getIntent().getStringExtra("EXTRA_SESSION_ID");
+        // date.setText("EXTRA_SESSION_ID");
+
 
         fillListView();
-      //  resume_count();
+
 
     }
 
@@ -50,7 +55,7 @@ public class open_page extends AppCompatActivity{
 
   lv.setItemsCanFocus(true);
         lv.setAdapter(data);
-      //  data.notifyDataSetChanged();
+        // data.notifyDataSetChanged();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
@@ -58,17 +63,16 @@ public class open_page extends AppCompatActivity{
 
                 dataModel = data.getItem(position);
                 //final String selected =(String) (lv.getItemAtPosition(position));
-                assert dataModel != null;
+                assert dataModel != null; // assert ki
                 final String counts=dataModel.get_counts();
                 countId= dataModel.get_id();
                 final String cname=dataModel.get_name();
 
 
-                //Toast.makeText(context,cid,Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                i.putExtra("counts", counts);
                 i.putExtra("cID", countId);
                 i.putExtra("cName", cname);
+                i.putExtra("counts", counts);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
 
@@ -82,38 +86,44 @@ public class open_page extends AppCompatActivity{
 
 
                 dataModel = data.getItem(pos);
-                //final String selected =(String) (lv.getItemAtPosition(position));
+
                 assert dataModel != null;
-                final String counts=dataModel.get_counts();
-                countId= dataModel.get_id();
-                final String cname=dataModel.get_name();
+
+                countId = dataModel.get_id();
 
 
-                AlertDialog.Builder builder = new AlertDialog.Builder((Context)open_page.this);
-                final EditText editText1 = new EditText((Context)open_page.this);
-                //EditText editText2 = new EditText((Context)open_page.this);
-                builder.setTitle("Edit or Delete");
-                builder.setMessage("enter new name")
-                        .setCancelable(false).setView((View)editText1)
-                        .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(open_page.this);
+
+                builder.setTitle("Delete or set Target");
+
+                builder.setPositiveButton("Set Target", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+                        AlertDialog.Builder alert2 = new AlertDialog.Builder(open_page.this);
+                        EditText editText2 = new EditText(open_page.this);
+                        alert2.setTitle("Set Target");
+
+                        alert2.setCancelable(false).setView(editText2);
+                        alert2.setPositiveButton("Set", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
 
-
-                                String name= editText1.getText().toString();
-                                boolean upd=db.updateData(countId, name);
-
-                                if(upd==true) {
-                                    Toast.makeText((Context) open_page.this, "updated", Toast.LENGTH_LONG).show();
-                                    startActivity(getIntent());
-                                }
-                                else
-                                    Toast.makeText((Context)open_page.this, "failed to update", Toast.LENGTH_LONG).show();
-
-
-                                // Toast.makeText((Context)open_page.this, "hello", Toast.LENGTH_LONG).show();
-                                // param2DialogInterface.cancel();
                             }
+
+                        })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+
+
+                                        Toast.makeText(open_page.this, "Cancel", Toast.LENGTH_LONG).show();
+                                        param2DialogInterface.cancel();
+                                    }
+
+                                });
+                        alert2.create().show();
+
+
+                    }
+
                         })
                         .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface param2DialogInterface, int param2Int) {
@@ -121,17 +131,17 @@ public class open_page extends AppCompatActivity{
 
                                 boolean del=db.deleteName(countId);
                                 if(del) {
-                                    Toast.makeText((Context) open_page.this, "deleted", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(open_page.this, "deleted", Toast.LENGTH_LONG).show();
                                     startActivity(getIntent());
                                 }
                                 else
-                                    Toast.makeText((Context)open_page.this, "failed to delete", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(open_page.this, "failed to delete", Toast.LENGTH_LONG).show();
                                 //param2DialogInterface.cancel();
                             }
                         })
                         .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-                                Toast.makeText((Context)open_page.this, "Cancel", Toast.LENGTH_LONG).show();
+                                Toast.makeText(open_page.this, "Cancel", Toast.LENGTH_LONG).show();
                                 param2DialogInterface.cancel();
                             }
                         });
@@ -144,9 +154,6 @@ public class open_page extends AppCompatActivity{
         });
 
     }
-
-
-
 
 
 

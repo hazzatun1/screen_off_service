@@ -1,22 +1,19 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class CustomAdapter extends ArrayAdapter<viewConst>{
-private Context context;
+private final Context context;
 
      ArrayList<viewConst> mcontact;
 
@@ -66,10 +63,10 @@ private Context context;
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.save_list, parent, false);
 
-            viewHolder.idview = (TextView) convertView.findViewById(R.id.id);
-            viewHolder.nameFV = (TextView) convertView.findViewById(R.id.name);
-            viewHolder.nameSV = (TextView) convertView.findViewById(R.id.count);
-            viewHolder.phoneV = (Button) convertView.findViewById(R.id.edit_open_page);
+            viewHolder.idview = convertView.findViewById(R.id.id);
+            viewHolder.nameFV = convertView.findViewById(R.id.name);
+            viewHolder.nameSV = convertView.findViewById(R.id.count);
+            viewHolder.phoneV = convertView.findViewById(R.id.date);
 
             convertView.setTag(viewHolder);
 
@@ -92,13 +89,9 @@ private Context context;
         viewHolder.nameSV.setText(cid);
         viewHolder.nameSV.setTextColor(Color.BLACK);
 
-
-      //  viewHolder.phoneV.setText("EDIT");
-       // viewHolder.phoneV.setTextColor(Color.BLACK);
-
-
-
-
+        final String gdate = data.get_date();
+        viewHolder.phoneV.setText(gdate);
+        viewHolder.phoneV.setTextColor(Color.BLACK);
 
         return convertView;
 
