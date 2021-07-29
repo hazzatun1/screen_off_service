@@ -1,5 +1,6 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
@@ -7,8 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -17,39 +19,26 @@ private final Context context;
 
      ArrayList<viewConst> mcontact;
 
-    private TextView itemListText;
-    private Button itemButton;
-
-   // Database db;
     viewConst data;
     Holder viewHolder;
-    //public myInterface myInterface;
 
 
-
+    @NotNull
     public Context getContext() {
         return context;
     }
 
 
-    public CustomAdapter(Context context, ArrayList<viewConst> dcontact){
+    public CustomAdapter(Context context, ArrayList<viewConst> dcontact) {
         super(context, R.layout.activity_open_page, dcontact);
-        this.context=context;
-        this.mcontact=dcontact;
+        this.context = context;
+        this.mcontact = dcontact;
     }
 
-
-
-    public  class  Holder{
-
-        TextView nameFV;
-        TextView nameSV;
-        TextView phoneV;
-        TextView idview;
-    }
-
+    @SuppressLint("SetTextI18n")
+    @NotNull
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, @NotNull ViewGroup parent) {
         // Get the data item for this position
 
         data = getItem(position);
@@ -96,6 +85,14 @@ private final Context context;
         return convertView;
 
 
+    }
+
+    public static class Holder {
+
+        TextView nameFV;
+        TextView nameSV;
+        TextView phoneV;
+        TextView idview;
     }
 
     @Nullable
