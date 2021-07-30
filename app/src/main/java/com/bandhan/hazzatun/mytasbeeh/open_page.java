@@ -104,7 +104,6 @@ public class open_page extends AppCompatActivity {
 
                                 if (istInsert) {
 
-                                    // lv.getChildAt(lv.getSelectedItemPosition()).setBackgroundColor(Color.RED);
                                     Toast.makeText(open_page.this, "target saved", Toast.LENGTH_LONG).show();
                                 } else
                                     Toast.makeText(open_page.this, "target not saved", Toast.LENGTH_LONG).show();

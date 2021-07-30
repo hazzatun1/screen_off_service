@@ -71,6 +71,9 @@ public class viewConst {
         this._target = _target;
     }
 
+    public void setBackgroundColor(int parseColor) {
+    }
+
     // constructor
 
 }
