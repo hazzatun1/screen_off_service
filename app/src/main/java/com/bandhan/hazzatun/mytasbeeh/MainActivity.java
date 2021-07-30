@@ -35,10 +35,12 @@ public class MainActivity extends AppCompatActivity {
     String value;
     boolean haveIBeenClicked;
     String CID = "";
-    String cname= "";
+    String cname = "";
     String names = "";
     String formattedDate = "";
     int mytargets = 0;
+    Button targett;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         cnt = findViewById(R.id.count);
         txv = findViewById(R.id.txt);
 
-
+        targett = findViewById(R.id.target);
         name_input = findViewById(R.id.count_name);
         name_input_et = findViewById(R.id.count_name_et);
 
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        if (getIntent().hasExtra("cID") && getIntent().hasExtra("cName") && getIntent().hasExtra("counts")) {
+        if (getIntent().hasExtra("cID") && getIntent().hasExtra("cName") && getIntent().hasExtra("counts") && getIntent().hasExtra("tcounts")) {
 
             CID = getIntent().getStringExtra("cID");
             cname = getIntent().getStringExtra("cName");
@@ -75,13 +77,14 @@ public class MainActivity extends AppCompatActivity {
             txv.setText(String.valueOf(mcounter));
             et.setText(String.valueOf(mcounter));
             mytargets = Integer.parseInt(getIntent().getStringExtra("tcounts"));
-
+            targett.setText("Target: " + mytargets);
         }
 
 
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         formattedDate = df.format(c);
+
 
 
     }

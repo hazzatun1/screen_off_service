@@ -10,10 +10,10 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 
 public class Database extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME ="TasbeehCount.db";
-    public static final String TABLE_NAME ="Counters";
-    public static final String COL_1 ="CountId";
-    public static final String COL_2 ="CountName";
+    public static final String DATABASE_NAME = "TasbeehCount.db";
+    public static final String TABLE_NAME = "Counters";
+    public static final String COL_1 = "CountId";
+    public static final String COL_2 = "CountName";
     public static final String COL_3 = "Counts";
     public static final String COL_4 = "Date";
     public static final String COL_5 = "Target";
@@ -89,17 +89,14 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-    public boolean deleteName(String cid ){
+    public boolean deleteName(String cid) {
         SQLiteDatabase db = this.getWritableDatabase();
 
 
-        long hello = db.delete("Counters","CountId = ?", new String[] {cid});
+        long hello = db.delete("Counters", "CountId = ?", new String[]{cid});
         return hello > 0;
 
     }
-
-
-
 
 
     public ArrayList<viewConst> getUser() {
@@ -108,7 +105,7 @@ public class Database extends SQLiteOpenHelper {
         if (cursor.moveToFirst())
             do {
                 viewConst viewConst = new viewConst();
-                 viewConst.set_id(cursor.getString(0));
+                viewConst.set_id(cursor.getString(0));
                 viewConst.set_name(cursor.getString(1));
                 viewConst.set_counts(cursor.getString(2));
                 viewConst.set_date(cursor.getString(3));
@@ -117,11 +114,6 @@ public class Database extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         return arrayList;
     }
-
-
-
-
-
 
 
 }
