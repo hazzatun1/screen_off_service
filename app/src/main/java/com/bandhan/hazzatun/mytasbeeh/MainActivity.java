@@ -1,5 +1,6 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     String cname= "";
     String names = "";
     String formattedDate = "";
+    int mytargets = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         et = findViewById(R.id.uput);
         cnt = findViewById(R.id.count);
         txv = findViewById(R.id.txt);
-        // text = (TextView) findViewById(R.id.name);
+
 
         name_input = findViewById(R.id.count_name);
         name_input_et = findViewById(R.id.count_name_et);
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        if (getIntent().hasExtra("cID") && getIntent().hasExtra("counts") && getIntent().hasExtra("cName")) {
+        if (getIntent().hasExtra("cID") && getIntent().hasExtra("cName") && getIntent().hasExtra("counts")) {
 
             CID = getIntent().getStringExtra("cID");
             cname = getIntent().getStringExtra("cName");
@@ -71,7 +73,11 @@ public class MainActivity extends AppCompatActivity {
             name_input_et.setText(cname);
             mcounter = Integer.parseInt(getIntent().getStringExtra("counts"));
             txv.setText(String.valueOf(mcounter));
+            et.setText(String.valueOf(mcounter));
+            mytargets = Integer.parseInt(getIntent().getStringExtra("tcounts"));
+
         }
+
 
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
@@ -87,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         popup.show();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -107,8 +114,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void play(View view) {
+
         mcounter++;
         txv.setText(String.valueOf(mcounter));
+
+        if (mcounter == mytargets) {
+            txv.setText(String.valueOf(0));
+            Toast.makeText(this, "target filled up", Toast.LENGTH_SHORT).show();
+            finish(); //quit activity
+            startActivity(new Intent(this, MainActivity.class)); //start activity
+        }
     }
 
     public void resets(View view) {
@@ -124,28 +139,29 @@ public class MainActivity extends AppCompatActivity {
 
     public void edits(View view) {
 
-       // Button ed = (Button) findViewById(R.id.edit);
+        // Button ed = (Button) findViewById(R.id.edit);
 
         txv.setVisibility(txv.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
         et.setVisibility(et.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-
-        value = et.getText().toString();
-        int mr = Integer.parseInt(value);
-        if (!value.equals(String.valueOf(0))) {
-            et.setText((value = String.valueOf(mcounter)));
-        }
+        //value=et.getText().toString();
+        int mr = Integer.parseInt(et.getText().toString());
+        //   if (!value.equals(String.valueOf(0))) {
+        et.setText((value = String.valueOf(mcounter)));
         txv.setText(String.valueOf(mcounter = mr));
-
+        //   }
+        // else{
+        //   et.setText((value = String.valueOf(mcounter)));
+        //  txv.setText(String.valueOf(mcounter = mr));
+        //  }
 
         name_input.setVisibility(name_input.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
         name_input_et.setVisibility(name_input_et.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
 
-if(name_input_et.getVisibility() == View.VISIBLE) {
-    names = name_input.getText().toString();
-    name_input_et.setText(names);
-}
-  else {
-    names = name_input_et.getText().toString();
+        if (name_input_et.getVisibility() == View.VISIBLE) {
+            names = name_input.getText().toString();
+            name_input_et.setText(names);
+        } else {
+            names = name_input_et.getText().toString();
     name_input.setText(names);
 }
 
@@ -155,7 +171,10 @@ if(name_input_et.getVisibility() == View.VISIBLE) {
 
 
     public void saves(View view) {
-        String countName = name_input.getText().toString().trim();
+        //  String countName = name_input.getText().toString().trim();
+        String countName1 = name_input_et.getText().toString().trim();
+        // name_input = findViewById(R.id.count_name);
+        name_input_et = findViewById(R.id.count_name_et);
         String count = String.valueOf(mcounter).trim();
         boolean isInsert;
         boolean updt;
@@ -164,7 +183,7 @@ if(name_input_et.getVisibility() == View.VISIBLE) {
 
         if (CID.equals("")) {
 
-            isInsert = db.addName(countName, count, formattedDate);
+            isInsert = db.addName(countName1, count, formattedDate);
 
             if (isInsert)
                 Toast.makeText(MainActivity.this, "new Data inserted", Toast.LENGTH_LONG).show();
@@ -173,7 +192,7 @@ if(name_input_et.getVisibility() == View.VISIBLE) {
 
 
         } else {
-            updt = db.updateCount(CID, countName, count, formattedDate);
+            updt = db.updateCount(CID, countName1, count, formattedDate);
             if (updt)
                 Toast.makeText(MainActivity.this, "Existing data updated", Toast.LENGTH_LONG).show();
             else
@@ -224,7 +243,7 @@ if(name_input_et.getVisibility() == View.VISIBLE) {
     }
 
 
-    @Override
+    @Override  //headphone count
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
 

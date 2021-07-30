@@ -16,16 +16,19 @@ public class Database extends SQLiteOpenHelper {
     public static final String COL_2 ="CountName";
     public static final String COL_3 = "Counts";
     public static final String COL_4 = "Date";
+    public static final String COL_5 = "Target";
 
     public Database(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 4);
+        super(context, DATABASE_NAME, null, 6);
 
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create table " + TABLE_NAME + " (CountId INTEGER PRIMARY KEY AUTOINCREMENT, CountName TEXT UNIQUE NOT NULL, Counts TEXT NOT NULL, Date TEXT NOT NULL)");
+        db.execSQL("create table " + TABLE_NAME + " (CountId INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "CountName TEXT UNIQUE NOT NULL, Counts TEXT NOT NULL Default 0, Date TEXT NOT NULL Default 0, " +
+                "Target TEXT NOT NULL Default 0)");
     }
 
     @Override
@@ -50,14 +53,26 @@ public class Database extends SQLiteOpenHelper {
             db.close();
             return true;
         }
-  //   return  (int) res == -1;
     }
 
 
-    public Cursor getAllData(){
+    public boolean updTarget(String cid, String cname, String count, String Date, String Target) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res=db.rawQuery("select * from "+TABLE_NAME,null);
-        return res;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_2, cname);
+        contentValues.put(COL_3, count);
+        contentValues.put(COL_4, Date);
+        contentValues.put(COL_5, Target);
+        db.update("Counters", contentValues, "CountId = ?", new String[]{cid});
+
+
+        return true;
+    }
+
+
+    public Cursor getAllData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("select * from " + TABLE_NAME, null);
     }
 
 
@@ -97,6 +112,7 @@ public class Database extends SQLiteOpenHelper {
                 viewConst.set_name(cursor.getString(1));
                 viewConst.set_counts(cursor.getString(2));
                 viewConst.set_date(cursor.getString(3));
+                viewConst.set_target(cursor.getString(4));
                 arrayList.add(viewConst);
             } while (cursor.moveToNext());
         return arrayList;

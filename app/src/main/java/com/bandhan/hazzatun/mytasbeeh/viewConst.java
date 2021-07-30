@@ -14,6 +14,8 @@ public class viewConst {
 
     String _date;
 
+    String _target;
+
 
     // Empty constructor
     public viewConst() {
@@ -59,6 +61,14 @@ public class viewConst {
 
     public void set_date(String _date) {
         this._date = _date;
+    }
+
+    public String get_target() {
+        return _target;
+    }
+
+    public void set_target(String _target) {
+        this._target = _target;
     }
 
     // constructor

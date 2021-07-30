@@ -51,6 +51,7 @@ private final Context context;
             viewHolder = new Holder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.save_list, parent, false);
+           // convertView = inflater.inflate(R.layout.activity_save_lists, parent, false);
 
             viewHolder.idview = convertView.findViewById(R.id.id);
             viewHolder.nameFV = convertView.findViewById(R.id.name);
@@ -66,6 +67,7 @@ private final Context context;
         }
 
         final String countId = data.get_id();
+
 
         viewHolder.idview.setText(countId + ": ");
         viewHolder.idview.setTextColor(Color.BLACK);
