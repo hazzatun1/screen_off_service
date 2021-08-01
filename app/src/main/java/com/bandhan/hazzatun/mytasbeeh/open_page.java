@@ -1,10 +1,16 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
+
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+
+import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.AlarmClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.telecom.Call;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -29,8 +35,8 @@ public class open_page extends AppCompatActivity {
     TextView date;
     String formattedDate = "";
     String cname = "";
-    String target = "";
-    String count = "";
+      String target = "";
+      String count = "";
 
 
     @Override
@@ -51,9 +57,10 @@ public class open_page extends AppCompatActivity {
 
         fillListView();
 
-
-
     }
+
+
+
 
 
     private void fillListView() {
@@ -61,95 +68,42 @@ public class open_page extends AppCompatActivity {
 
         lv.setItemsCanFocus(true);
         lv.setAdapter(data);
-
+       // lv.getAdapter().getItemAt(position);
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            //@SuppressLint("ResourceAsColor")
             @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int pos, long id) {
-
+            public boolean onItemLongClick(final AdapterView<?> arg0, View view,
+                                           final int pos, long id) {
 
                 dataModel = data.getItem(pos);
 
                 assert dataModel != null;
 
-                //   countId = dataModel.get_id();
-
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(open_page.this);
 
-                builder.setTitle("Delete or set Target");
+                builder.setTitle("Delete the zikr");
 
-                builder.setPositiveButton("Set Target", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-
-                        AlertDialog.Builder alert2 = new AlertDialog.Builder(open_page.this);
-                        final EditText editText3 = new EditText(open_page.this);
-                        alert2.setTitle("Set Target Limit");
-
-                        alert2.setView(editText3);
-
-                        alert2.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-
-                                target = editText3.getText().toString();
-                                Date c = Calendar.getInstance().getTime();
-                                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                                formattedDate = df.format(c);
-                                count = "0";
-                                cname = dataModel.get_name();
-                                countId = dataModel.get_id();
-
-                                boolean istInsert = db.updTarget(countId, cname, count, formattedDate, target);
-
-                                if (istInsert) {
-
-                                    Toast.makeText(open_page.this, "target saved", Toast.LENGTH_LONG).show();
-                                } else
-                                    Toast.makeText(open_page.this, "target not saved", Toast.LENGTH_LONG).show();
-                            }
-
-
-                        });
-
-
-                        alert2.setNegativeButton("Set Reminder", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-
-                            }
-
-                        });
-
-
-                        alert2.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-
-
-                                Toast.makeText(open_page.this, "Cancel", Toast.LENGTH_LONG).show();
-                                param2DialogInterface.cancel();
-                            }
-
-                        });
-                        alert2.create().show();
-
-
-                    }
-
-                });
-                builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
 
-                        boolean del = db.deleteName(countId);
+                       String data_del= dataModel.get_id();
+
+                        boolean del = db.deleteName(data_del);
                         if (del) {
                             Toast.makeText(open_page.this, "deleted", Toast.LENGTH_LONG).show();
-                            startActivity(getIntent());
+
+                            recreate();
+
                         } else
                             Toast.makeText(open_page.this, "failed to delete", Toast.LENGTH_LONG).show();
 
                     }
-                });
-                builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+
+                })
+
+                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
                         Toast.makeText(open_page.this, "Cancel", Toast.LENGTH_LONG).show();
                         param2DialogInterface.cancel();
@@ -187,4 +141,8 @@ public class open_page extends AppCompatActivity {
 
 
     }
+
+
+
+
 }

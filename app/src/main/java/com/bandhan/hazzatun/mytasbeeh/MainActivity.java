@@ -1,9 +1,16 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.IntentCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
@@ -20,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -48,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         db = new Database(this);
-        prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
-        String strPref = prefs.getString("count", null);
+     //   prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
+     //   String strPref = prefs.getString("count", null);
         et = findViewById(R.id.uput);
         cnt = findViewById(R.id.count);
         txv = findViewById(R.id.txt);
@@ -59,13 +68,13 @@ public class MainActivity extends AppCompatActivity {
         name_input_et = findViewById(R.id.count_name_et);
 
 
-        if (strPref != null) {
-            txv.setText(prefs.getString("count", "0"));
-            value = txv.getText().toString();
-            int mr = Integer.parseInt(value);
-            txv.setText(String.valueOf(mcounter = mr));
-
-        }
+  //      if (strPref != null) {
+    //        txv.setText(prefs.getString("count", "0"));
+      //      value = txv.getText().toString();
+      //      int mr = Integer.parseInt(value);
+      //      txv.setText(String.valueOf(mcounter = mr));
+//
+     //   }
 
         if (getIntent().hasExtra("cID") && getIntent().hasExtra("cName") && getIntent().hasExtra("counts") && getIntent().hasExtra("tcounts")) {
 
@@ -81,10 +90,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         formattedDate = df.format(c);
-
+        targett.setBackgroundColor(Color.GREEN);
 
 
     }
@@ -100,14 +110,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item1:
-                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.item2:
-                Toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
-                return true;
             case R.id.item3:
-                Toast.makeText(this, "Item 3 selected", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(), open_page.class);
+                startActivity(i);
+                finish();
                 return true;
 
             default:
@@ -118,16 +124,43 @@ public class MainActivity extends AppCompatActivity {
 
     public void play(View view) {
 
-        mcounter++;
-        txv.setText(String.valueOf(mcounter));
 
-        if (mcounter == mytargets) {
-            txv.setText(String.valueOf(0));
-            Toast.makeText(this, "target filled up", Toast.LENGTH_SHORT).show();
-            finish(); //quit activity
-            startActivity(new Intent(this, MainActivity.class)); //start activity
+        if (mytargets == 0) {
+            mcounter++;
+            txv.setText(String.valueOf(mcounter));
+        }
+
+
+        else {
+            mcounter++;
+            txv.setText(String.valueOf(mcounter));
+
+            if (mcounter >= mytargets){
+                cnt.setEnabled(false);
+                targett.setBackgroundColor(ContextCompat.getColor(this, R.color.y));
+                Toast.makeText(this, "target filled up", Toast.LENGTH_SHORT).show();
+                ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+                boolean b = toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+
+                String count="0";
+               // String myterget="0";
+                boolean istInsert = db.updTarget(CID, cname, count, formattedDate, String.valueOf(mytargets));
+if(istInsert){
+
+recreate();
+}
+
+else{
+
+}
+            }
+
+
+
         }
     }
+
+
 
     public void resets(View view) {
         // Button ret = findViewById(R.id.reset);
@@ -136,7 +169,8 @@ public class MainActivity extends AppCompatActivity {
         if(!CID.equals("")){
             CID="";
         }
-
+        targett.setText("Target: ");
+        targett.setClickable(false);
 
     }
 
@@ -238,12 +272,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        value = txv.getText().toString();
-        prefs.edit().putString("count", value).apply();
-    }
+ //   @Override
+  //  protected void onPause() {
+   //     super.onPause();
+   //     value = txv.getText().toString();
+   //     prefs.edit().putString("count", value).apply();
+  //  }
 
 
     @Override  //headphone count
@@ -262,6 +296,74 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+public void target_method(View view){
+
+    AlertDialog.Builder alert2 = new AlertDialog.Builder(MainActivity.this);
+    final EditText editText3 = new EditText(MainActivity.this);
+    alert2.setTitle("Set Target Limit");
+    alert2.setView(editText3);
+
+    alert2.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+
+            String target = editText3.getText().toString();
+
+            String count = "0";
+
+            boolean istInsert = db.updTarget(CID, cname, count, formattedDate, target);
+
+            if (istInsert) {
+                Toast.makeText(MainActivity.this, "target saved", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(getApplicationContext(), open_page.class);
+                startActivity(i);
+                finish();
+            }
+            else
+                Toast.makeText(MainActivity.this, "target not saved", Toast.LENGTH_LONG).show();
+        }
+
+    })
+    .setNegativeButton("remove", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+
+
+            String count="0";
+            String myterget="0";
+            boolean istInsert = db.updTarget(CID, cname, count, formattedDate, myterget);
+
+            if (istInsert) {
+                Toast.makeText(MainActivity.this, "target removed", Toast.LENGTH_LONG).show();
+
+                Intent i = new Intent(getApplicationContext(), open_page.class);
+                startActivity(i);
+                finish();
+
+
+            }
+
+
+
+        }
+
+    })
+            .setNeutralButton("cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+
+                    Toast.makeText(MainActivity.this, "Cancel", Toast.LENGTH_LONG).show();
+                    param2DialogInterface.cancel();
+
+                }
+
+            });
+
+    alert2.create().show();
+
 }
+
+
+}
+
+
 
 

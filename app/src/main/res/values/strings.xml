@@ -7,8 +7,8 @@
     <string name="edit">edit</string>
     <string name="default_title">Default</string>
     <string name="settings">Settings</string>
-    <string name="d">d</string>
-    <string name="e">e</string>
+    <string name="target">Terget: </string>
+    <string name="Light">Light</string>
     <string name="f">f</string>
     <string name="g">g</string>
 </resources>

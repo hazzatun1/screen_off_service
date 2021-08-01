@@ -2,6 +2,7 @@ package com.bandhan.hazzatun.mytasbeeh;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ private final Context context;
 
     viewConst data;
     Holder viewHolder;
+    Database db;
 
 
     @NotNull
@@ -46,6 +48,9 @@ private final Context context;
 
         // view lookup cache stored in tag
 
+
+
+
         if (convertView == null) {
 
             viewHolder = new Holder();
@@ -60,11 +65,25 @@ private final Context context;
 
             convertView.setTag(viewHolder);
 
+            String gTarget = data.get_target();
+            if(!gTarget.equals("0")) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                convertView.setBackgroundColor(Color.GREEN);
+
+
+            }
         }
 
         else {
             viewHolder = (Holder) convertView.getTag();
         }
+
+
+
 
         final String countId = data.get_id();
 

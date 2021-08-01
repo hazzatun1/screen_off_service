@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
-
 import java.util.ArrayList;
 
 public class Database extends SQLiteOpenHelper {
@@ -72,8 +71,9 @@ public class Database extends SQLiteOpenHelper {
 
     public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.rawQuery("select * from " + TABLE_NAME, null);
+        return db.rawQuery("select target from " + TABLE_NAME, null);
     }
+
 
 
     public boolean updateCount(String cid, String Name, String count, String date) {
