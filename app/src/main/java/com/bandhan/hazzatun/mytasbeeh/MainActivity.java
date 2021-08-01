@@ -146,13 +146,11 @@ public class MainActivity extends AppCompatActivity {
                // String myterget="0";
                 boolean istInsert = db.updTarget(CID, cname, count, formattedDate, String.valueOf(mytargets));
 if(istInsert){
-
-recreate();
+    Intent i = new Intent(getApplicationContext(), open_page.class);
+    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    startActivity(i);
 }
 
-else{
-
-}
             }
 
 
@@ -208,19 +206,17 @@ else{
 
 
     public void saves(View view) {
-        //  String countName = name_input.getText().toString().trim();
         String countName1 = name_input_et.getText().toString().trim();
-        // name_input = findViewById(R.id.count_name);
         name_input_et = findViewById(R.id.count_name_et);
         String count = String.valueOf(mcounter).trim();
         boolean isInsert;
         boolean updt;
-//condition ? exprIfTrue : exprIfFalse
 
 
         if (CID.equals("")) {
 
-            isInsert = db.addName(countName1, count, formattedDate);
+           String taget= String.valueOf(mytargets);
+            isInsert = db.addName(countName1, count, formattedDate, taget);
 
             if (isInsert)
                 Toast.makeText(MainActivity.this, "new Data inserted", Toast.LENGTH_LONG).show();
@@ -228,8 +224,11 @@ else{
                 Toast.makeText(MainActivity.this, "Name already exists", Toast.LENGTH_LONG).show();
 
 
-        } else {
-            updt = db.updateCount(CID, countName1, count, formattedDate);
+        }
+
+        else {
+            String taget= String.valueOf(mytargets);
+            updt = db.updTarget(CID, cname, count, formattedDate, taget);
             if (updt)
                 Toast.makeText(MainActivity.this, "Existing data updated", Toast.LENGTH_LONG).show();
             else
@@ -307,22 +306,18 @@ public void target_method(View view){
     alert2.setPositiveButton("Set", new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
-            String target = editText3.getText().toString();
+                //String count="0";
+             //  boolean updt = db.updTarget(CID, cname, count, formattedDate, String.valueOf(mytargets));
+             //   if (updt)
+               //     Toast.makeText(MainActivity.this, "Target saved", Toast.LENGTH_LONG).show();
+              //  else
 
-            String count = "0";
+                 //   Toast.makeText(MainActivity.this, "Target not saved", Toast.LENGTH_LONG).show();
+            mytargets= Integer.parseInt(editText3.getText().toString());
+            targett.setText("TARGET: " + editText3.getText().toString());
 
-            boolean istInsert = db.updTarget(CID, cname, count, formattedDate, target);
 
-            if (istInsert) {
-                Toast.makeText(MainActivity.this, "target saved", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(getApplicationContext(), open_page.class);
-                startActivity(i);
-                finish();
-            }
-            else
-                Toast.makeText(MainActivity.this, "target not saved", Toast.LENGTH_LONG).show();
         }
-
     })
     .setNegativeButton("remove", new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface param2DialogInterface, int param2Int) {

@@ -36,12 +36,13 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
-    public boolean addName(String cname, String count, String Date) {
+    public boolean addName(String cname, String count, String Date, String target) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, cname);
         contentValues.put(COL_3, count);
         contentValues.put(COL_4, Date);
+        contentValues.put(COL_5, target);
         long res = db.insert(TABLE_NAME, null, contentValues);
 
 

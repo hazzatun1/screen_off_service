@@ -44,12 +44,6 @@ private final Context context;
         // Get the data item for this position
 
         data = getItem(position);
-        // Check if an existing view is being reused, otherwise inflate the view
-
-        // view lookup cache stored in tag
-
-
-
 
         if (convertView == null) {
 
@@ -67,13 +61,7 @@ private final Context context;
 
             String gTarget = data.get_target();
             if(!gTarget.equals("0")) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 convertView.setBackgroundColor(Color.GREEN);
-
 
             }
         }
