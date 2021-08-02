@@ -8,6 +8,7 @@
         android:id="@+id/item3"
         android:title="@string/settings"
         app:showAsAction="never"
+        android:onClick="onOptionsItemSelected"
         tools:ignore="HardcodedText" />
 
 

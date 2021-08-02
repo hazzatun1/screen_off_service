@@ -9,7 +9,6 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -27,8 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -57,8 +55,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         db = new Database(this);
-     //   prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
-     //   String strPref = prefs.getString("count", null);
+        prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
+        String strPref = prefs.getString("count", null);
+        String strPref2 = prefs.getString("cname", null);
+        String strPref3 = prefs.getString("tget", null);
+
+
         et = findViewById(R.id.uput);
         cnt = findViewById(R.id.count);
         txv = findViewById(R.id.txt);
@@ -68,13 +70,14 @@ public class MainActivity extends AppCompatActivity {
         name_input_et = findViewById(R.id.count_name_et);
 
 
-  //      if (strPref != null) {
-    //        txv.setText(prefs.getString("count", "0"));
-      //      value = txv.getText().toString();
-      //      int mr = Integer.parseInt(value);
-      //      txv.setText(String.valueOf(mcounter = mr));
-//
-     //   }
+     //  if (strPref != null && strPref2 != null && strPref3!=null) {
+          // txv.setText(prefs.getString("count", "0"));
+         //  name_input.setText(prefs.getString("cname", "Default"));
+        //   targett.setText(prefs.getString("tget", "0"));
+        //    value = txv.getText().toString();
+         //   int mr = Integer.parseInt(value);
+         //   txv.setText(String.valueOf(mcounter = mr));
+      //  }
 
         if (getIntent().hasExtra("cID") && getIntent().hasExtra("cName") && getIntent().hasExtra("counts") && getIntent().hasExtra("tcounts")) {
 
@@ -106,14 +109,13 @@ public class MainActivity extends AppCompatActivity {
         popup.show();
     }
 
-    @SuppressLint("NonConstantResourceId")
+   // @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item3:
-                Intent i = new Intent(getApplicationContext(), open_page.class);
-                startActivity(i);
-                finish();
+                Intent i = new Intent(MainActivity.this, Settings.class);
+                MainActivity.this.startActivity(i);
                 return true;
 
             default:
@@ -160,17 +162,6 @@ if(istInsert){
 
 
 
-    public void resets(View view) {
-        // Button ret = findViewById(R.id.reset);
-        txv.setText(String.valueOf(mcounter = 0));
-        name_input.setText(R.string.default_title);
-        if(!CID.equals("")){
-            CID="";
-        }
-        targett.setText("Target: ");
-        targett.setClickable(false);
-
-    }
 
     public void edits(View view) {
 
@@ -216,15 +207,26 @@ if(istInsert){
         if (CID.equals("")) {
 
            String taget= String.valueOf(mytargets);
-            isInsert = db.addName(countName1, count, formattedDate, taget);
+           if(mytargets!=0) {
+               isInsert = db.addName(countName1, count, formattedDate, taget);
 
-            if (isInsert)
-                Toast.makeText(MainActivity.this, "new Data inserted", Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(MainActivity.this, "Name already exists", Toast.LENGTH_LONG).show();
+               if (isInsert)
+                   Toast.makeText(MainActivity.this, "new Data inserted", Toast.LENGTH_LONG).show();
+               else
+                   Toast.makeText(MainActivity.this, "Name already exists", Toast.LENGTH_LONG).show();
+           }
 
+else{
 
-        }
+    String cont=txv.getText().toString();
+               isInsert = db.addName(countName1, cont, formattedDate, taget);
+
+               if (isInsert)
+                   Toast.makeText(MainActivity.this, "new Data inserted", Toast.LENGTH_LONG).show();
+               else
+                   Toast.makeText(MainActivity.this, "Name already exists", Toast.LENGTH_LONG).show();
+           }
+  }
 
         else {
             String taget= String.valueOf(mytargets);
@@ -271,12 +273,16 @@ if(istInsert){
             }
         }
 
- //   @Override
-  //  protected void onPause() {
-   //     super.onPause();
-   //     value = txv.getText().toString();
-   //     prefs.edit().putString("count", value).apply();
-  //  }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        value = txv.getText().toString();
+        cname=name_input.getText().toString();
+        String tgt=targett.getText().toString();
+        prefs.edit().putString("count", value).apply();
+        prefs.edit().putString("cname", cname).apply();
+        prefs.edit().putString("tget", tgt).apply();
+    }
 
 
     @Override  //headphone count
@@ -306,15 +312,8 @@ public void target_method(View view){
     alert2.setPositiveButton("Set", new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
-                //String count="0";
-             //  boolean updt = db.updTarget(CID, cname, count, formattedDate, String.valueOf(mytargets));
-             //   if (updt)
-               //     Toast.makeText(MainActivity.this, "Target saved", Toast.LENGTH_LONG).show();
-              //  else
-
-                 //   Toast.makeText(MainActivity.this, "Target not saved", Toast.LENGTH_LONG).show();
             mytargets= Integer.parseInt(editText3.getText().toString());
-            targett.setText("TARGET: " + editText3.getText().toString());
+            targett.setText("TARGET: " + editText3.getText().toString()); //will work by save button
 
 
         }
@@ -355,6 +354,21 @@ public void target_method(View view){
     alert2.create().show();
 
 }
+
+
+    public void resets() {
+        // Button ret = findViewById(R.id.reset);
+        txv.setText(String.valueOf(mcounter = 0));
+        name_input.setText(R.string.default_title);
+        if(!CID.equals("")){
+            CID="";
+        }
+        targett.setText("Target: "+0);
+        targett.setClickable(false);
+
+    }
+
+
 
 
 }
