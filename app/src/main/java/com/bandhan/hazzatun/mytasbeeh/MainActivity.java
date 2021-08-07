@@ -70,14 +70,14 @@ public class MainActivity extends AppCompatActivity {
         name_input_et = findViewById(R.id.count_name_et);
 
 
-     //  if (strPref != null && strPref2 != null && strPref3!=null) {
-          // txv.setText(prefs.getString("count", "0"));
-         //  name_input.setText(prefs.getString("cname", "Default"));
-        //   targett.setText(prefs.getString("tget", "0"));
-        //    value = txv.getText().toString();
-         //   int mr = Integer.parseInt(value);
-         //   txv.setText(String.valueOf(mcounter = mr));
-      //  }
+       if (strPref != null && strPref2 != null && strPref3!=null) {
+           txv.setText(prefs.getString("count", "0"));
+           name_input.setText(prefs.getString("cname", "Default"));
+           targett.setText(prefs.getString("tget", "0"));
+            value = txv.getText().toString();
+            int mr = Integer.parseInt(value);
+           txv.setText(String.valueOf(mcounter = mr));
+        }
 
         if (getIntent().hasExtra("cID") && getIntent().hasExtra("cName") && getIntent().hasExtra("counts") && getIntent().hasExtra("tcounts")) {
 
@@ -113,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.item2:
+              resets();
+                return true;
             case R.id.item3:
                 Intent i = new Intent(MainActivity.this, Settings.class);
                 MainActivity.this.startActivity(i);
@@ -169,16 +172,12 @@ if(istInsert){
 
         txv.setVisibility(txv.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
         et.setVisibility(et.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-        //value=et.getText().toString();
+
         int mr = Integer.parseInt(et.getText().toString());
-        //   if (!value.equals(String.valueOf(0))) {
+
         et.setText((value = String.valueOf(mcounter)));
         txv.setText(String.valueOf(mcounter = mr));
-        //   }
-        // else{
-        //   et.setText((value = String.valueOf(mcounter)));
-        //  txv.setText(String.valueOf(mcounter = mr));
-        //  }
+
 
         name_input.setVisibility(name_input.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
         name_input_et.setVisibility(name_input_et.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
@@ -290,10 +289,36 @@ else{
         if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
 
             //handle click
-            int k = mcounter;
-            k++;
-            mcounter = k;
-            txv.setText(String.valueOf(mcounter));
+cnt.setClickable(false);
+targett.setClickable(false);
+
+            if (mytargets == 0) {
+                mcounter++;
+                txv.setText(String.valueOf(mcounter));
+            }
+
+
+            else {
+                mcounter++;
+                txv.setText(String.valueOf(mcounter));
+
+                if (mcounter >= mytargets) {
+                    cnt.setEnabled(false);
+                    targett.setBackgroundColor(ContextCompat.getColor(this, R.color.y));
+                    Toast.makeText(this, "target filled up", Toast.LENGTH_SHORT).show();
+                    ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+                    boolean b = toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+
+                    String count = "0";
+                    // String myterget="0";
+                    boolean istInsert = db.updTarget(CID, cname, count, formattedDate, String.valueOf(mytargets));
+                    if (istInsert) {
+                        Intent i = new Intent(getApplicationContext(), open_page.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
+                    }
+                }
+            }
 
             return true;
         }
