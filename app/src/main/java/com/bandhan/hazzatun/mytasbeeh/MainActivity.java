@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -59,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
         String strPref = prefs.getString("count", null);
         String strPref2 = prefs.getString("cname", null);
         String strPref3 = prefs.getString("tget", null);
+
+
+
+
 
 
 

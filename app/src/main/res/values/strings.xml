@@ -14,9 +14,9 @@
     <string name="set">Set</string>
     <string name="remove">remove</string>
     <string name="cancel">cancel</string>
-    <string name="f">f</string>
-    <string name="g">g</string>
-    <string name="h">f</string>
+    <string name="sound">set Sound</string>
+    <string name="background">set background</string>
+    <string name="setLanguage">Set Language</string>
     <string name="i">g</string>
     <string name="j">f</string>
     <string name="k">g</string>

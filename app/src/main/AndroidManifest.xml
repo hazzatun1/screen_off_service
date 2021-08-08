@@ -25,22 +25,22 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".Settings"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" android:configChanges="locale"/>
         <activity
             android:name=".open_page"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" android:configChanges="locale"/>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" android:configChanges="locale">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

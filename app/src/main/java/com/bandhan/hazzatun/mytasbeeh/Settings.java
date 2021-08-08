@@ -74,11 +74,11 @@ Configuration config= new Configuration();
 config.locale= locale;
 getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
-        SharedPreferences.Editor editor1 = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
+        //SharedPreferences.Editor editor1 = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
         editor.putString("My_Lang", lang);
         editor.apply();
-        editor1.putString("My_Lang", lang);
-        editor1.apply();
+       // editor1.putString("My_Lang", lang);
+       // editor1.apply();
     }
 
     private void loadLocale() {
@@ -87,6 +87,9 @@ getBaseContext().getResources().updateConfiguration(config, getBaseContext().get
         String language= prefs.getString("My_Lang","");
         setLocale(language);
 
+        SharedPreferences prefs1 = getSharedPreferences("MainActivity", Activity.MODE_PRIVATE);
+        String language1= prefs1.getString("My_Lang","");
+        setLocale(language);
 
     }
 
