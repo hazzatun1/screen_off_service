@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         String strPref3 = prefs.getString("tget", null);
 
 
+
+
         et = findViewById(R.id.uput);
         cnt = findViewById(R.id.count);
         txv = findViewById(R.id.txt);
@@ -334,16 +336,16 @@ public void target_method(View view){
     alert2.setTitle("Set Target Limit");
     alert2.setView(editText3);
 
-    alert2.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+    alert2.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
             mytargets= Integer.parseInt(editText3.getText().toString());
-            targett.setText("TARGET: " + editText3.getText().toString()); //will work by save button
+            targett.setText(R.string.target + editText3.getText().toString()); //will work by save button
 
 
         }
     })
-    .setNegativeButton("remove", new DialogInterface.OnClickListener() {
+    .setNegativeButton(R.string.remove, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
 
@@ -366,7 +368,7 @@ public void target_method(View view){
         }
 
     })
-            .setNeutralButton("cancel", new DialogInterface.OnClickListener() {
+            .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
                     Toast.makeText(MainActivity.this, "Cancel", Toast.LENGTH_LONG).show();
@@ -384,17 +386,16 @@ public void target_method(View view){
     public void resets() {
         // Button ret = findViewById(R.id.reset);
         txv.setText(String.valueOf(mcounter = 0));
+       // String st_count_name=getResources().getString(R.string.reset);
         name_input.setText(R.string.default_title);
         if(!CID.equals("")){
             CID="";
         }
-        targett.setText("Target: "+0);
+
+        targett.setText(R.string.reset+ ": "+0);
         targett.setClickable(false);
 
     }
-
-
-
 
 }
 

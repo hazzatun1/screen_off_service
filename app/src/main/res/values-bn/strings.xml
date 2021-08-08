@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">আমার গণনা</string>
+    <string name="serial">ক্রমিক:</string>
+    <string name="CountName">Name</string>
+    <string name="Count">নাম</string>
+    <string name="resume_count">চলমান</string>
+    <string name="default_title">অনুপস্থিত</string>
+    <string name="settings">নির্দিষ্টকরণ</string>
+    <string name="target">লক্ষ্য: </string>
+    <string name="Light">বাতি</string>
+    <string name="edit">সম্পাদন</string>
+    <string name="alarm">ঘন্টা নির্ধারণ</string>
+    <string name="reset">পুন:স্থাপন</string>
+    <string name="set">সেট করুন</string>
+    <string name="remove">সরান</string>
+    <string name="cancel">বাতিল</string>
+    <string name="f">f</string>
+    <string name="g">g</string>
+    <string name="h">f</string>
+    <string name="i">g</string>
+    <string name="j">f</string>
+    <string name="k">g</string>
+    <string name="l">f</string>
+    <string name="m">g</string>
+    <string name="n">f</string>
+    <string name="o">g</string>
+    <string name="p">f</string>
+    <string name="q">g</string>
+    <string name="count">COUNT</string>
+</resources>

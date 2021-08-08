@@ -9,9 +9,11 @@
     <string name="target">Terget: </string>
     <string name="Light">Light</string>
     <string name="edit">EDIT</string>
-    <string name="b">g</string>
-    <string name="c">f</string>
-    <string name="d">g</string>
+    <string name="alarm">Set Alarm</string>
+    <string name="reset">Reset</string>
+    <string name="set">Set</string>
+    <string name="remove">remove</string>
+    <string name="cancel">cancel</string>
     <string name="f">f</string>
     <string name="g">g</string>
     <string name="h">f</string>
