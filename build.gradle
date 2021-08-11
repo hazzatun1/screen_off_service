@@ -2,13 +2,14 @@
 
 buildscript {
     repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
         google()
-        jcenter()
-        
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
-		
+        classpath 'com.android.tools.build:gradle:7.0.0'
+        classpath 'com.google.gms:google-services:4.3.10'
+
 //		 implementation 'com.github.jitpack:gradle-simple:1.0'
         //  implementation 'com.github.jakebonk:NotifyMe:1.0.1'
 		  //implementation "io.karn:notify:[VERSION]"
@@ -19,9 +20,10 @@ buildscript {
 
 allprojects {
     repositories {
+
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
         google()
-        jcenter()
-       // maven { url 'https://jitpack.io' }
     }
 }
 
@@ -29,4 +31,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-
+configurations {
+    cleanedAnnotations
+    compile.exclude group: 'org.jetbrains' , module:'annotations'
+}

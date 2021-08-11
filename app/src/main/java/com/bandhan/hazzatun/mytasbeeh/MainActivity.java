@@ -1,17 +1,17 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
-import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import android.view.KeyEvent;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,7 +23,15 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -32,7 +40,6 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     //  private static final String FILE_NAME = "exampleTasbeeh.txt";
-    Database db;
     private int mcounter = 0;
     private SharedPreferences prefs;
     Button cnt;
@@ -49,29 +56,38 @@ public class MainActivity extends AppCompatActivity {
     int mytargets = 0;
     Button targett;
 
+    DatabaseReference reference;
+     String counting ="";
+String target="";
+Button save;
+    Button open;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = new Database(this);
+
+
+        FirebaseApp.initializeApp(this);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+
         prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
         String strPref = prefs.getString("count", null);
         String strPref2 = prefs.getString("cname", null);
         String strPref3 = prefs.getString("tget", null);
 
-
-
-
-
-
+        FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
+        reference = rootNode.getReference("MyDigitalCounter");
 
 
         et = findViewById(R.id.uput);
         cnt = findViewById(R.id.count);
         txv = findViewById(R.id.txt);
-
+save=findViewById(R.id.save);
         targett = findViewById(R.id.target);
         name_input = findViewById(R.id.count_name);
         name_input_et = findViewById(R.id.count_name_et);
@@ -86,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
            txv.setText(String.valueOf(mcounter = mr));
         }
 
-        if (getIntent().hasExtra("cID") && getIntent().hasExtra("cName") && getIntent().hasExtra("counts") && getIntent().hasExtra("tcounts")) {
+        if (getIntent().hasExtra("cID") && getIntent().hasExtra("cName") && getIntent().hasExtra("counts") ) {
 
             CID = getIntent().getStringExtra("cID");
             cname = getIntent().getStringExtra("cName");
@@ -96,8 +112,23 @@ public class MainActivity extends AppCompatActivity {
             txv.setText(String.valueOf(mcounter));
             et.setText(String.valueOf(mcounter));
             mytargets = Integer.parseInt(getIntent().getStringExtra("tcounts"));
-            targett.setText("Target: " + mytargets);
+            targett.setText(R.string.target+ mytargets);
         }
+
+        open=findViewById(R.id.open);
+        // viewConst user = new viewConst(CID, cname, counting,formattedDate, target);
+
+        open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(MainActivity.this, userlist.class);
+                startActivity(i);
+                //finish();
+
+
+            }
+        });
 
 
 
@@ -108,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
@@ -124,8 +156,11 @@ public class MainActivity extends AppCompatActivity {
               resets();
                 return true;
             case R.id.item3:
-                Intent i = new Intent(MainActivity.this, Settings.class);
-                MainActivity.this.startActivity(i);
+
+                Intent i = new Intent(getApplicationContext(), Settings.class);
+
+                startActivity(i);
+
                 return true;
 
             default:
@@ -154,14 +189,6 @@ public class MainActivity extends AppCompatActivity {
                 ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
                 boolean b = toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
 
-                String count="0";
-               // String myterget="0";
-                boolean istInsert = db.updTarget(CID, cname, count, formattedDate, String.valueOf(mytargets));
-if(istInsert){
-    Intent i = new Intent(getApplicationContext(), open_page.class);
-    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-    startActivity(i);
-}
 
             }
 
@@ -203,66 +230,58 @@ if(istInsert){
 
 
     public void saves(View view) {
-        String countName1 = name_input_et.getText().toString().trim();
-        name_input_et = findViewById(R.id.count_name_et);
-        String count = String.valueOf(mcounter).trim();
-        boolean isInsert;
-        boolean updt;
+        counting = String.valueOf(mcounter).trim();
+
+        target = String.valueOf(mytargets);
 
 
-        if (CID.equals("")) {
+        reference.child(cname)
+                .equalTo(name_input.getText().toString())
+                .addValueEventListener(new ValueEventListener(){
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-           String taget= String.valueOf(mytargets);
-           if(mytargets!=0) {
-               isInsert = db.addName(countName1, count, formattedDate, taget);
-
-               if (isInsert)
-                   Toast.makeText(MainActivity.this, "new Data inserted", Toast.LENGTH_LONG).show();
-               else
-                   Toast.makeText(MainActivity.this, "Name already exists", Toast.LENGTH_LONG).show();
-           }
-
-else{
-
-    String cont=txv.getText().toString();
-               isInsert = db.addName(countName1, cont, formattedDate, taget);
-
-               if (isInsert)
-                   Toast.makeText(MainActivity.this, "new Data inserted", Toast.LENGTH_LONG).show();
-               else
-                   Toast.makeText(MainActivity.this, "Name already exists", Toast.LENGTH_LONG).show();
-           }
-  }
-
-        else {
-            String taget= String.valueOf(mytargets);
-            updt = db.updTarget(CID, cname, count, formattedDate, taget);
-            if (updt)
-                Toast.makeText(MainActivity.this, "Existing data updated", Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(MainActivity.this, "Existing data not updated", Toast.LENGTH_LONG).show();
-        }
-
-
-        Intent intent = new Intent(getBaseContext(), open_page.class);
-        intent.putExtra("EXTRA_SESSION_ID", formattedDate);
-
-
-    }
-
-    public void viewAll(View view) {
-
-        Intent intent3 = new Intent(this,open_page.class);
-        intent3.putExtra("countName", names);
-        intent3.putExtra("counts", mcounter);
-        startActivity(intent3);
+                    if (dataSnapshot.exists()){
+                       // maxId=dataSnapshot.getChildrenCount();
+                        Toast.makeText(MainActivity.this, "name already exists", Toast.LENGTH_SHORT).show();
 
                     }
 
+                    else {
+                        writeNewUser();
+                        Toast.makeText(MainActivity.this, "success to insert", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(MainActivity.this, "cancel", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+
+       // Intent intent = new Intent(getBaseContext(), userlist.class);
+      //  intent.putExtra("EXTRA_SESSION_ID", formattedDate);
+//startActivity(intent);
+    }
+
+
+
+    public void writeNewUser() {
+        cname=name_input.getText().toString();
+        counting=txv.getText().toString();
+        target=String.valueOf(mytargets);
+
+                User helperClass = new User(CID, cname, counting, formattedDate, target);
+
+              // reference.child("Id").setValue(helperClass);
+        reference.child(cname).setValue(helperClass);
+
+    }
 
         public void lt(View view) { //light
             haveIBeenClicked=!haveIBeenClicked;
-          //  Button lt = findViewById(R.id.light);
             if (haveIBeenClicked) {
                 et.setTextColor(getResources().getColor(R.color.y));
                 txv.setTextColor(getResources().getColor(R.color.y));
@@ -318,12 +337,7 @@ targett.setClickable(false);
 
                     String count = "0";
                     // String myterget="0";
-                    boolean istInsert = db.updTarget(CID, cname, count, formattedDate, String.valueOf(mytargets));
-                    if (istInsert) {
-                        Intent i = new Intent(getApplicationContext(), open_page.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(i);
-                    }
+
                 }
             }
 
@@ -345,7 +359,7 @@ public void target_method(View view){
         public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
             mytargets= Integer.parseInt(editText3.getText().toString());
-            targett.setText(R.string.target + editText3.getText().toString()); //will work by save button
+            targett.setText(editText3.getText().toString()); //will work by save button
 
 
         }
@@ -353,21 +367,8 @@ public void target_method(View view){
     .setNegativeButton(R.string.remove, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
-
             String count="0";
-            String myterget="0";
-            boolean istInsert = db.updTarget(CID, cname, count, formattedDate, myterget);
-
-            if (istInsert) {
-                Toast.makeText(MainActivity.this, "target removed", Toast.LENGTH_LONG).show();
-
-                Intent i = new Intent(getApplicationContext(), open_page.class);
-                startActivity(i);
-                finish();
-
-
-            }
-
+            String mytarget="0";
 
 
         }
@@ -401,6 +402,10 @@ public void target_method(View view){
         targett.setClickable(false);
 
     }
+
+
+
+
 
 }
 

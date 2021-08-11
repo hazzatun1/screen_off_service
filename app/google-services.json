@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "635914860713",
+    "project_id": "mydigitalcounter-1bb95",
+    "storage_bucket": "mydigitalcounter-1bb95.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635914860713:android:a046caa6c9572d7cc711b8",
+        "android_client_info": {
+          "package_name": "com.bandhan.hazzatun.mytasbeeh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "635914860713-i8pndplau3v9aq5a4edleern623a9svf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhkxJKfzUeB4CvrIYBmB__DtldlU4qTRQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "635914860713-i8pndplau3v9aq5a4edleern623a9svf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,8 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
-public class viewConst {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
 
     //private variables
@@ -18,16 +20,23 @@ public class viewConst {
 
 
     // Empty constructor
-    public viewConst() {
+    public User() {
 
     }
-
-
-    public viewConst(String id, String name, String counts, String date) {
+    public User(String id, String name, String counts, String date) {
         this._id = id;
         this._name = name;
         this._counts = counts;
         this._date = date;
+
+    }
+
+    public User(String id, String name, String counts, String date, String target) {
+        this._id = id;
+        this._name = name;
+        this._counts = counts;
+        this._date = date;
+        this._target=target;
 
     }
 

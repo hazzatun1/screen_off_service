@@ -24,6 +24,7 @@
             android:background="@drawable/setting_menu_ic"
             android:gravity="left"
             android:onClick="showPopup"
+
             tools:ignore="RtlHardcoded" />
 
         <TextView
@@ -48,7 +49,6 @@
             android:layout_height="wrap_content"
             android:onClick="target_method"
             android:gravity="center"
-            android:text="@string/target"
             android:textSize="20sp" />
 
 
@@ -167,7 +167,7 @@
             android:id="@+id/open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="viewAll"
+
             android:text="Open"
 
             android:layout_weight="1"
