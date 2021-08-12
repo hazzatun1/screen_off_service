@@ -57,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
     Button targett;
 
     DatabaseReference reference;
-     String counting ="";
-String target="";
-Button save;
+    String counting ="";
+    String target="";
+    Button save;
     Button open;
 
 
@@ -72,7 +72,7 @@ Button save;
 
 
         FirebaseApp.initializeApp(this);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+      //  FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
 
         prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
@@ -87,19 +87,19 @@ Button save;
         et = findViewById(R.id.uput);
         cnt = findViewById(R.id.count);
         txv = findViewById(R.id.txt);
-save=findViewById(R.id.save);
+        save=findViewById(R.id.save);
         targett = findViewById(R.id.target);
         name_input = findViewById(R.id.count_name);
         name_input_et = findViewById(R.id.count_name_et);
 
 
-       if (strPref != null && strPref2 != null && strPref3!=null) {
-           txv.setText(prefs.getString("count", "0"));
-           name_input.setText(prefs.getString("cname", "Default"));
-           targett.setText(prefs.getString("tget", "0"));
+        if (strPref != null && strPref2 != null && strPref3!=null) {
+            txv.setText(prefs.getString("count", "0"));
+            name_input.setText(prefs.getString("cname", "Default"));
+            targett.setText(prefs.getString("tget", "0"));
             value = txv.getText().toString();
             int mr = Integer.parseInt(value);
-           txv.setText(String.valueOf(mcounter = mr));
+            txv.setText(String.valueOf(mcounter = mr));
         }
 
         if (getIntent().hasExtra("cID") && getIntent().hasExtra("cName") && getIntent().hasExtra("counts") ) {
@@ -112,7 +112,7 @@ save=findViewById(R.id.save);
             txv.setText(String.valueOf(mcounter));
             et.setText(String.valueOf(mcounter));
             mytargets = Integer.parseInt(getIntent().getStringExtra("tcounts"));
-            targett.setText(R.string.target+ mytargets);
+            targett.setText("Target: "+ mytargets);
         }
 
         open=findViewById(R.id.open);
@@ -130,14 +130,10 @@ save=findViewById(R.id.save);
             }
         });
 
-
-
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         formattedDate = df.format(c);
         targett.setBackgroundColor(Color.GREEN);
-
-
     }
 
 
@@ -148,12 +144,12 @@ save=findViewById(R.id.save);
         popup.show();
     }
 
-   // @SuppressLint("NonConstantResourceId")
+    // @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item2:
-              resets();
+                resets();
                 return true;
             case R.id.item3:
 
@@ -221,8 +217,8 @@ save=findViewById(R.id.save);
             name_input_et.setText(names);
         } else {
             names = name_input_et.getText().toString();
-    name_input.setText(names);
-}
+            name_input.setText(names);
+        }
 
     }
 
@@ -238,32 +234,30 @@ save=findViewById(R.id.save);
         reference.child(cname)
                 .equalTo(name_input.getText().toString())
                 .addValueEventListener(new ValueEventListener(){
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    if (dataSnapshot.exists()){
-                       // maxId=dataSnapshot.getChildrenCount();
-                        Toast.makeText(MainActivity.this, "name already exists", Toast.LENGTH_SHORT).show();
+                        if (dataSnapshot.exists()){
+                            // maxId=dataSnapshot.getChildrenCount();
+                            Toast.makeText(MainActivity.this, "name already exists", Toast.LENGTH_SHORT).show();
 
+                        }
+
+                        else {
+
+                            writeNewUser();
+
+                            Toast.makeText(MainActivity.this, "success to insert", Toast.LENGTH_SHORT).show();
+
+                        }
                     }
-
-                    else {
-                        writeNewUser();
-                        Toast.makeText(MainActivity.this, "success to insert", Toast.LENGTH_SHORT).show();
-
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(MainActivity.this, "cancel", Toast.LENGTH_SHORT).show();
                     }
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(MainActivity.this, "cancel", Toast.LENGTH_SHORT).show();
-                }
-            });
+                });
 
 
-
-       // Intent intent = new Intent(getBaseContext(), userlist.class);
-      //  intent.putExtra("EXTRA_SESSION_ID", formattedDate);
-//startActivity(intent);
     }
 
 
@@ -273,30 +267,29 @@ save=findViewById(R.id.save);
         counting=txv.getText().toString();
         target=String.valueOf(mytargets);
 
-                User helperClass = new User(CID, cname, counting, formattedDate, target);
+        User helperClass = new User(CID, cname, counting, formattedDate, target);
 
-              // reference.child("Id").setValue(helperClass);
         reference.child(cname).setValue(helperClass);
 
     }
 
-        public void lt(View view) { //light
-            haveIBeenClicked=!haveIBeenClicked;
-            if (haveIBeenClicked) {
-                et.setTextColor(getResources().getColor(R.color.y));
-                txv.setTextColor(getResources().getColor(R.color.y));
-                cnt.setTextColor(getResources().getColor(R.color.y));
-                LinearLayout layout = findViewById(R.id.lb);
-                layout.setBackgroundResource(R.drawable.bl);
-            } else {
-                et.setTextColor(getResources().getColor(R.color.b));
-                txv.setTextColor(getResources().getColor(R.color.b));
-                cnt.setTextColor(getResources().getColor(R.color.b));
-                LinearLayout layout = findViewById(R.id.lb);
-                layout.setBackgroundResource(R.drawable.bk);
+    public void lt(View view) { //light
+        haveIBeenClicked=!haveIBeenClicked;
+        if (haveIBeenClicked) {
+            et.setTextColor(getResources().getColor(R.color.y));
+            txv.setTextColor(getResources().getColor(R.color.y));
+            cnt.setTextColor(getResources().getColor(R.color.y));
+            LinearLayout layout = findViewById(R.id.lb);
+            layout.setBackgroundResource(R.drawable.bl);
+        } else {
+            et.setTextColor(getResources().getColor(R.color.b));
+            txv.setTextColor(getResources().getColor(R.color.b));
+            cnt.setTextColor(getResources().getColor(R.color.b));
+            LinearLayout layout = findViewById(R.id.lb);
+            layout.setBackgroundResource(R.drawable.bk);
 
-            }
         }
+    }
 
     @Override
     protected void onPause() {
@@ -315,8 +308,8 @@ save=findViewById(R.id.save);
         if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
 
             //handle click
-cnt.setClickable(false);
-targett.setClickable(false);
+            cnt.setClickable(false);
+            targett.setClickable(false);
 
             if (mytargets == 0) {
                 mcounter++;
@@ -348,51 +341,51 @@ targett.setClickable(false);
 
 
 
-public void target_method(View view){
+    public void target_method(View view){
 
-    AlertDialog.Builder alert2 = new AlertDialog.Builder(MainActivity.this);
-    final EditText editText3 = new EditText(MainActivity.this);
-    alert2.setTitle("Set Target Limit");
-    alert2.setView(editText3);
+        AlertDialog.Builder alert2 = new AlertDialog.Builder(MainActivity.this);
+        final EditText editText3 = new EditText(MainActivity.this);
+        alert2.setTitle("Set Target Limit");
+        alert2.setView(editText3);
 
-    alert2.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+        alert2.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
-            mytargets= Integer.parseInt(editText3.getText().toString());
-            targett.setText(editText3.getText().toString()); //will work by save button
-
-
-        }
-    })
-    .setNegativeButton(R.string.remove, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-
-            String count="0";
-            String mytarget="0";
+                mytargets= Integer.parseInt(editText3.getText().toString());
+                targett.setText(editText3.getText().toString()); //will work by save button
 
 
-        }
+            }
+        })
+                .setNegativeButton(R.string.remove, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
-    })
-            .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+                        String count="0";
+                        String mytarget="0";
 
-                    Toast.makeText(MainActivity.this, "Cancel", Toast.LENGTH_LONG).show();
-                    param2DialogInterface.cancel();
 
-                }
+                    }
 
-            });
+                })
+                .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
-    alert2.create().show();
+                        Toast.makeText(MainActivity.this, "Cancel", Toast.LENGTH_LONG).show();
+                        param2DialogInterface.cancel();
 
-}
+                    }
+
+                });
+
+        alert2.create().show();
+
+    }
 
 
     public void resets() {
         // Button ret = findViewById(R.id.reset);
         txv.setText(String.valueOf(mcounter = 0));
-       // String st_count_name=getResources().getString(R.string.reset);
+        // String st_count_name=getResources().getString(R.string.reset);
         name_input.setText(R.string.default_title);
         if(!CID.equals("")){
             CID="";
@@ -403,12 +396,4 @@ public void target_method(View view){
 
     }
 
-
-
-
-
 }
-
-
-
-

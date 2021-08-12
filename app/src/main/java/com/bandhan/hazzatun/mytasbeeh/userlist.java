@@ -1,5 +1,7 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,7 +14,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +34,7 @@ public class userlist extends AppCompatActivity {
         database = FirebaseDatabase.getInstance().getReference("MyDigitalCounter");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-
-
-
         list = new ArrayList<>();
-
 
         database.addValueEventListener(new ValueEventListener() {
             @Override
@@ -48,7 +44,6 @@ public class userlist extends AppCompatActivity {
 
                     User user = dataSnapshot.getValue(User.class);
                     list.add(user);
-
                 }
                 myAdapter = new MyAdapter(userlist.this,list);
                 recyclerView.setAdapter(myAdapter);

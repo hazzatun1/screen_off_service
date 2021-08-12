@@ -23,6 +23,7 @@ public class User implements Serializable {
     public User() {
 
     }
+
     public User(String id, String name, String counts, String date) {
         this._id = id;
         this._name = name;

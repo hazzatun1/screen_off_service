@@ -4,17 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,7 +19,7 @@ public class Settings extends AppCompatActivity {
     String alarm = "";
     Button set_lang;
 
-Button upload;
+    Button upload;
     Button download;
     String CID="", cname="", upDate="";
     Integer mcounter=0, mytargets=0;
@@ -40,8 +35,8 @@ Button upload;
         reference = rootNode.getReference("MyDigitalCounter");
         loadLocale();
         set_lang=findViewById(R.id.btn5);
-      //  ActionBar actionBar= getSupportActionBar();
-      //  actionBar.setTitle(getResources().getString(R.string.app_name));
+        //  ActionBar actionBar= getSupportActionBar();
+        //  actionBar.setTitle(getResources().getString(R.string.app_name));
 
 
         download= findViewById(R.id.btn7);
@@ -67,10 +62,10 @@ Button upload;
 
     }
     public void setAlarm(View view) {
-     //   Intent i = new Intent(getApplicationContext(), userlist.class);
-      ///  i.putExtra("setAlarm", alarm);
+        //   Intent i = new Intent(getApplicationContext(), userlist.class);
+        ///  i.putExtra("setAlarm", alarm);
 
-       // startActivity(i);
+        // startActivity(i);
     }
 
     public void setLang(View view) {
@@ -85,11 +80,11 @@ Button upload;
                     setLocale("en");
                     recreate();
                 }
-               else if (i == 1) {
+                else if (i == 1) {
                     setLocale("bn");
                     recreate();
                 }
-dialogInterface.dismiss();
+                dialogInterface.dismiss();
 
             }
 
@@ -103,15 +98,15 @@ dialogInterface.dismiss();
     private void setLocale(String lang){
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
-Configuration config= new Configuration();
-config.locale= locale;
-getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        Configuration config= new Configuration();
+        config.locale= locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
         //SharedPreferences.Editor editor1 = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
         editor.putString("My_Lang", lang);
         editor.apply();
-       // editor1.putString("My_Lang", lang);
-       // editor1.apply();
+        // editor1.putString("My_Lang", lang);
+        // editor1.apply();
     }
 
     private void loadLocale() {
