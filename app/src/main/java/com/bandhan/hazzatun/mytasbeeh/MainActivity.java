@@ -1,17 +1,24 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,10 +35,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -40,6 +51,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     //  private static final String FILE_NAME = "exampleTasbeeh.txt";
+    AudioManager audioManager;
     private int mcounter = 0;
     private SharedPreferences prefs;
     Button cnt;
@@ -55,24 +67,28 @@ public class MainActivity extends AppCompatActivity {
     String formattedDate = "";
     int mytargets = 0;
     Button targett;
-
+Button lt;
     DatabaseReference reference;
     String counting ="";
     String target="";
     Button save;
     Button open;
-
-
+long maxId;
+    private MusicIntentReceiver myReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         FirebaseApp.initializeApp(this);
       //  FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+        myReceiver = new MusicIntentReceiver();
+         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+        audioManager.setSpeakerphoneOn(true);
+
 
 
         prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
@@ -91,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         targett = findViewById(R.id.target);
         name_input = findViewById(R.id.count_name);
         name_input_et = findViewById(R.id.count_name_et);
-
+        lt = findViewById(R.id.light);
 
         if (strPref != null && strPref2 != null && strPref3!=null) {
             txv.setText(prefs.getString("count", "0"));
@@ -134,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         formattedDate = df.format(c);
         targett.setBackgroundColor(Color.GREEN);
+
+
     }
 
 
@@ -184,7 +202,15 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "target filled up", Toast.LENGTH_SHORT).show();
                 ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
                 boolean b = toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                ArrayList<User> list;
+                String count="0";
 
+                User helperClass = new User(CID, cname, count, formattedDate, String.valueOf(mytargets));
+                reference.child(cname).setValue(helperClass);
+
+                    Intent i = new Intent(getApplicationContext(), userlist.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
 
             }
 
@@ -222,9 +248,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
-
     public void saves(View view) {
         counting = String.valueOf(mcounter).trim();
 
@@ -237,17 +260,17 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        if (dataSnapshot.exists()){
+                        if (dataSnapshot.hasChild(cname)){
                             // maxId=dataSnapshot.getChildrenCount();
                             Toast.makeText(MainActivity.this, "name already exists", Toast.LENGTH_SHORT).show();
 
                         }
-
+                      //  reference.child(String.valueOf(maxId+1)).setvalue();
                         else {
 
-                            writeNewUser();
+                                writeNewUser();
 
-                            Toast.makeText(MainActivity.this, "success to insert", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "success to insert", Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -267,9 +290,10 @@ public class MainActivity extends AppCompatActivity {
         counting=txv.getText().toString();
         target=String.valueOf(mytargets);
 
+
         User helperClass = new User(CID, cname, counting, formattedDate, target);
 
-        reference.child(cname).setValue(helperClass);
+            reference.child(cname).setValue(helperClass);
 
     }
 
@@ -291,6 +315,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -300,36 +326,83 @@ public class MainActivity extends AppCompatActivity {
         prefs.edit().putString("count", value).apply();
         prefs.edit().putString("cname", cname).apply();
         prefs.edit().putString("tget", tgt).apply();
+
+    }
+
+
+
+    @Override public void onResume() {
+        IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
+        registerReceiver(myReceiver, filter);
+        super.onResume();
+    }
+
+    private class MusicIntentReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
+                int state = intent.getIntExtra("state", -1);
+                switch (state) {
+                    case 0:
+                        cnt.setClickable(true);
+                        targett.setClickable(true);
+                        lt.setClickable(true);
+                        Log.d(TAG, "Headset is unplugged");
+                        break;
+                    case 1:
+                        Log.d(TAG, "Headset is plugged");
+                        break;
+                    default:
+                        Log.d(TAG, "I have no idea what the headset state is");
+                }
+            }
+        }
     }
 
 
     @Override  //headphone count
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
-
-            //handle click
             cnt.setClickable(false);
             targett.setClickable(false);
+            lt.setClickable(false);
+            //audioManager.setSpeakerphoneOn(false);
 
+          // audioManager.setMode(AudioManager.MODE_IN_CALL);
+            audioManager.setSpeakerphoneOn(true);
+
+            AudioManager mAudioMgr = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+            mAudioMgr.setSpeakerphoneOn(true);
+            mAudioMgr.setMode(AudioManager.MODE_IN_COMMUNICATION);
+
+            //handle click
             if (mytargets == 0) {
                 mcounter++;
                 txv.setText(String.valueOf(mcounter));
             }
-
 
             else {
                 mcounter++;
                 txv.setText(String.valueOf(mcounter));
 
                 if (mcounter >= mytargets) {
+
+
                     cnt.setEnabled(false);
                     targett.setBackgroundColor(ContextCompat.getColor(this, R.color.y));
                     Toast.makeText(this, "target filled up", Toast.LENGTH_SHORT).show();
-                    ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-                    boolean b = toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
 
-                    String count = "0";
-                    // String myterget="0";
+                    ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 500);
+                    boolean b= toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+
+                    String count="0";
+
+                    User helperClass = new User(CID, cname, count, formattedDate, String.valueOf(mytargets));
+                    reference.child(cname).setValue(helperClass);
+
+                    Intent i = new Intent(getApplicationContext(), userlist.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
 
                 }
             }
@@ -352,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
                 mytargets= Integer.parseInt(editText3.getText().toString());
-                targett.setText(editText3.getText().toString()); //will work by save button
+                targett.setText("Target: "+editText3.getText().toString()); //will work by save button
 
 
             }
@@ -360,9 +433,46 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton(R.string.remove, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
-                        String count="0";
-                        String mytarget="0";
+                        reference.child(cname)
+                                .equalTo(name_input.getText().toString())
+                                .addValueEventListener(new ValueEventListener(){
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
 
+                                        if (dataSnapshot.hasChild(cname)){
+                                            // maxId=dataSnapshot.getChildrenCount();
+                                            Toast.makeText(MainActivity.this, "name already exists", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                        //  reference.child(String.valueOf(maxId+1)).setvalue();
+                                        else {
+
+
+if(mytargets!=0){
+   String count="0";
+ String mytarget="0";
+     User helperClass = new User(CID, cname, count, formattedDate, mytarget);
+
+  reference.child(cname).setValue(helperClass);
+   mytargets=0;
+ mcounter=0;
+     targett.setText("Target: "+mytarget);
+     txv.setText(count);
+
+
+                                            Toast.makeText(MainActivity.this, "success to update", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                        }
+
+
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        Toast.makeText(MainActivity.this, "cancel", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                });
 
                     }
 
@@ -395,5 +505,7 @@ public class MainActivity extends AppCompatActivity {
         targett.setClickable(false);
 
     }
+
+
 
 }

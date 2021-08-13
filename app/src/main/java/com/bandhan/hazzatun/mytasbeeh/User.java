@@ -61,8 +61,9 @@ public class User implements Serializable {
         return _id;
     }
 
-    public void set_id(String _id) {
+    public String set_id(String _id) {
         this._id = _id;
+        return _id;
     }
 
     public String get_date() {

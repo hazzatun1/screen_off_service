@@ -1,12 +1,20 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.provider.AlarmClock;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +27,7 @@ public class Settings extends AppCompatActivity {
     String alarm = "";
     Button set_lang;
 
-    Button upload;
+    Button upload, alarms;
     Button download;
     String CID="", cname="", upDate="";
     Integer mcounter=0, mytargets=0;
@@ -37,7 +45,7 @@ public class Settings extends AppCompatActivity {
         set_lang=findViewById(R.id.btn5);
         //  ActionBar actionBar= getSupportActionBar();
         //  actionBar.setTitle(getResources().getString(R.string.app_name));
-
+        Button alarms=findViewById(R.id.btn1);
 
         download= findViewById(R.id.btn7);
 
@@ -66,6 +74,16 @@ public class Settings extends AppCompatActivity {
         ///  i.putExtra("setAlarm", alarm);
 
         // startActivity(i);
+        SetAlarm();
+    }
+
+    public void SetAlarm() {
+         Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
+        //  i.putExtra(AlarmClock.EXTRA_DAYS, 7);
+        // i.putExtra(AlarmClock.EXTRA_HOUR, 00);
+         i.putExtra(AlarmClock.EXTRA_MESSAGE, "This alarm for "+ cname);
+          i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+          startActivity(i);
     }
 
     public void setLang(View view) {
@@ -87,7 +105,6 @@ public class Settings extends AppCompatActivity {
                 dialogInterface.dismiss();
 
             }
-
 
         });
         AlertDialog mDialog = mbuilder.create();

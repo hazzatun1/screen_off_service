@@ -1,7 +1,14 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
+import static android.content.ContentValues.TAG;
+
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +18,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     Context context;
+    FirebaseDatabase database;
+    DatabaseReference reference;
 
     ArrayList<User> list;
     private OnItemClickListener mListener;
@@ -44,13 +61,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         User user = list.get(position);
 
         holder.Id.setText(user.get_id());
         holder.Name.setText(user.get_name());
         holder.Count.setText(user.get_counts());
         holder.Date.setText(user.get_date());
+
+        holder.itemView.setTag(holder);
+
+        String gTarget = user.get_target();
+        if(!gTarget.equals("0")) {
+            holder.itemView.setBackgroundColor(Color.GREEN);
+
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +90,49 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
             }
         });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                builder.setTitle("Delete the zikr");
+
+                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+
+                        database.getReference().child("MyDigitalConter").child(list.get(position).get_name()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(context, "success to update", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(context, "success to update", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+
+                        ;
+
+                    }
+                })
+
+                        .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+                                Toast.makeText(context, "Cancel", Toast.LENGTH_LONG).show();
+                                param2DialogInterface.cancel();
+                            }
+                        });
+                builder.create().show();
+                return true;
+            }
+        });
+
+
+
+
     }
 
     @Override
@@ -84,6 +153,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             Date = itemView.findViewById(R.id.date);
             itemView.setClickable(true);
             //itemView.setOnClickListener(this);
+           // itemView.setOnLongClickListener(this);
 
         }
 

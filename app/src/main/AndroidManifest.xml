@@ -15,6 +15,9 @@
     <uses-permission
         android:name="android.permission.ACCESS_COARSE_LOCATION"
         tools:node="merge" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
 
     <supports-screens
         android:anyDensity="true"
@@ -22,6 +25,9 @@
         android:normalScreens="true"
         android:smallScreens="true"
         android:xlargeScreens="true" />
+
+
+
 
     <application
         android:allowBackup="true"
@@ -32,9 +38,17 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+
         tools:ignore="GoogleAppIndexingWarning"
         tools:node="merge"
         tools:replace="android:label">
+
+        <service
+            android:name=".YourService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+
         <activity
             android:name=".Settings"
             android:configChanges="locale"
@@ -54,6 +68,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <service android:name="com.google.firebase.components.ComponentDiscoveryService">
             <meta-data
