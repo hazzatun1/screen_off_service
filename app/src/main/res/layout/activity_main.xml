@@ -44,6 +44,7 @@
             android:id="@+id/target"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/target"
             android:onClick="target_method"
             android:gravity="center"
             android:textSize="20sp" />
@@ -155,7 +156,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="saves"
-            android:text="Save"
+            android:text="@string/save"
             android:layout_weight="1"
 
             android:textSize="20sp"/>
@@ -165,7 +166,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="Open"
+            android:text="@string/open"
 
             android:layout_weight="1"
             android:textSize="20sp"/>

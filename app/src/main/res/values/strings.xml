@@ -17,8 +17,8 @@
     <string name="sound">set Sound</string>
     <string name="background">set background</string>
     <string name="setLanguage">Set Language</string>
-    <string name="i">g</string>
-    <string name="j">f</string>
+    <string name="save">save</string>
+    <string name="open">open</string>
     <string name="k">g</string>
     <string name="l">f</string>
     <string name="m">g</string>

@@ -3,7 +3,7 @@
     <string name="app_name">আমার গণনা</string>
     <string name="serial">ক্রমিক:</string>
     <string name="CountName">Name</string>
-    <string name="Count">নাম</string>
+    <string name="Count">গণনা</string>
     <string name="resume_count">চলমান</string>
     <string name="default_title">অনুপস্থিত</string>
     <string name="settings">নির্দিষ্টকরণ</string>
@@ -18,8 +18,8 @@
     <string name="sound">শব্দ সেট করুন</string>
     <string name="background">পটভূমি সেট করুন</string>
     <string name="setLanguage">ভাষা সেট করুন</string>
-    <string name="i">g</string>
-    <string name="j">f</string>
+    <string name="save">সংরক্ষণ</string>
+    <string name="open">খোলা</string>
     <string name="k">g</string>
     <string name="l">f</string>
     <string name="m">g</string>

@@ -11,10 +11,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.AlarmClock;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +43,6 @@ public class Settings extends AppCompatActivity {
 
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         reference = rootNode.getReference("MyDigitalCounter");
-        loadLocale();
         set_lang=findViewById(R.id.btn5);
         //  ActionBar actionBar= getSupportActionBar();
         //  actionBar.setTitle(getResources().getString(R.string.app_name));
@@ -95,11 +96,32 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (i == 0) {
-                    setLocale("en");
+                  //  setLocale("en");
+                    Locale locale = new Locale("en", "US");
+                    Resources res = getResources();
+                    DisplayMetrics dm = res.getDisplayMetrics();
+                    Configuration conf = res.getConfiguration();
+                    conf.locale = locale;
+                    res.updateConfiguration(conf, dm);
+                    Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent in2 = new Intent(getApplicationContext(), userlist.class);
+                    in.putExtra("lang_code","en");
+                    in2.putExtra("lang_code","en");
+                    startActivity(in);
                     recreate();
                 }
                 else if (i == 1) {
-                    setLocale("bn");
+                    Locale locale = new Locale("bn", "bd");
+                    Resources res = getResources();
+                    DisplayMetrics dm = res.getDisplayMetrics();
+                    Configuration conf = res.getConfiguration();
+                    conf.locale = locale;
+                    res.updateConfiguration(conf, dm);
+                    Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent in2 = new Intent(getApplicationContext(), userlist.class);
+                    in.putExtra("lang_code","bn");
+                    in2.putExtra("lang_code","bn");
+                    startActivity(in);
                     recreate();
                 }
                 dialogInterface.dismiss();
@@ -112,31 +134,6 @@ public class Settings extends AppCompatActivity {
 
     }
 
-    private void setLocale(String lang){
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
-        Configuration config= new Configuration();
-        config.locale= locale;
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
-        //SharedPreferences.Editor editor1 = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
-        editor.putString("My_Lang", lang);
-        editor.apply();
-        // editor1.putString("My_Lang", lang);
-        // editor1.apply();
-    }
-
-    private void loadLocale() {
-
-        SharedPreferences prefs = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
-        String language= prefs.getString("My_Lang","");
-        setLocale(language);
-
-        SharedPreferences prefs1 = getSharedPreferences("MainActivity", Activity.MODE_PRIVATE);
-        String language1= prefs1.getString("My_Lang","");
-        setLocale(language1);
-
-    }
 
     public void set_sound(View view, Context context) {
 
@@ -147,7 +144,15 @@ public class Settings extends AppCompatActivity {
 
 
     }
+    public static void setLocale(Activity activity, String languageCode) {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Resources resources = activity.getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
 
+    }
 
 
 }

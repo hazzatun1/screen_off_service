@@ -23,10 +23,12 @@ import android.view.KeyEvent;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +53,9 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     //  private static final String FILE_NAME = "exampleTasbeeh.txt";
+    Spinner mLanguage;
+    ArrayAdapter<String> mAdapter;
+
     AudioManager audioManager;
     private int mcounter = 0;
     private SharedPreferences prefs;
@@ -88,6 +93,12 @@ long maxId;
          audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
         audioManager.setSpeakerphoneOn(true);
+
+
+        if (getIntent().hasExtra("lang_code")){
+          String lang_code = getIntent().getStringExtra("lang_code");
+            Settings.setLocale(this, lang_code);
+        }
 
 
 
@@ -456,8 +467,8 @@ if(mytargets!=0){
   reference.child(cname).setValue(helperClass);
    mytargets=0;
  mcounter=0;
-     targett.setText("Target: "+mytarget);
-     txv.setText(count);
+     targett.setText("Target: "+String.valueOf(mytargets));
+     txv.setText(String.valueOf(mcounter));
 
 
                                             Toast.makeText(MainActivity.this, "success to update", Toast.LENGTH_SHORT).show();
@@ -493,16 +504,16 @@ if(mytargets!=0){
 
 
     public void resets() {
-        // Button ret = findViewById(R.id.reset);
-        txv.setText(String.valueOf(mcounter = 0));
+        mcounter = 0;
+        mytargets=0;
+        txv.setText(String.valueOf(mcounter));
         // String st_count_name=getResources().getString(R.string.reset);
         name_input.setText(R.string.default_title);
         if(!CID.equals("")){
             CID="";
         }
 
-        targett.setText(R.string.reset+ ": "+0);
-        targett.setClickable(false);
+        targett.setText("Target: "+ String.valueOf(0));
 
     }
 
