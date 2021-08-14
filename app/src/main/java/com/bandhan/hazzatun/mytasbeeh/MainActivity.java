@@ -87,7 +87,7 @@ long maxId;
         setContentView(R.layout.activity_main);
 
         FirebaseApp.initializeApp(this);
-      //  FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+      // FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         myReceiver = new MusicIntentReceiver();
          audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -177,6 +177,11 @@ long maxId;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            case R.id.item1:
+                Intent intent = new Intent(getBaseContext(), Login.class);
+                startActivity(intent);
+                finish();
             case R.id.item2:
                 resets();
                 return true;
