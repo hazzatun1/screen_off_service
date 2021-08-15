@@ -33,6 +33,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -78,7 +82,7 @@ Button lt;
     String target="";
     Button save;
     Button open;
-long maxId;
+String email1;
     private MusicIntentReceiver myReceiver;
 
     @Override
@@ -86,7 +90,7 @@ long maxId;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseApp.initializeApp(this);
+       // FirebaseApp.initializeApp(this);
       // FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         myReceiver = new MusicIntentReceiver();
@@ -186,11 +190,13 @@ long maxId;
                 resets();
                 return true;
             case R.id.item3:
-
                 Intent i = new Intent(getApplicationContext(), Settings.class);
-
                 startActivity(i);
+                return true;
 
+            case R.id.item4:
+                Intent in = new Intent(getApplicationContext(), login_profile.class);
+                startActivity(in);
                 return true;
 
             default:
@@ -270,11 +276,11 @@ long maxId;
         target = String.valueOf(mytargets);
 
 
-        reference.child(cname)
-                .equalTo(name_input.getText().toString())
-                .addValueEventListener(new ValueEventListener(){
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+    reference.child(cname)
+    .equalTo(name_input.getText().toString())
+    .addValueEventListener(new ValueEventListener(){
+     @Override
+     public void onDataChange(DataSnapshot dataSnapshot) {
 
                         if (dataSnapshot.hasChild(cname)){
                             // maxId=dataSnapshot.getChildrenCount();
@@ -306,11 +312,21 @@ long maxId;
         counting=txv.getText().toString();
         target=String.valueOf(mytargets);
 
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        User helperClass = new User(CID, cname, counting, formattedDate, target);
+        if (user != null) {
+            for (UserInfo profile : user.getProviderData()) {
+                String providerId = profile.getProviderId();
+                String uid = profile.getUid();
+                email1 = profile.getEmail();
+                // Uri photoUrl = profile.getPhotoUrl();
+            }
+
+            User helperClass = new User(CID, cname, counting, formattedDate, target, email1);
 
             reference.child(cname).setValue(helperClass);
 
+        }
     }
 
     public void lt(View view) { //light
@@ -441,7 +457,9 @@ long maxId;
             public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
                 mytargets= Integer.parseInt(editText3.getText().toString());
-                targett.setText("Target: "+editText3.getText().toString()); //will work by save button
+                targett.setText("Target: "+editText3.getText().toString());
+                mcounter=0;
+                txv.setText(String.valueOf(mcounter));//will work by save button
 
 
             }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyCounter</string>
+    <string name="app_name">MyDigitalCounter</string>
     <string name="serial">No:</string>
     <string name="CountName">Name</string>
     <string name="Count">counts</string>
@@ -27,4 +27,5 @@
     <string name="p">f</string>
     <string name="q">g</string>
     <string name="count">COUNT</string>
+    <string name="profile">profile</string>
 </resources>

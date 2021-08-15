@@ -32,7 +32,7 @@ public class Register extends AppCompatActivity {
     public static final String TAG = "TAG";
     EditText mEmail, mPassword, mPhone;
     Button mRegisterBtn;
-    TextView mLoginBtn, loginto;
+    TextView loginto;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
@@ -82,10 +82,7 @@ public class Register extends AppCompatActivity {
                     mPassword.setError("Password Must be >= 6 Characters");
                     return;
                 }
-            //    if (!mPassword.equals(mPhone)) {
-            //        mPassword.setError("Password did not match");
-              //      return;
-            //    }
+
 
                 // register the user in firebase
 
@@ -126,7 +123,7 @@ public class Register extends AppCompatActivity {
                                     Log.d(TAG, "onFailure: " + e.toString());
                                 }
                             });
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(), Login.class));
 
                         } else {
                             Toast.makeText(Register.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

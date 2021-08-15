@@ -21,6 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,7 +46,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         void onItemClick(int position);
     }
     public void setOnItemClickListener(OnItemClickListener listener) {
+
         mListener = listener;
+
+
+
     }
 
     public MyAdapter(Context context, ArrayList<User> list) {
@@ -69,6 +76,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.Count.setText(user.get_counts());
         holder.Date.setText(user.get_date());
 
+
         holder.itemView.setTag(holder);
 
         String gTarget = user.get_target();
@@ -76,6 +84,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             holder.itemView.setBackgroundColor(Color.GREEN);
 
         }
+  //      Query query =  FirebaseDatabase.getInstance().getReference("MyDigitalCounter")
+           //     .child(user.get_name()).orderByChild("Date")
+           //     .equalTo("15-08-2021");
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,16 +113,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
-                        database.getReference().child("MyDigitalConter").child(list.get(position).get_name()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        database.getReference().child("MyDigitalCounter").child(list.get(position).get_name())
+                                .removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(context, "success to update", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "success to delete", Toast.LENGTH_SHORT).show();
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(context, "success to update", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
                             }
                         })
 
@@ -155,10 +168,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             //itemView.setOnClickListener(this);
            // itemView.setOnLongClickListener(this);
 
+
         }
 
     }
-
-
 
 }

@@ -19,16 +19,10 @@ public class User implements Serializable {
     String _target;
 
 
+    String _email;
+
     // Empty constructor
     public User() {
-
-    }
-
-    public User(String id, String name, String counts, String date) {
-        this._id = id;
-        this._name = name;
-        this._counts = counts;
-        this._date = date;
 
     }
 
@@ -37,7 +31,17 @@ public class User implements Serializable {
         this._name = name;
         this._counts = counts;
         this._date = date;
+        this._target = target;
+    }
+
+
+    public User(String id, String name, String counts, String date, String target, String email) {
+        this._id = id;
+        this._name = name;
+        this._counts = counts;
+        this._date = date;
         this._target=target;
+        this._email=email;
 
     }
 
@@ -83,6 +87,13 @@ public class User implements Serializable {
     }
 
     public void setBackgroundColor(int parseColor) {
+    }
+    public String get_email() {
+        return _email;
+    }
+
+    public void set_email(String _email) {
+        this._email = _email;
     }
 
     // constructor

@@ -20,6 +20,8 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -40,6 +42,7 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_settings);
+
 
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         reference = rootNode.getReference("MyDigitalCounter");
