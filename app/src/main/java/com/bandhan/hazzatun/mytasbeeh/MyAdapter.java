@@ -125,9 +125,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
                             }
-                        })
-
-                        ;
+                        });
 
                     }
                 })

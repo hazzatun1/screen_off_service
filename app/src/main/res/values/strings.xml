@@ -19,7 +19,7 @@
     <string name="setLanguage">Set Language</string>
     <string name="save">save</string>
     <string name="open">open</string>
-    <string name="k">g</string>
+    <string name="reset_app">RESET WHOLE APP</string>
     <string name="l">f</string>
     <string name="m">g</string>
     <string name="n">f</string>
@@ -28,4 +28,10 @@
     <string name="q">g</string>
     <string name="count">COUNT</string>
     <string name="profile">profile</string>
+    <string-array name="change_bk">
+        <item>bk1</item>
+        <item>bk2</item>
+        <item>bk3</item>
+    </string-array>
+
 </resources>

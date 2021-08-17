@@ -1,8 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-
+    android:layout_height="match_parent"
+    android:background="@drawable/bk"
     android:id="@+id/set"
     android:orientation="vertical">
 
@@ -30,18 +29,23 @@ android:text="@string/settings"
         android:textSize="20sp"
         android:gravity="center"
         />
-    <Button
+    <Switch
         android:id="@+id/btn2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="@string/sound"
-        android:onClick="set_sound"
         android:textSize="20sp"
         android:gravity="center"
-
         />
     <Button
+        android:id="@+id/Attack"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/background"
+        android:onClick="set_back" />
+
+    <Spinner
         android:id="@+id/btn3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,14 +53,14 @@ android:text="@string/settings"
         android:text="@string/background"
         android:textSize="20sp"
         android:gravity="center"
-
         />
+
     <Button
         android:id="@+id/btn4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="@string/reset"
+        android:text="@string/reset_app"
         android:onClick="reset_whole_zikr"
         android:textSize="20sp"
         android:gravity="center"
@@ -73,7 +77,7 @@ android:text="@string/settings"
         android:gravity="center"
 
         />
-    <Button
+  <!--  <Button
         android:id="@+id/btn7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,7 +100,7 @@ android:text="@string/settings"
         android:textSize="20sp"
         android:gravity="center"
 
-        />
+        />-->
 
 
 

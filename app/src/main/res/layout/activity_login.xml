@@ -7,7 +7,7 @@
     tools:context=".Login"
     android:orientation="vertical"
     android:id="@+id/container"
-    android:background="#123456"
+    android:background="@drawable/bk"
     android:gravity="center">
 
  <!--   <ImageView

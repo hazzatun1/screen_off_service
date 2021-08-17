@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +25,7 @@ public class userlist extends AppCompatActivity {
     DatabaseReference database;
     MyAdapter myAdapter;
     ArrayList<User> list;
-String email1 ="";
+    String email1 ="", providerId="", name="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +33,26 @@ String email1 ="";
         setContentView(R.layout.activity_userlist);
 
 
-       // FirebaseApp.initializeApp(this);
-      //  FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        // FirebaseApp.initializeApp(this);
+        //  FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         if (getIntent().hasExtra("lang_code")) {
             String lang_code = getIntent().getStringExtra("lang_code");
             Settings.setLocale(this, lang_code);
         }
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            for (UserInfo profile : user.getProviderData()) {
+                 providerId = profile.getProviderId();
+
+                // UID specific to the provider
+                String uid = profile.getUid();
+                // Name, email address, and profile photo Url
+                 name = profile.getDisplayName();
+                 email1 = profile.getEmail();
+                Uri photoUrl = profile.getPhotoUrl();
+            }
 
 
         recyclerView = findViewById(R.id.userList);
@@ -45,27 +61,30 @@ String email1 ="";
 
         list = new ArrayList<>();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            for (UserInfo profile : user.getProviderData()) {
-
-                email1 = profile.getEmail();
-            }
 
 
-            database.addValueEventListener(new ValueEventListener() {
+            database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         User value = dataSnapshot.getValue(User.class);
+                        assert value != null;
                         String mail = value.get_email();
-                        if (mail.equals(email1)) {
+                       if (snapshot.exists() && mail.equals(email1)) {
+                            // Exist! Do whatever.
+                           list.add(value);
+                           Toast.makeText(userlist.this, "only you!!!", Toast.LENGTH_SHORT).show();
 
-                            list.add(value);
-                            Toast.makeText(userlist.this, "only you!!!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Don't exist! Do something.
+                           Toast.makeText(userlist.this, "nothing to show", Toast.LENGTH_SHORT).show();
+
                         }
-                        Toast.makeText(userlist.this, "success to show", Toast.LENGTH_SHORT).show();
+
+                     //   Toast.makeText(userlist.this, "success to show", Toast.LENGTH_SHORT).show();
+
                     }
                     myAdapter = new MyAdapter(userlist.this, list);
                     recyclerView.setAdapter(myAdapter);

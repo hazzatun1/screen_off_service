@@ -1,57 +1,69 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
+//settings_bk.setBackgroundResource(R.drawable.bk);
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Color;
+import android.media.AudioManager;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.provider.AlarmClock;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Spinner;
+import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+import java.util.ArrayList;
 import java.util.Locale;
 
-public class Settings extends AppCompatActivity {
-    String alarm = "";
-    Button set_lang;
 
-    Button upload, alarms;
-    Button download;
-    String CID="", cname="", upDate="";
-    Integer mcounter=0, mytargets=0;
+public class Settings extends AppCompatActivity {
+    Switch sound;
+    Button set_lang, set_back;
+    String CID = "", cname = "", upDate = "";
+    Integer mcounter = 0, mytargets = 0;
     DatabaseReference reference;
+    View settings_bk; //bk=background
+    Spinner spinner_1;
+    /// Integer[] image = { 0, 1, 2};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_settings);
-
 
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         reference = rootNode.getReference("MyDigitalCounter");
-        set_lang=findViewById(R.id.btn5);
-        //  ActionBar actionBar= getSupportActionBar();
-        //  actionBar.setTitle(getResources().getString(R.string.app_name));
-        Button alarms=findViewById(R.id.btn1);
+        settings_bk = findViewById(R.id.set);
+        set_lang = findViewById(R.id.btn5);
+        sound = findViewById(R.id.btn2);
+        spinner_1 = findViewById(R.id.btn3);
 
-        download= findViewById(R.id.btn7);
+        sound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    AudioManager amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                    amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true);
+
+                } else {
+                    // The toggle is disabled
+                    AudioManager amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                    amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false);
+                }
+            }
+        });
 
         if (getIntent().hasExtra("cID") && getIntent().hasExtra("cName")
                 && getIntent().hasExtra("counts") && getIntent().hasExtra("tcounts")
@@ -59,35 +71,21 @@ public class Settings extends AppCompatActivity {
 
             CID = getIntent().getStringExtra("cID");
             cname = getIntent().getStringExtra("cName");
-
             mcounter = Integer.parseInt(getIntent().getStringExtra("counts"));
-
             mytargets = Integer.parseInt(getIntent().getStringExtra("tcounts"));
-
-            upDate= getIntent().getStringExtra("up_date");
-
+            upDate = getIntent().getStringExtra("up_date");
         }
-
-
-
-
-
     }
-    public void setAlarm(View view) {
-        //   Intent i = new Intent(getApplicationContext(), userlist.class);
-        ///  i.putExtra("setAlarm", alarm);
 
-        // startActivity(i);
+    public void setAlarm(View view) {
         SetAlarm();
     }
 
     public void SetAlarm() {
-         Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
-        //  i.putExtra(AlarmClock.EXTRA_DAYS, 7);
-        // i.putExtra(AlarmClock.EXTRA_HOUR, 00);
-         i.putExtra(AlarmClock.EXTRA_MESSAGE, "This alarm for "+ cname);
-          i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-          startActivity(i);
+        Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
+        i.putExtra(AlarmClock.EXTRA_MESSAGE, "This alarm for " + cname);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
     }
 
     public void setLang(View view) {
@@ -99,7 +97,7 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (i == 0) {
-                  //  setLocale("en");
+                    //  setLocale("en");
                     Locale locale = new Locale("en", "US");
                     Resources res = getResources();
                     DisplayMetrics dm = res.getDisplayMetrics();
@@ -108,12 +106,11 @@ public class Settings extends AppCompatActivity {
                     res.updateConfiguration(conf, dm);
                     Intent in = new Intent(getApplicationContext(), MainActivity.class);
                     Intent in2 = new Intent(getApplicationContext(), userlist.class);
-                    in.putExtra("lang_code","en");
-                    in2.putExtra("lang_code","en");
+                    in.putExtra("lang_code", "en");
+                    in2.putExtra("lang_code", "en");
                     startActivity(in);
                     recreate();
-                }
-                else if (i == 1) {
+                } else if (i == 1) {
                     Locale locale = new Locale("bn", "bd");
                     Resources res = getResources();
                     DisplayMetrics dm = res.getDisplayMetrics();
@@ -122,8 +119,8 @@ public class Settings extends AppCompatActivity {
                     res.updateConfiguration(conf, dm);
                     Intent in = new Intent(getApplicationContext(), MainActivity.class);
                     Intent in2 = new Intent(getApplicationContext(), userlist.class);
-                    in.putExtra("lang_code","bn");
-                    in2.putExtra("lang_code","bn");
+                    in.putExtra("lang_code", "bn");
+                    in2.putExtra("lang_code", "bn");
                     startActivity(in);
                     recreate();
                 }
@@ -138,15 +135,11 @@ public class Settings extends AppCompatActivity {
     }
 
 
-    public void set_sound(View view, Context context) {
-
-    }
+    //public void uploadOnNet(View view) {
 
 
-    public void uploadOnNet(View view) {
+    // }
 
-
-    }
     public static void setLocale(Activity activity, String languageCode) {
         Locale locale = new Locale(languageCode);
         Locale.setDefault(locale);
@@ -157,5 +150,51 @@ public class Settings extends AppCompatActivity {
 
     }
 
+    // public void reset_whole_zikr(View view) {
+    // }
 
-}
+
+        public void set_back (View view){
+
+            SharedPreferences pref = PreferenceManager
+                    .getDefaultSharedPreferences(this);
+            String themeName = pref.getString("prefSyncFrequency3", "Theme1");
+
+
+            if(view.getId()==R.id.Attack)
+            {
+                ArrayList<String> arrayList1 = new ArrayList<String>();
+
+                arrayList1.add("bk");
+                arrayList1.add("pic_1");
+                arrayList1.add("pic_2");
+                ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrayList1);
+                spinner_1.setAdapter(adp);
+                spinner_1.setVisibility(View.VISIBLE);
+                //Set listener Called when the item is selected in spinner
+                spinner_1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent, View view,
+                                               int position, long arg3) {
+                        if (position == 0)
+                           // settings_bk.setBackgroundResource(R.drawable.bk);
+                        setTheme(R.style.AppTheme);
+                        else if (position == 1)
+                            setTheme(R.style.bk1);
+                        else if (position == 2)
+                            setTheme(R.style.bk2);
+
+                        Settings.this.recreate();
+                    }
+
+                    public void onNothingSelected(AdapterView<?> arg0) {
+
+                    }
+                });
+    }
+    }
+
+
+    }
+
+
+

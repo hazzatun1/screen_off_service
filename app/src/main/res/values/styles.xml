@@ -7,5 +7,44 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="bk1">
+        <!-- Customize your theme here. -->
+        <item name="android:background">@drawable/pic_1</item>
+    </style>
+    <style name="bk2">
+        <!-- Customize your theme here. -->
+        <item name="android:background">@drawable/pic_2</item>
+    </style>
+
+    <style name="original">
+        <item name="android:background">#25383C</item>
+    </style>
+    <style name="grey">
+        <item name="android:background">#484849</item>
+    </style>
+    <style name="red">
+        <item name="android:background">#881A27</item>
+    </style>
+    <style name="orange">
+        <item name="android:background">#ffa500</item>
+    </style>
+    <style name="yellow">
+        <item name="android:background">#CDE707</item>
+    </style>
+    <style name="green">
+        <item name="android:background">#00ff00</item>
+    </style>
+    <style name="aqua">
+        <item name="android:background">#00FFCC</item>
+    </style>
+    <style name="marine">
+        <item name="android:background">#0C0C84</item>
+    </style>
+    <style name="purple">
+        <item name="android:background">#630A86</item>
+    </style>
+    <style name="silver">
+        <item name="android:background">#c0c0c0</item>
+    </style>
 
 </resources>
