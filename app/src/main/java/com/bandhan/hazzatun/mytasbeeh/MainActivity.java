@@ -15,6 +15,8 @@ import android.media.ToneGenerator;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
@@ -28,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -78,8 +81,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // FirebaseApp.initializeApp(this);
-        // FirebaseDatabase.getInstance().setPersistenceEnabled(true);
    user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             for (UserInfo profile : user.getProviderData()) {
@@ -92,13 +93,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
-
-
-        if (getIntent().hasExtra("lang_code")) {
-            String lang_code = getIntent().getStringExtra("lang_code");
-            Settings.setLocale(this, lang_code);
-        }
+        SharedPreferences prefers = getSharedPreferences("set_lang", MODE_PRIVATE);
+        prefers.getString("lang", null);
 
 
         prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
@@ -139,10 +135,11 @@ public class MainActivity extends AppCompatActivity {
             et.setText(String.valueOf(mcounter));
             mytargets = Integer.parseInt(getIntent().getStringExtra("tcounts"));
             targett.setText("Target: " + mytargets);
+            email1=getIntent().getStringExtra("email");
         }
 
         open = findViewById(R.id.open);
-        // viewConst user = new viewConst(CID, cname, counting,formattedDate, target);
+        // viewConst user = new viewConst(CID, cname, counting, formattedDate, target);
 
         open.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,9 +175,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.item1:
-                Intent intent = new Intent(getBaseContext(), Login.class);
-                startActivity(intent);
-                finish();
+                resets();
+                FirebaseAuth.getInstance().signOut();
+                this.finish();
             case R.id.item2:
                 resets();
                 return true;
@@ -419,11 +416,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
                 mytargets = Integer.parseInt(editText3.getText().toString());
-                targett.setText("Target: " + editText3.getText().toString());
+                targett.setText("Target: " + String.valueOf(mytargets));
                 mcounter = 0;
                 txv.setText(String.valueOf(mcounter));//will work by save button
-
-
             }
         })
                 .setNegativeButton(R.string.remove, new DialogInterface.OnClickListener() {
@@ -447,15 +442,13 @@ public class MainActivity extends AppCompatActivity {
                                             if (mytargets != 0) {
                                                 String count = "0";
                                                 String mytarget = "0";
-                                                User helperClass = new User(CID, cname, count, formattedDate, mytarget);
+                                                User helperClass = new User(CID, cname, count, formattedDate, mytarget, email1);
 
                                                 reference.child(cname).setValue(helperClass);
                                                 mytargets = 0;
                                                 mcounter = 0;
                                                 targett.setText("Target: " + String.valueOf(mytargets));
                                                 txv.setText(String.valueOf(mcounter));
-
-
                                                 Toast.makeText(MainActivity.this, "success to update", Toast.LENGTH_SHORT).show();
 
                                             }

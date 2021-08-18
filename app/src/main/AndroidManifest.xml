@@ -21,7 +21,7 @@
 
     <application
         android:allowBackup="true"
-        android:configChanges="locale|orientation"
+        android:configChanges="locale|orientation|keyboard"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -30,9 +30,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:node="merge"
+        android:windowSoftInputMode="adjustNothing"
         tools:replace="android:label"
-        android:foregroundServiceType="microphone"
+        android:name=".offline_firebase"
         >
+
 
         <activity
             android:name=".login_profile"

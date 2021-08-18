@@ -1,8 +1,8 @@
-package com.bandhan.hazzatun.mytasbeeh;
+    package com.bandhan.hazzatun.mytasbeeh;
 
+import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,28 +11,28 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
-public class Login extends AppCompatActivity {
+    public class Login extends AppCompatActivity {
     EditText mEmail, mPassword;
     Button mLoginBtn;
     TextView forgotTextLink;
     FirebaseAuth fAuth;
-
+    String email, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         mEmail = findViewById(R.id.email_login);
         mPassword = findViewById(R.id.pass_login);
@@ -46,8 +46,8 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String email = mEmail.getText().toString().trim();
-                String password = mPassword.getText().toString().trim();
+                 email = mEmail.getText().toString().trim();
+                 password = mPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
                     mEmail.setError("Email is Required.");
@@ -60,7 +60,7 @@ public class Login extends AppCompatActivity {
                 }
 
                 if (password.length() < 6) {
-                    mPassword.setError("Password Must be >= 6 Characters");
+                   mPassword.setError("Password Must be >= 6 Characters");
                     return;
                 }
                 // authenticate the user
@@ -70,6 +70,7 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             Toast.makeText(Login.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -90,7 +91,6 @@ public class Login extends AppCompatActivity {
                 passwordResetDialog.setTitle("Reset Password ?");
                 passwordResetDialog.setMessage("Enter Your Email To Received Reset Link.");
                 passwordResetDialog.setView(resetMail);
-
                 passwordResetDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -57,6 +57,7 @@ public class Settings extends AppCompatActivity {
                     AudioManager amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                     amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true);
 
+
                 } else {
                     // The toggle is disabled
                     AudioManager amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -104,11 +105,9 @@ public class Settings extends AppCompatActivity {
                     Configuration conf = res.getConfiguration();
                     conf.locale = locale;
                     res.updateConfiguration(conf, dm);
-                    Intent in = new Intent(getApplicationContext(), MainActivity.class);
-                    Intent in2 = new Intent(getApplicationContext(), userlist.class);
-                    in.putExtra("lang_code", "en");
-                    in2.putExtra("lang_code", "en");
-                    startActivity(in);
+                    SharedPreferences.Editor editor = getSharedPreferences("set_lang", MODE_PRIVATE).edit();
+                    editor.putString("lang", "en");
+                    editor.apply();
                     recreate();
                 } else if (i == 1) {
                     Locale locale = new Locale("bn", "bd");
@@ -117,11 +116,9 @@ public class Settings extends AppCompatActivity {
                     Configuration conf = res.getConfiguration();
                     conf.locale = locale;
                     res.updateConfiguration(conf, dm);
-                    Intent in = new Intent(getApplicationContext(), MainActivity.class);
-                    Intent in2 = new Intent(getApplicationContext(), userlist.class);
-                    in.putExtra("lang_code", "bn");
-                    in2.putExtra("lang_code", "bn");
-                    startActivity(in);
+                    SharedPreferences.Editor editor = getSharedPreferences("set_lang", MODE_PRIVATE).edit();
+                    editor.putString("lang", "bn");
+                    editor.apply();
                     recreate();
                 }
                 dialogInterface.dismiss();

@@ -2,11 +2,12 @@
     <string name="app_name">MyDigitalCounter</string>
     <string name="serial">No:</string>
     <string name="CountName">Name</string>
-    <string name="Count">counts</string>
+    <string name="count">COUNT</string>
+
     <string name="resume_count">resume</string>
     <string name="default_title">Default</string>
     <string name="settings">Settings</string>
-    <string name="target">Target: </string>
+    <string name="target_string">Target: </string>
     <string name="Light">Light</string>
     <string name="edit">EDIT</string>
     <string name="alarm">Set Alarm</string>
@@ -19,19 +20,14 @@
     <string name="setLanguage">Set Language</string>
     <string name="save">save</string>
     <string name="open">open</string>
-    <string name="reset_app">RESET WHOLE APP</string>
-    <string name="l">f</string>
+    <!-- <string name="reset_app">RESET WHOLE APP</string>-->
+    <string name="logout">LogOut</string>
     <string name="m">g</string>
     <string name="n">f</string>
     <string name="o">g</string>
     <string name="p">f</string>
     <string name="q">g</string>
-    <string name="count">COUNT</string>
     <string name="profile">profile</string>
-    <string-array name="change_bk">
-        <item>bk1</item>
-        <item>bk2</item>
-        <item>bk3</item>
-    </string-array>
+
 
 </resources>

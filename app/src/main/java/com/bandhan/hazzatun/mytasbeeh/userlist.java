@@ -9,6 +9,8 @@ import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -32,9 +34,6 @@ public class userlist extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlist);
 
-
-        // FirebaseApp.initializeApp(this);
-        //  FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         if (getIntent().hasExtra("lang_code")) {
             String lang_code = getIntent().getStringExtra("lang_code");
@@ -82,6 +81,7 @@ public class userlist extends AppCompatActivity {
                            Toast.makeText(userlist.this, "nothing to show", Toast.LENGTH_SHORT).show();
 
                         }
+
 
                      //   Toast.makeText(userlist.this, "success to show", Toast.LENGTH_SHORT).show();
 

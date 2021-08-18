@@ -82,7 +82,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             holder.itemView.setBackgroundColor(Color.GREEN);
 
         }
-  //      Query query =  FirebaseDatabase.getInstance().getReference("MyDigitalCounter")
+
+  //Query query =  FirebaseDatabase.getInstance().getReference("MyDigitalCounter")
            //     .child(user.get_name()).orderByChild("Date")
            //     .equalTo("15-08-2021");
 
@@ -96,6 +97,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 intent.putExtra("counts", list.get(position).get_counts());
                 intent.putExtra("date", list.get(position).get_date());
                 intent.putExtra("tcounts", list.get(position).get_target());
+                intent.putExtra("email", list.get(position).get_email());
                 context.startActivity(intent);
 
             }
@@ -154,5 +156,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
 
     }
+
+
 
 }
