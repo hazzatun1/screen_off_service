@@ -89,7 +89,6 @@ public class userlist extends AppCompatActivity {
                     myAdapter = new MyAdapter(userlist.this, list);
                     recyclerView.setAdapter(myAdapter);
                     myAdapter.notifyDataSetChanged();
-
                 }
 
                 @Override

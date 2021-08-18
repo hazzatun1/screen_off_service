@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,14 +72,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         User user = list.get(position);
 
-        holder.Id.setText(user.get_id());
+        //holder.Id.setText(user.get_id());
         holder.Name.setText(user.get_name());
         holder.Count.setText(user.get_counts());
         holder.Date.setText(user.get_date());
-
-
         holder.itemView.setTag(holder);
-
         String gTarget = user.get_target();
         if(!gTarget.equals("0")) {
             holder.itemView.setBackgroundColor(Color.GREEN);
@@ -112,21 +110,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-
-                        database.getReference().child("MyDigitalCounter").child(list.get(position).get_name())
-                                .removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(context, "success to delete", Toast.LENGTH_SHORT).show();
-
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
+                        removeItem(position);
                     }
                 })
 
@@ -144,6 +128,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
 
+    }
+    public void removeItem(int position) {
+        list.remove(position);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -163,10 +151,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             Count = itemView.findViewById(R.id.count);
             Date = itemView.findViewById(R.id.date);
             itemView.setClickable(true);
-            //itemView.setOnClickListener(this);
-           // itemView.setOnLongClickListener(this);
-
-
         }
 
     }
