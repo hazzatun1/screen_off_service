@@ -20,7 +20,6 @@ android:text="@string/settings"
 
 
     <Button
-        android:id="@+id/btn1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -100,7 +99,14 @@ android:text="@string/settings"
         android:gravity="center"
 
         />-->
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/go_back"
+        android:onClick="go_main"
+        android:textSize="20sp"
+        android:gravity="center"/>
 
 
 </LinearLayout>

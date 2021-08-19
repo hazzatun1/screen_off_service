@@ -15,7 +15,6 @@
 
 
         <Button
-            android:id="@+id/settings"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:background="@drawable/setting_menu_ic"
@@ -25,7 +24,6 @@
             tools:ignore="RtlHardcoded" />
 
         <TextView
-            android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -132,7 +130,6 @@
 
 
         <Button
-            android:id="@+id/edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="edits"

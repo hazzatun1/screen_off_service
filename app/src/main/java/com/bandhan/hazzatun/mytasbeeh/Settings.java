@@ -36,7 +36,6 @@ public class Settings extends AppCompatActivity {
     DatabaseReference reference;
     View settings_bk; //bk=background
     Spinner spinner_1;
-    /// Integer[] image = { 0, 1, 2};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,21 +138,11 @@ public class Settings extends AppCompatActivity {
                     recreate();
                 }
                 dialogInterface.dismiss();
-
             }
-
         });
         AlertDialog mDialog = mbuilder.create();
         mDialog.show();
-
     }
-
-
-    //public void uploadOnNet(View view) {
-
-
-    // }
-
     public static void setLocale(Activity activity, String languageCode) {
         Locale locale = new Locale(languageCode);
         Locale.setDefault(locale);
@@ -163,10 +152,6 @@ public class Settings extends AppCompatActivity {
         resources.updateConfiguration(config, resources.getDisplayMetrics());
 
     }
-
-    // public void reset_whole_zikr(View view) {
-    // }
-
 
         public void set_back (View view){
 
@@ -205,7 +190,12 @@ public class Settings extends AppCompatActivity {
     }
 
 
+    public void go_main(View view) {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        this.finish();
     }
+}
 
 
 
