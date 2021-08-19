@@ -42,6 +42,10 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        SharedPreferences sharedPrefs = getSharedPreferences("sound_on", MODE_PRIVATE);
+        if (getIntent().hasExtra("sound")){
+        sound.setChecked(sharedPrefs.getBoolean("sound", sound.isChecked()));
+        }
 
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         reference = rootNode.getReference("MyDigitalCounter");
@@ -50,21 +54,34 @@ public class Settings extends AppCompatActivity {
         sound = findViewById(R.id.btn2);
         spinner_1 = findViewById(R.id.btn3);
 
+
         sound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
                     AudioManager amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                     amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true);
-
+                    amanager.setStreamMute(AudioManager.STREAM_ALARM, true);
+                    amanager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+                    amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
+                    SharedPreferences.Editor editor = getSharedPreferences("sound_on", MODE_PRIVATE).edit();
+                    editor.putBoolean("sound", true);
+                    editor.commit();
 
                 } else {
-                    // The toggle is disabled
                     AudioManager amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                     amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false);
+                    //unmute audio
+                    amanager.setStreamMute(AudioManager.STREAM_ALARM, false);
+                    amanager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+                    amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+                    SharedPreferences.Editor editor = getSharedPreferences("sound_on", MODE_PRIVATE).edit();
+                    editor.putBoolean("sound", false);
+                    editor.commit();
                 }
             }
         });
+
 
         if (getIntent().hasExtra("cID") && getIntent().hasExtra("cName")
                 && getIntent().hasExtra("counts") && getIntent().hasExtra("tcounts")
@@ -155,9 +172,6 @@ public class Settings extends AppCompatActivity {
 
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(this);
-            String themeName = pref.getString("prefSyncFrequency3", "Theme1");
-
-
             if(view.getId()==R.id.Attack)
             {
                 ArrayList<String> arrayList1 = new ArrayList<String>();

@@ -46,5 +46,11 @@
     <style name="silver">
         <item name="android:background">#c0c0c0</item>
     </style>
+    <style name="sound_on">
+        <item name="android:soundEffectsEnabled">false</item>
+    </style>
+    <style name="sound_off">
+        <item name="android:soundEffectsEnabled">true</item>
+    </style>
 
 </resources>

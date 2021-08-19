@@ -20,6 +20,8 @@ public class offline_firebase extends Application {
         public void onCreate() {
             super.onCreate();
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+          //  DatabaseReference workoutsRef = FirebaseDatabase.getInstance().getReference("MyDigitalCounter");
+          //  workoutsRef.keepSynced(true);
         }
     }
 

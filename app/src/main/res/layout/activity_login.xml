@@ -31,7 +31,7 @@
             android:paddingLeft="2dp"
             android:background="#ffffff"
             android:hint="Email"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress|textNoSuggestions"/>
 
         <EditText
             android:id="@+id/pass_login"

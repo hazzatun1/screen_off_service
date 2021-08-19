@@ -16,6 +16,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -90,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
                 email1 = profile.getEmail();
                 // Uri photoUrl = profile.getPhotoUrl();
                 userId= user.getUid();
-            }
-        }
+
+            }}
 
         SharedPreferences prefers = getSharedPreferences("set_lang", MODE_PRIVATE);
         prefers.getString("lang", null);
@@ -176,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.item1:
                 resets();
+
                 FirebaseAuth.getInstance().signOut();
                 this.finish();
             case R.id.item2:
