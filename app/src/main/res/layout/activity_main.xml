@@ -95,7 +95,7 @@
         android:textSize="90sp"
         android:visibility="gone"
         android:importantForAutofill="no"
-        android:inputType=""
+        android:inputType="numberDecimal"
         tools:ignore="HardcodedText,LabelFor" />
 
     <TextView

@@ -55,9 +55,6 @@ public class Register extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
 
 
-
-
-
         loginto.setOnClickListener(new View.OnClickListener() {
      @Override
      public void onClick(View v) {

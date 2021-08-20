@@ -33,6 +33,7 @@
         android:windowSoftInputMode="adjustNothing"
         tools:replace="android:label"
         android:name=".offline_firebase"
+
         >
 
 
@@ -77,6 +78,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <service android:name = ".fore_service"
             android:foregroundServiceType="location|camera|microphone"

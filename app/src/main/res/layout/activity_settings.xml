@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bk"
@@ -36,7 +37,7 @@ android:text="@string/settings"
         android:text="@string/sound"
         android:textSize="20sp"
         android:gravity="center"
-        />
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
     <Button
         android:id="@+id/Attack"
         android:layout_width="fill_parent"
@@ -75,30 +76,7 @@ android:text="@string/settings"
         android:gravity="center"
 
         />
-  <!--  <Button
-        android:id="@+id/btn7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="upload your zikrs"
-        android:onClick="uploadOnNet"
-        android:textSize="20sp"
-        android:gravity="center"
 
-        />
-
-
-    <Button
-        android:id="@+id/btn8"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="Download your zikrs"
-        android:onClick="download_from_net"
-        android:textSize="20sp"
-        android:gravity="center"
-
-        />-->
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

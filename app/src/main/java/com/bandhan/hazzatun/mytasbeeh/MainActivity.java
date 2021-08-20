@@ -70,34 +70,47 @@ public class MainActivity extends AppCompatActivity {
     String email1="", providerId="", name="", userId="";
     FirebaseUser user;
     private MusicIntentReceiver myReceiver;
-Intent intent;
+    Intent intent;
+    SharedPreferences prefs1, set_locale, set_sound;
+Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-   user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            for (UserInfo profile : user.getProviderData()) {
-                providerId = profile.getProviderId();
-                 name = profile.getDisplayName();
-               String uid = profile.getUid();
-                email1 = profile.getEmail();
-                // Uri photoUrl = profile.getPhotoUrl();
-                userId= user.getUid();
+        set_locale = getSharedPreferences("set_lang", Context.MODE_PRIVATE);
+        String hello = set_locale.getString("lang", "");
+        if (hello != null && !hello.equals("")){
+            if(hello.equals("bn")){
+                LocaleHelper.setLocale( MainActivity.this, set_locale.getString("lang", "bn"));
+            }
+            else{
+                LocaleHelper.setLocale( MainActivity.this, set_locale.getString("lang", "en"));
 
             }}
 
-        SharedPreferences prefers = getSharedPreferences("set_lang", MODE_PRIVATE);
-        prefers.getString("lang", null);
-        intent = new Intent(this, fore_service.class);
-        prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
-        String strPref = prefs.getString("count", null);
-        String strPref2 = prefs.getString("cname", null);
-        String strPref3 = prefs.getString("tget", null);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            for (UserInfo profile : user.getProviderData()) {
+                providerId = profile.getProviderId();
+                name = profile.getDisplayName();
+                String uid = profile.getUid();
+                email1 = profile.getEmail();
+                // Uri photoUrl = profile.getPhotoUrl();
+                userId = user.getUid();
+            }
+        }
+
+
+
+        prefs1 = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
+        String strPref = prefs1.getString("count", null);
+        String strPref2 = prefs1.getString("cname", null);
+        String strPref3 = prefs1.getString("tget", null);
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         reference = rootNode.getReference("MyDigitalCounter");
-
 
         et = findViewById(R.id.uput);
         cnt = findViewById(R.id.count);
@@ -109,9 +122,9 @@ Intent intent;
         lt = findViewById(R.id.light);
 
         if (strPref != null && strPref2 != null && strPref3 != null) {
-            txv.setText(prefs.getString("count", "0"));
-            name_input.setText(prefs.getString("cname", "Default"));
-            targett.setText(prefs.getString("tget", "0"));
+            txv.setText(prefs1.getString("count", "0"));
+            name_input.setText(prefs1.getString("cname", "Default"));
+            targett.setText(prefs1.getString("tget", "0"));
             value = txv.getText().toString();
             int mr = Integer.parseInt(value);
             txv.setText(String.valueOf(mcounter = mr));
@@ -132,7 +145,6 @@ Intent intent;
         }
 
         open = findViewById(R.id.open);
-        // viewConst user = new viewConst(CID, cname, counting, formattedDate, target);
 
         open.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,8 +153,6 @@ Intent intent;
                 Intent i = new Intent(MainActivity.this, userlist.class);
                 startActivity(i);
                 //finish();
-
-
             }
         });
 
@@ -169,16 +179,15 @@ Intent intent;
 
             case R.id.item1:
                 resets();
-
                 FirebaseAuth.getInstance().signOut();
                 this.finish();
             case R.id.item2:
                 resets();
                 return true;
             case R.id.item3:
+                this.finish();
                 Intent i = new Intent(getApplicationContext(), Settings.class);
                 startActivity(i);
-                this.finish();
                 return true;
 
             case R.id.item4:
@@ -315,18 +324,17 @@ Intent intent;
         value = txv.getText().toString();
         cname = name_input.getText().toString();
         String tgt = targett.getText().toString();
-        prefs.edit().putString("count", value).apply();
-        prefs.edit().putString("cname", cname).apply();
-        prefs.edit().putString("tget", tgt).apply();
-
+        prefs1.edit().putString("count", value).apply();
+        prefs1.edit().putString("cname", cname).apply();
+        prefs1.edit().putString("tget", tgt).apply();
     }
 
 
     @Override
     public void onResume() {
+        super.onResume();
         IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
         registerReceiver(myReceiver, filter);
-        super.onResume();
     }
 
 
@@ -340,7 +348,6 @@ Intent intent;
                         cnt.setClickable(true);
                         targett.setClickable(true);
                         lt.setClickable(true);
-                        stopService(intent);
                         Log.d(TAG, "Headset is unplugged");
                         break;
                     case 1:
@@ -354,7 +361,6 @@ Intent intent;
     }
 
 
-    @SuppressLint("InvalidWakeLockTag")
     @Override  //headphone count
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
