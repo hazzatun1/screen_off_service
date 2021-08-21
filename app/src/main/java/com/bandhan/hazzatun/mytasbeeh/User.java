@@ -9,7 +9,7 @@ public class User implements Serializable {
     String _id;
 
 
-    String _name;
+     String _name;
 
 
     String _counts;

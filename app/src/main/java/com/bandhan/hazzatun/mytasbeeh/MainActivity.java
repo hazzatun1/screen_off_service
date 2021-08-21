@@ -254,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
                 reference.child(userId).child(cname).setValue(helperClass);
 
                 Intent i = new Intent(getApplicationContext(), userlist.class);
+                i.putExtra("name", "cname");
                 i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
 
@@ -470,7 +471,7 @@ public class MainActivity extends AppCompatActivity {
                                                     String mytarget = "0";
                                                     User helperClass = new User(CID, cname, String.valueOf(mcounter), formattedDate, mytarget, email1);
 
-                                                    reference.child(cname).setValue(helperClass);
+                                                    reference.child(userId).child(cname).setValue(helperClass);
                                                     mytargets = 0;
                                                     targett.setText("Target: "+mytarget);
                                                     Toast.makeText(MainActivity.this, "success to update", Toast.LENGTH_SHORT).show();

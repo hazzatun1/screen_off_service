@@ -28,13 +28,15 @@ public class userlist extends AppCompatActivity {
     DatabaseReference database;
     MyAdapter myAdapter;
     ArrayList<User> list;
-    String email1 ="", providerId="", name="";
+    String email1 ="", providerId="", cname="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlist);
-
+        if (getIntent().hasExtra("name")){
+this.cname=getIntent().getStringExtra("name");
+        }
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -44,7 +46,7 @@ public class userlist extends AppCompatActivity {
                 // UID specific to the provider
                 String uid = profile.getUid();
                 // Name, email address, and profile photo Url
-                 name = profile.getDisplayName();
+                String acc_name = profile.getDisplayName();
                  email1 = profile.getEmail();
                 Uri photoUrl = profile.getPhotoUrl();
             }
@@ -58,7 +60,7 @@ public class userlist extends AppCompatActivity {
 
 
 
-            database.child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            database.child(user.getUid()).child(cname).addValueEventListener(new ValueEventListener() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
