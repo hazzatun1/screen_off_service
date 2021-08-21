@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     Intent intent;
     SharedPreferences prefs1, set_locale, set_back;
     Context context;
-LinearLayout layout;
+    LinearLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -206,9 +206,12 @@ LinearLayout layout;
         switch (item.getItemId()) {
 
             case R.id.item1:
+
                 resets();
                 FirebaseAuth.getInstance().signOut();
-                this.finish();
+                Intent inte = new Intent(getApplicationContext(), Login.class);
+                startActivity(inte);
+                return true;
             case R.id.item2:
                 resets();
                 return true;
@@ -247,9 +250,8 @@ LinearLayout layout;
                 boolean b = toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
                 ArrayList<User> list;
                 String count = "0";
-
-                User helperClass = new User(CID, cname, count, formattedDate, String.valueOf(mytargets));
-                reference.child(cname).setValue(helperClass);
+                User helperClass = new User(CID, cname, count, formattedDate, String.valueOf(mytargets), email1);
+                reference.child(userId).child(cname).setValue(helperClass);
 
                 Intent i = new Intent(getApplicationContext(), userlist.class);
                 i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -417,17 +419,17 @@ LinearLayout layout;
                     ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 500);
                     boolean b = toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
                     String count = "0";
-                    User helperClass = new User(CID, cname, count, formattedDate, String.valueOf(mytargets));
-                    reference.child(cname).setValue(helperClass);
+                    User helperClass = new User(CID, cname, count, formattedDate, String.valueOf(mytargets), email1);
+                    reference.child(userId).child(cname).setValue(helperClass);
                     Intent i = new Intent(getApplicationContext(), userlist.class);
                     i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
 
                 }
             }
-            stopService(intent);
-            return true;
+
         }
+        stopService(intent);
         return super.onKeyDown(keyCode, event);
     }
 
@@ -451,7 +453,7 @@ LinearLayout layout;
                     .setNegativeButton(R.string.remove, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
-                            reference.child(cname)
+                            reference.child(userId).child(cname)
                                     .equalTo(name_input.getText().toString())
                                     .addValueEventListener(new ValueEventListener() {
                                         @Override
@@ -464,18 +466,13 @@ LinearLayout layout;
                                             }
                                             //  reference.child(String.valueOf(maxId+1)).setvalue();
                                             else {
-
-
                                                 if (mytargets != 0) {
-                                                    String count = "0";
                                                     String mytarget = "0";
-                                                    User helperClass = new User(CID, cname, count, formattedDate, mytarget, email1);
+                                                    User helperClass = new User(CID, cname, String.valueOf(mcounter), formattedDate, mytarget, email1);
 
                                                     reference.child(cname).setValue(helperClass);
                                                     mytargets = 0;
-                                                    mcounter = 0;
-                                                    targett.setText("Target: " + String.valueOf(mytargets));
-                                                    txv.setText(String.valueOf(mcounter));
+                                                    targett.setText("Target: "+mytarget);
                                                     Toast.makeText(MainActivity.this, "success to update", Toast.LENGTH_SHORT).show();
 
                                                 }

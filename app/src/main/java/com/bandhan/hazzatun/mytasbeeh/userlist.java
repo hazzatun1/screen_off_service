@@ -73,7 +73,7 @@ public class userlist extends AppCompatActivity {
                            Toast.makeText(userlist.this, "only you!!!", Toast.LENGTH_SHORT).show();
 
                         } else {
-                            // Don't exist! Do something.
+                            // Don't exist!
                            Toast.makeText(userlist.this, "nothing to show", Toast.LENGTH_SHORT).show();
 
                         }
