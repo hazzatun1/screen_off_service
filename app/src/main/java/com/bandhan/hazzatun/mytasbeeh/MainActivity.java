@@ -71,12 +71,12 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     private MusicIntentReceiver myReceiver;
     Intent intent;
-    SharedPreferences prefs1, set_locale, set_sound;
-Context context;
-
+    SharedPreferences prefs1, set_locale, set_back;
+    Context context;
+LinearLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        super.onCreate(savedInstanceState);
         set_locale = getSharedPreferences("set_lang", Context.MODE_PRIVATE);
         String hello = set_locale.getString("lang", "");
         if (hello != null && !hello.equals("")){
@@ -87,9 +87,8 @@ Context context;
                 LocaleHelper.setLocale( MainActivity.this, set_locale.getString("lang", "en"));
 
             }}
-
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -98,12 +97,41 @@ Context context;
                 name = profile.getDisplayName();
                 String uid = profile.getUid();
                 email1 = profile.getEmail();
-                // Uri photoUrl = profile.getPhotoUrl();
                 userId = user.getUid();
             }
         }
+        layout=(LinearLayout)findViewById(R.id.main_back);
+        set_back=getSharedPreferences("set_back", Context.MODE_PRIVATE);
+        String back = set_back.getString("pic_name", "");
+        if (back != null && !back.equals("")){
+
+            switch(back) {
+                case "bk":
+                    layout.setBackgroundResource(R.drawable.bk);
+                    break;
+                case "pic_1":
+                    layout.setBackgroundResource(R.drawable.pic_1);
+                    break;
+                case "pic_2":
+                    layout.setBackgroundResource(R.drawable.pic_2);
+                    break;
+                default:
+                    break;
+            }
+
+        }
 
 
+        set_locale = getSharedPreferences("set_back", Context.MODE_PRIVATE);
+        String bak = set_locale.getString("pic_name", "");
+        if (bak != null && !bak.equals("")){
+            if(bak.equals("bn")){
+                LocaleHelper.setLocale( MainActivity.this, set_locale.getString("lang", "bn"));
+
+            }
+            else{
+                LocaleHelper.setLocale( MainActivity.this, set_locale.getString("lang", "en"));
+            }}
 
         prefs1 = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
         String strPref = prefs1.getString("count", null);
@@ -305,13 +333,13 @@ Context context;
             et.setTextColor(getResources().getColor(R.color.y));
             txv.setTextColor(getResources().getColor(R.color.y));
             cnt.setTextColor(getResources().getColor(R.color.y));
-            LinearLayout layout = findViewById(R.id.lb);
+            LinearLayout layout = findViewById(R.id.main_back);
             layout.setBackgroundResource(R.drawable.bl);
         } else {
             et.setTextColor(getResources().getColor(R.color.b));
             txv.setTextColor(getResources().getColor(R.color.b));
             cnt.setTextColor(getResources().getColor(R.color.b));
-            LinearLayout layout = findViewById(R.id.lb);
+            LinearLayout layout = findViewById(R.id.main_back);
             layout.setBackgroundResource(R.drawable.bk);
 
         }

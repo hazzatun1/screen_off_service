@@ -6,12 +6,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,7 +31,8 @@ import com.google.firebase.auth.FirebaseUser;
         FirebaseAuth fAuth;
         String email, password;
         private FirebaseAuth auth;
-
+        SharedPreferences set_back;
+LinearLayout layout;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             auth = FirebaseAuth.getInstance();
@@ -40,13 +43,32 @@ import com.google.firebase.auth.FirebaseUser;
             }
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
-
             mEmail = findViewById(R.id.email_login);
             mPassword = findViewById(R.id.pass_login);
-
             fAuth = FirebaseAuth.getInstance();
             mLoginBtn = findViewById(R.id.loginBtn);
             forgotTextLink = findViewById(R.id.forgot_pass);
+            layout=(LinearLayout)findViewById(R.id.login_back);
+
+            set_back=getSharedPreferences("set_back", Context.MODE_PRIVATE);
+            String back = set_back.getString("pic_name", "");
+            if (back != null && !back.equals("")){
+
+                switch(back) {
+                    case "bk":
+                        layout.setBackgroundResource(R.drawable.bk);
+                        break;
+                    case "pic_1":
+                        layout.setBackgroundResource(R.drawable.pic_1);
+                        break;
+                    case "pic_2":
+                        layout.setBackgroundResource(R.drawable.pic_2);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
 
 
 

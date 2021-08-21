@@ -3,6 +3,7 @@ package com.bandhan.hazzatun.mytasbeeh;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +41,8 @@ public class Register extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
-
+    SharedPreferences set_back;
+LinearLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +53,30 @@ public class Register extends AppCompatActivity {
         mPhone = findViewById(R.id.cnf_password);
         loginto = findViewById(R.id.textview_register);
         mRegisterBtn = findViewById(R.id.button_reg);
-
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+        layout=(LinearLayout)findViewById(R.id.reg_back);
+
+        set_back=getSharedPreferences("set_back", Context.MODE_PRIVATE);
+        String back = set_back.getString("pic_name", "");
+        if (back != null && !back.equals("")){
+
+            switch(back) {
+                case "bk":
+                    layout.setBackgroundResource(R.drawable.bk);
+                    break;
+                case "pic_1":
+                    layout.setBackgroundResource(R.drawable.pic_1);
+                    break;
+                case "pic_2":
+                    layout.setBackgroundResource(R.drawable.pic_2);
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
 
 
         loginto.setOnClickListener(new View.OnClickListener() {
@@ -68,10 +92,6 @@ public class Register extends AppCompatActivity {
             public void onClick(View v) {
                 final String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
-                final String phone = mPhone.getText().toString();
-
-
-
 
                 if (TextUtils.isEmpty(email)) {
                     mEmail.setError("Email is Required.");
