@@ -12,7 +12,8 @@
     <string name="set">Set</string>
     <string name="remove">remove</string>
     <string name="cancel">cancel</string>
-    <string name="sound">Mute it</string>
+    <string name="sound_mute">Mute it</string>
+    <string name="sound_um">Unmute it</string>
     <string name="background">set background</string>
     <string name="setLanguage">Set Language</string>
     <string name="save">save</string>

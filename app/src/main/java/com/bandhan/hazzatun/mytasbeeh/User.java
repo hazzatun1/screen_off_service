@@ -26,12 +26,9 @@ public class User implements Serializable {
 
     }
 
-    public User(String id, String name, String counts, String date, String target) {
-        this._id = id;
+    public User(String name) {
         this._name = name;
-        this._counts = counts;
-        this._date = date;
-        this._target = target;
+
     }
 
 

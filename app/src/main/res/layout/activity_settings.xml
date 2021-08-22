@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-android:text="@string/settings"
+        android:text="@string/settings"
         android:textSize="20sp"
         android:layout_gravity="center"
 
@@ -34,7 +34,7 @@ android:text="@string/settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="@string/sound"
+        android:text="@string/sound_mute"
         android:textSize="20sp"
         android:gravity="center"
         tools:ignore="UseSwitchCompatOrMaterialXml" />

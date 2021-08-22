@@ -5,6 +5,8 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.view.KeyEvent.KEYCODE_HEADSETHOOK;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,9 +16,13 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
@@ -70,10 +76,9 @@ public class MainActivity extends AppCompatActivity {
     String email1="", providerId="", name="", userId="";
     FirebaseUser user;
     private MusicIntentReceiver myReceiver;
-    Intent intent;
-    SharedPreferences prefs1, set_locale, set_back;
-    Context context;
+    SharedPreferences prefs1, set_locale, set_back, set_sound;
     LinearLayout layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         popup.show();
     }
 
-    // @SuppressLint("NonConstantResourceId")
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -252,15 +257,12 @@ public class MainActivity extends AppCompatActivity {
                 String count = "0";
                 User helperClass = new User(CID, cname, count, formattedDate, String.valueOf(mytargets), email1);
                 reference.child(userId).child(cname).setValue(helperClass);
-
+                txv.setText("0");
                 Intent i = new Intent(getApplicationContext(), userlist.class);
-                i.putExtra("name", "cname");
+               // i.putExtra("name", "cname");
                 i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
-
             }
-
-
         }
     }
 
@@ -401,12 +403,21 @@ public class MainActivity extends AppCompatActivity {
             cnt.setClickable(false);
             targett.setClickable(false);
             lt.setClickable(false);
+            open.setClickable(false);
+
+
             myReceiver = new MusicIntentReceiver();
             audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
             audioManager.setSpeakerphoneOn(true);
             //handle click
-            startService(intent);
+
+//            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+//            PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+//                    "MyApp::MyWakelockTag");
+//            wakeLock.acquire();
+
+
             if (mytargets == 0) {
                 mcounter++;
                 txv.setText(String.valueOf(mcounter));
@@ -428,9 +439,9 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             }
-
+           // wakeLock.release();
         }
-        stopService(intent);
+
         return super.onKeyDown(keyCode, event);
     }
 
@@ -506,7 +517,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
         public void resets () {
             mcounter = 0;
             mytargets = 0;
@@ -516,7 +526,6 @@ public class MainActivity extends AppCompatActivity {
             if (!CID.equals("")) {
                 CID = "";
             }
-
             targett.setText("Target: " + String.valueOf(0));
 
         }

@@ -30,8 +30,8 @@ import java.util.ArrayList;
 
 public class Settings extends AppCompatActivity {
     Switch sound_btn;
-    Button set_lang, set_back;
-    String CID = "", cname = "", upDate = "", spusername="";
+    Button set_lang;
+    String CID = "", cname = "", upDate = "";
     Integer mcounter = 0, mytargets = 0;
     DatabaseReference reference;
     View settings_bk; //bk=background
@@ -49,17 +49,10 @@ public class Settings extends AppCompatActivity {
 
         sound_btn = findViewById(R.id.btn2);
         set_sound = getSharedPreferences("set_sounds", Context.MODE_PRIVATE);
-        if (sound_btn.isChecked()){
-            set_sound.getBoolean("sound", false);
-          //  sound.setChecked(true);
-        }
-        else{
-            set_sound.getBoolean("sound", true);
-          //  sound.setChecked(false);
-        }
+        Boolean sou = set_sound.getBoolean("sound", false);
+        sound_btn.setChecked(!sou);
 
         layout=(LinearLayout)findViewById(R.id.set);
-
         set_backs=getSharedPreferences("set_back", Context.MODE_PRIVATE);
         String back = set_backs.getString("pic_name", "");
         if (back != null && !back.equals("")) {
@@ -102,14 +95,23 @@ public class Settings extends AppCompatActivity {
                 final SharedPreferences.Editor editor = getSharedPreferences("set_sounds", MODE_PRIVATE).edit();
               if (isChecked) {
                     // The toggle is enabled and sound will disabled
+                  audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                  audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+                  audioManager.setSpeakerphoneOn(false);
                   sound_btn.setSoundEffectsEnabled(false);
-                    editor.putBoolean("sound", false).apply();
+                  sound_btn.setText("unmute it");
+                  editor.putBoolean("sound", false).apply();
 
                 }
               else {
                   //sound enable
+                  audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                  audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+                  audioManager.setSpeakerphoneOn(true);
                   sound_btn.setSoundEffectsEnabled(true);
+                  sound_btn.setText("mute it");
                     editor.putBoolean("sound", true).apply();
+
                 }
             }
         });

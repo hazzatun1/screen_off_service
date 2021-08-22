@@ -34,18 +34,13 @@ public class userlist extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlist);
-        if (getIntent().hasExtra("name")){
-this.cname=getIntent().getStringExtra("name");
-        }
+
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             for (UserInfo profile : user.getProviderData()) {
                  providerId = profile.getProviderId();
-
-                // UID specific to the provider
                 String uid = profile.getUid();
-                // Name, email address, and profile photo Url
                 String acc_name = profile.getDisplayName();
                  email1 = profile.getEmail();
                 Uri photoUrl = profile.getPhotoUrl();
@@ -57,10 +52,10 @@ this.cname=getIntent().getStringExtra("name");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         list = new ArrayList<>();
+        User us=new User(cname);
 
 
-
-            database.child(user.getUid()).child(cname).addValueEventListener(new ValueEventListener() {
+            database.child(user.getUid()).child(us.get_name()).addValueEventListener(new ValueEventListener() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

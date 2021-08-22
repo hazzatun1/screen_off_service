@@ -12,7 +12,8 @@
     <string name="set">সেট করুন</string>
     <string name="remove">সরান</string>
     <string name="cancel">বাতিল</string>
-    <string name="sound">শব্দ সেট করুন</string>
+    <string name="sound_mute">নীরব করুন</string>
+    <string name="sound_um">সাউন্ড করুন</string>
     <string name="background">পটভূমি সেট করুন</string>
     <string name="setLanguage">ভাষা সেট করুন</string>
     <string name="save">সংরক্ষণ</string>
