@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,6 +19,8 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -71,14 +74,14 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference reference;
     String counting = "";
     String target = "";
-    Button save;
+    Button save, edit_btn;
     Button open;
     String email1="", providerId="", name="", userId="";
     FirebaseUser user;
     private MusicIntentReceiver myReceiver;
     SharedPreferences prefs1, set_locale, set_back, set_sound;
     LinearLayout layout;
-
+   // PowerManager.WakeLock wakeLock;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
             }}
         setContentView(R.layout.activity_main);
 
+
+        edit_btn=findViewById(R.id.edit_btn);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -125,18 +130,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-
-
-        set_locale = getSharedPreferences("set_back", Context.MODE_PRIVATE);
-        String bak = set_locale.getString("pic_name", "");
-        if (bak != null && !bak.equals("")){
-            if(bak.equals("bn")){
-                LocaleHelper.setLocale( MainActivity.this, set_locale.getString("lang", "bn"));
-
-            }
-            else{
-                LocaleHelper.setLocale( MainActivity.this, set_locale.getString("lang", "en"));
-            }}
 
         prefs1 = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
         String strPref = prefs1.getString("count", null);
@@ -193,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         formattedDate = df.format(c);
         targett.setBackgroundColor(Color.GREEN);
+
 
 
     }
@@ -360,6 +354,8 @@ public class MainActivity extends AppCompatActivity {
         prefs1.edit().putString("count", value).apply();
         prefs1.edit().putString("cname", cname).apply();
         prefs1.edit().putString("tget", tgt).apply();
+
+
     }
 
 
@@ -368,6 +364,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
         registerReceiver(myReceiver, filter);
+
+
     }
 
 
@@ -381,6 +379,10 @@ public class MainActivity extends AppCompatActivity {
                         cnt.setClickable(true);
                         targett.setClickable(true);
                         lt.setClickable(true);
+                        open.setClickable(false);
+                        edit_btn.setClickable(false);
+
+                        stopService(new Intent(MainActivity.this, ExampleService.class));
                         Log.d(TAG, "Headset is unplugged");
                         break;
                     case 1:
@@ -394,8 +396,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     @Override  //headphone count
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        startService(new Intent(this, ExampleService.class));
 
 
         if (keyCode == KEYCODE_HEADSETHOOK) {
@@ -404,20 +409,13 @@ public class MainActivity extends AppCompatActivity {
             targett.setClickable(false);
             lt.setClickable(false);
             open.setClickable(false);
-
+            edit_btn.setClickable(false);
 
             myReceiver = new MusicIntentReceiver();
             audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
             audioManager.setSpeakerphoneOn(true);
             //handle click
-
-//            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-//            PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-//                    "MyApp::MyWakelockTag");
-//            wakeLock.acquire();
-
-
             if (mytargets == 0) {
                 mcounter++;
                 txv.setText(String.valueOf(mcounter));
@@ -439,7 +437,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             }
-           // wakeLock.release();
+
         }
 
         return super.onKeyDown(keyCode, event);

@@ -130,6 +130,7 @@
 
 
         <Button
+            android:id="@+id/edit_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="edits"
@@ -162,9 +163,7 @@
             android:id="@+id/open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:text="@string/open"
-
             android:layout_weight="1"
             android:textSize="20sp"/>
     </LinearLayout>

@@ -44,6 +44,19 @@ public class Settings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        set_locale = getSharedPreferences("set_lang", Context.MODE_PRIVATE);
+        String hello = set_locale.getString("lang", "");
+        if (hello != null && !hello.equals("")){
+            if(hello.equals("bn")){
+                LocaleHelper.setLocale( Settings.this, set_locale.getString("lang", "bn"));
+
+            }
+            else{
+                LocaleHelper.setLocale( Settings.this, set_locale.getString("lang", "en"));
+            }}
+
+
         setContentView(R.layout.activity_settings);
 
 
@@ -72,16 +85,7 @@ public class Settings extends AppCompatActivity {
             }
         }
 
-        set_locale = getSharedPreferences("set_lang", Context.MODE_PRIVATE);
-        String hello = set_locale.getString("lang", "");
-        if (hello != null && !hello.equals("")){
-          if(hello.equals("bn")){
-              LocaleHelper.setLocale( Settings.this, set_locale.getString("lang", "bn"));
 
-        }
-        else{
-              LocaleHelper.setLocale( Settings.this, set_locale.getString("lang", "en"));
-            }}
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         reference = rootNode.getReference("MyDigitalCounter");
         settings_bk = findViewById(R.id.set);
@@ -99,7 +103,7 @@ public class Settings extends AppCompatActivity {
                   audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
                   audioManager.setSpeakerphoneOn(false);
                   sound_btn.setSoundEffectsEnabled(false);
-                  sound_btn.setText("unmute it");
+                  sound_btn.setText(R.string.sound_um);
                   editor.putBoolean("sound", false).apply();
 
                 }
@@ -109,7 +113,7 @@ public class Settings extends AppCompatActivity {
                   audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
                   audioManager.setSpeakerphoneOn(true);
                   sound_btn.setSoundEffectsEnabled(true);
-                  sound_btn.setText("mute it");
+                  sound_btn.setText(R.string.sound_mute);
                     editor.putBoolean("sound", true).apply();
 
                 }
