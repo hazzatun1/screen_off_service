@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".login_profile"
+    android:id="@+id/prof"
     android:background="@drawable/bk"
     >
 

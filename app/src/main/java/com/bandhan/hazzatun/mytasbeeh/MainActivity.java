@@ -76,29 +76,30 @@ public class MainActivity extends AppCompatActivity {
     String target = "";
     Button save, edit_btn;
     Button open;
-    String email1="", providerId="", name="", userId="";
+    String email1 = "", providerId = "", name = "", userId = "";
     FirebaseUser user;
     private MusicIntentReceiver myReceiver;
     SharedPreferences prefs1, set_locale, set_back, set_sound;
     LinearLayout layout;
-   // PowerManager.WakeLock wakeLock;
+
+    // PowerManager.WakeLock wakeLock;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         set_locale = getSharedPreferences("set_lang", Context.MODE_PRIVATE);
         String hello = set_locale.getString("lang", "");
-        if (hello != null && !hello.equals("")){
-            if(hello.equals("bn")){
-                LocaleHelper.setLocale( MainActivity.this, set_locale.getString("lang", "bn"));
-            }
-            else{
-                LocaleHelper.setLocale( MainActivity.this, set_locale.getString("lang", "en"));
+        if (hello != null && !hello.equals("")) {
+            if (hello.equals("bn")) {
+                LocaleHelper.setLocale(MainActivity.this, set_locale.getString("lang", "bn"));
+            } else {
+                LocaleHelper.setLocale(MainActivity.this, set_locale.getString("lang", "en"));
 
-            }}
+            }
+        }
         setContentView(R.layout.activity_main);
 
 
-        edit_btn=findViewById(R.id.edit_btn);
+        edit_btn = findViewById(R.id.edit_btn);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -110,12 +111,13 @@ public class MainActivity extends AppCompatActivity {
                 userId = user.getUid();
             }
         }
-        layout=(LinearLayout)findViewById(R.id.main_back);
-        set_back=getSharedPreferences("set_back", Context.MODE_PRIVATE);
-        String back = set_back.getString("pic_name", "");
-        if (back != null && !back.equals("")){
 
-            switch(back) {
+        layout = (LinearLayout) findViewById(R.id.main_back);
+        set_back = getSharedPreferences("set_back", Context.MODE_PRIVATE);
+        String back = set_back.getString("pic_name", "");
+        if (back != null && !back.equals("")) {
+
+            switch (back) {
                 case "bk":
                     layout.setBackgroundResource(R.drawable.bk);
                     break;
@@ -167,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
             et.setText(String.valueOf(mcounter));
             mytargets = Integer.parseInt(getIntent().getStringExtra("tcounts"));
             targett.setText("Target: " + mytargets);
-            email1=getIntent().getStringExtra("email");
+            email1 = getIntent().getStringExtra("email");
         }
 
         open = findViewById(R.id.open);
@@ -186,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         formattedDate = df.format(c);
         targett.setBackgroundColor(Color.GREEN);
-
 
 
     }
@@ -253,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
                 reference.child(userId).child(cname).setValue(helperClass);
                 txv.setText("0");
                 Intent i = new Intent(getApplicationContext(), userlist.class);
-               // i.putExtra("name", "cname");
+                // i.putExtra("name", "cname");
                 i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
             }
@@ -286,12 +287,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saves(View view) {
-       // counting = String.valueOf(mcounter).trim();
-       // target = String.valueOf(mytargets);
+        // counting = String.valueOf(mcounter).trim();
+        // target = String.valueOf(mytargets);
 
         reference.child(userId).child(cname)
-                 .equalTo(name_input.getText().toString())
-                 .addValueEventListener(new ValueEventListener() {
+                .equalTo(name_input.getText().toString())
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -322,8 +323,8 @@ public class MainActivity extends AppCompatActivity {
         cname = name_input.getText().toString();
         counting = txv.getText().toString();
         target = String.valueOf(mytargets);
-            User helperClass = new User(CID, cname, counting, formattedDate, target, email1);
-            reference.child(userId).child(cname).setValue(helperClass);
+        User helperClass = new User(CID, cname, counting, formattedDate, target, email1);
+        reference.child(userId).child(cname).setValue(helperClass);
     }
 
     public void lt(View view) { //light
@@ -381,8 +382,7 @@ public class MainActivity extends AppCompatActivity {
                         lt.setClickable(true);
                         open.setClickable(false);
                         edit_btn.setClickable(false);
-
-                        stopService(new Intent(MainActivity.this, ExampleService.class));
+                        //  stopService(new Intent(MainActivity.this, MediaButtonIntentReceiver.class));
                         Log.d(TAG, "Headset is unplugged");
                         break;
                     case 1:
@@ -393,55 +393,92 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+
     }
+
+
+//    @Override  //headphone count
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if(!((PowerManager) getSystemService(Context.POWER_SERVICE)).isInteractive()) {
+//            class MediaButtonIntentReceiver extends BroadcastReceiver {
+//                public MediaButtonIntentReceiver() {
+//                    super();
+//                }
+//
+//                @Override
+//                public void onReceive(Context context, Intent intent) {
+//                    String intentAction = intent.getAction();
+//                    if (!Intent.ACTION_MEDIA_BUTTON.equals(intentAction)) {
+//                        return;
+//                    }
+//                    KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+//                    if (event == null) {
+//                        return;
+//                    }
+//                    int action = event.getAction();
+//                    if (action == KeyEvent.ACTION_DOWN) {
+//                        if (keyCode == KEYCODE_HEADSETHOOK) {
+//
+//                            Toast.makeText(context, "hook PRESSED!", Toast.LENGTH_SHORT).show();
+//                        }
+//                        Toast.makeText(context, "BUTTON PRESSED!", Toast.LENGTH_SHORT).show();
+//                    }
+//                    abortBroadcast();
+//                }
+//            }
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
+
 
 
 
     @Override  //headphone count
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        startService(new Intent(this, ExampleService.class));
+         if (keyCode == KEYCODE_HEADSETHOOK) {
+             cnt.setClickable(false);
+             targett.setClickable(false);
+             lt.setClickable(false);
+             open.setClickable(false);
+             edit_btn.setClickable(false);
 
+             myReceiver = new MusicIntentReceiver();
+             audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+             audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+             audioManager.setSpeakerphoneOn(true);
+             //handle click
+             if (mytargets == 0) {
+                 mcounter++;
+                 txv.setText(String.valueOf(mcounter));
+             } else {
+                 mcounter++;
+                 txv.setText(String.valueOf(mcounter));
+                 if (mcounter >= mytargets) {
+                     cnt.setEnabled(false);
+                     targett.setBackgroundColor(ContextCompat.getColor(this, R.color.y));
+                     Toast.makeText(this, "target filled up", Toast.LENGTH_SHORT).show();
+                     ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 500);
+                     boolean b = toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                     String count = "0";
+                     User helperClass = new User(CID, cname, count, formattedDate, String.valueOf(mytargets), email1);
+                     reference.child(userId).child(cname).setValue(helperClass);
+                     txv.setText("0");
+                     Intent i = new Intent(getApplicationContext(), userlist.class);
+                     i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                     startActivity(i);
 
-        if (keyCode == KEYCODE_HEADSETHOOK) {
+                 }
+             }
 
-            cnt.setClickable(false);
-            targett.setClickable(false);
-            lt.setClickable(false);
-            open.setClickable(false);
-            edit_btn.setClickable(false);
-
-            myReceiver = new MusicIntentReceiver();
-            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-            audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
-            audioManager.setSpeakerphoneOn(true);
-            //handle click
-            if (mytargets == 0) {
-                mcounter++;
-                txv.setText(String.valueOf(mcounter));
-            } else {
-                mcounter++;
-                txv.setText(String.valueOf(mcounter));
-                if (mcounter >= mytargets) {
-                    cnt.setEnabled(false);
-                    targett.setBackgroundColor(ContextCompat.getColor(this, R.color.y));
-                    Toast.makeText(this, "target filled up", Toast.LENGTH_SHORT).show();
-                    ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 500);
-                    boolean b = toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
-                    String count = "0";
-                    User helperClass = new User(CID, cname, count, formattedDate, String.valueOf(mytargets), email1);
-                    reference.child(userId).child(cname).setValue(helperClass);
-                    Intent i = new Intent(getApplicationContext(), userlist.class);
-                    i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(i);
-
-                }
-            }
-
-        }
-
-        return super.onKeyDown(keyCode, event);
+         }
+     return super.onKeyDown(keyCode, event);
     }
+
+
+
+
+
 
 
         public void target_method (View view){
