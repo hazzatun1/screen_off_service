@@ -2,6 +2,7 @@ package com.bandhan.hazzatun.mytasbeeh;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,12 +33,12 @@ public class userlist extends AppCompatActivity {
     MyAdapter myAdapter;
     ArrayList<User> list;
     String email1 ="", providerId="", cname="";
-LinearLayout layout;
+ConstraintLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlist);
-layout=findViewById(R.id.ul_back);
+        layout=findViewById(R.id.ul_back);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

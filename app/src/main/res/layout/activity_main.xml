@@ -20,7 +20,6 @@
             android:background="@drawable/setting_menu_ic"
             android:gravity="left"
             android:onClick="showPopup"
-
             tools:ignore="RtlHardcoded" />
 
         <TextView
@@ -59,7 +58,10 @@
         android:text="@string/default_title"
         android:textSize="55sp"
         android:textColor="@color/b"
-
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeMaxTextSize="100sp"
+        android:autoSizeStepGranularity="2sp"
         />
 
     <EditText
@@ -70,16 +72,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints="@string/default_title"
-
         android:gravity="left"
         android:text="@string/default_title"
         android:textColor="@color/b"
         android:visibility="gone"
         android:textSize="55sp"
         android:maxLength="12"
-
         android:inputType=""
-        tools:ignore="LabelFor,RtlHardcoded" />
+        tools:ignore="LabelFor,RtlHardcoded"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeMaxTextSize="100sp"
+        android:autoSizeStepGranularity="2sp"
+        />
 
 
     <EditText
