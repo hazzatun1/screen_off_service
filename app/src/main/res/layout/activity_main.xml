@@ -129,8 +129,7 @@
             android:onClick="lt"
             android:text="@string/Light"
             android:textSize="20sp"
-            android:layout_weight="1"
-            tools:ignore="ButtonStyle" />
+            android:layout_weight="1" />
 
 
 

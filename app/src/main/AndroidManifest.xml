@@ -32,7 +32,7 @@
 
         android:windowSoftInputMode="adjustNothing"
         tools:replace="android:label"
-        android:name=".App"
+        android:name=".offline_firebase"
         >
 
 
@@ -79,19 +79,6 @@
             </intent-filter>
         </activity>
 
-<!--        <receiver android:name=".MediaButtonIntentReceiver"-->
-<!--            android:exported="true">-->
-<!--        <intent-filter>-->
-<!--            <action android:name="android.intent.action.MEDIA_BUTTON" />-->
-<!--        </intent-filter>-->
-<!--        </receiver>-->
-<!--       <service android:name = ".ExampleService"-->
-<!--                  android:enabled="true"-->
-<!--                  android:exported="true">-->
-<!--        <intent-filter>-->
-<!--            <action android:name="initialiseHeadsetService" />-->
-<!--        </intent-filter>-->
-<!--       </service>-->
 
         <service android:name="com.google.firebase.components.ComponentDiscoveryService">
             <meta-data

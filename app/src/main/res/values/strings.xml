@@ -5,7 +5,7 @@
     <string name="default_title">Default</string>
     <string name="settings">Settings</string>
     <string name="target_string">Target: </string>
-    <string name="Light">Light</string>
+    <string name="Light">Night mode</string>
     <string name="edit">EDIT</string>
     <string name="alarm">Set Alarm</string>
     <string name="reset">Reset</string>

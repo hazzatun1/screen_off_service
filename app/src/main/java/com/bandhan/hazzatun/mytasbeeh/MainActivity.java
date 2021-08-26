@@ -3,6 +3,8 @@ package com.bandhan.hazzatun.mytasbeeh;
 import static android.content.ContentValues.TAG;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.view.KeyEvent.KEYCODE_HEADSETHOOK;
+import static java.lang.Integer.parseInt;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -20,6 +22,7 @@ import android.media.ToneGenerator;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -62,13 +65,13 @@ public class MainActivity extends AppCompatActivity {
     EditText et;
     TextView name_input;
     EditText name_input_et;
-    String value;
+    String value ="";
     boolean haveIBeenClicked;
     String CID = "";
     String cname = "";
     String names = "";
     String formattedDate = "";
-    int mytargets = 0;
+    private int mytargets = 0;
     Button targett;
     Button lt;
     DatabaseReference reference;
@@ -150,12 +153,16 @@ public class MainActivity extends AppCompatActivity {
         lt = findViewById(R.id.light);
 
         if (strPref != null && strPref2 != null && strPref3 != null) {
-            txv.setText(prefs1.getString("count", "0"));
+
             name_input.setText(prefs1.getString("cname", "Default"));
-            targett.setText(prefs1.getString("tget", "0"));
+            target=prefs1.getString("tget", "0");
+            targett.setText("Target: "+target);
+
+            this.mytargets= Integer.parseInt(target);
+
+            txv.setText(prefs1.getString("count", "0"));
             value = txv.getText().toString();
-            int mr = Integer.parseInt(value);
-            txv.setText(String.valueOf(mcounter = mr));
+            this.mcounter = Integer.parseInt(value);
         }
 
         if (getIntent().hasExtra("cID") && getIntent().hasExtra("cName") && getIntent().hasExtra("counts")) {
@@ -164,11 +171,11 @@ public class MainActivity extends AppCompatActivity {
             cname = getIntent().getStringExtra("cName");
             name_input.setText(cname);
             name_input_et.setText(cname);
-            mcounter = Integer.parseInt(getIntent().getStringExtra("counts"));
+            mcounter = parseInt(getIntent().getStringExtra("counts"));
             txv.setText(String.valueOf(mcounter));
             et.setText(String.valueOf(mcounter));
-            mytargets = Integer.parseInt(getIntent().getStringExtra("tcounts"));
-            targett.setText("Target: " + mytargets);
+            mytargets = parseInt(getIntent().getStringExtra("tcounts"));
+            targett.setText("Target: " + String.valueOf(mytargets));
             email1 = getIntent().getStringExtra("email");
         }
 
@@ -267,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
         txv.setVisibility(txv.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
         et.setVisibility(et.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
 
-        int mr = Integer.parseInt(et.getText().toString());
+        int mr = parseInt(et.getText().toString());
 
         et.setText((value = String.valueOf(mcounter)));
         txv.setText(String.valueOf(mcounter = mr));
@@ -294,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
                 .equalTo(name_input.getText().toString())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         if (dataSnapshot.exists()) {
                             // Exist! Do whatever.
@@ -327,19 +334,17 @@ public class MainActivity extends AppCompatActivity {
         reference.child(userId).child(cname).setValue(helperClass);
     }
 
-    public void lt(View view) { //light
+    public void lt(View view) { //night-mode
         haveIBeenClicked = !haveIBeenClicked;
         if (haveIBeenClicked) {
             et.setTextColor(getResources().getColor(R.color.y));
             txv.setTextColor(getResources().getColor(R.color.y));
             cnt.setTextColor(getResources().getColor(R.color.y));
-            LinearLayout layout = findViewById(R.id.main_back);
             layout.setBackgroundResource(R.drawable.bl);
         } else {
             et.setTextColor(getResources().getColor(R.color.b));
             txv.setTextColor(getResources().getColor(R.color.b));
             cnt.setTextColor(getResources().getColor(R.color.b));
-            LinearLayout layout = findViewById(R.id.main_back);
             layout.setBackgroundResource(R.drawable.bk);
 
         }
@@ -349,12 +354,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        value = txv.getText().toString();
+        value = String.valueOf(mcounter);
         cname = name_input.getText().toString();
-        String tgt = targett.getText().toString();
+        target = String.valueOf(mytargets);
         prefs1.edit().putString("count", value).apply();
         prefs1.edit().putString("cname", cname).apply();
-        prefs1.edit().putString("tget", tgt).apply();
+        prefs1.edit().putString("tget", target).apply();
 
 
     }
@@ -395,42 +400,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-
-//    @Override  //headphone count
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if(!((PowerManager) getSystemService(Context.POWER_SERVICE)).isInteractive()) {
-//            class MediaButtonIntentReceiver extends BroadcastReceiver {
-//                public MediaButtonIntentReceiver() {
-//                    super();
-//                }
-//
-//                @Override
-//                public void onReceive(Context context, Intent intent) {
-//                    String intentAction = intent.getAction();
-//                    if (!Intent.ACTION_MEDIA_BUTTON.equals(intentAction)) {
-//                        return;
-//                    }
-//                    KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-//                    if (event == null) {
-//                        return;
-//                    }
-//                    int action = event.getAction();
-//                    if (action == KeyEvent.ACTION_DOWN) {
-//                        if (keyCode == KEYCODE_HEADSETHOOK) {
-//
-//                            Toast.makeText(context, "hook PRESSED!", Toast.LENGTH_SHORT).show();
-//                        }
-//                        Toast.makeText(context, "BUTTON PRESSED!", Toast.LENGTH_SHORT).show();
-//                    }
-//                    abortBroadcast();
-//                }
-//            }
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
-
-
 
 
     @Override  //headphone count
@@ -491,7 +460,7 @@ public class MainActivity extends AppCompatActivity {
             alert2.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
-                    mytargets = Integer.parseInt(editText3.getText().toString());
+                    mytargets = parseInt(editText3.getText().toString());
                     targett.setText("Target: " + String.valueOf(mytargets));
                     mcounter = 0;
                     txv.setText(String.valueOf(mcounter));//will work by save button

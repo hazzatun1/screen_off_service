@@ -42,7 +42,8 @@ public class Register extends AppCompatActivity {
     FirebaseFirestore fStore;
     String userID;
     SharedPreferences set_back;
-LinearLayout layout;
+    LinearLayout layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,6 @@ LinearLayout layout;
 
         mEmail = findViewById(R.id.email_reg);
         mPassword = findViewById(R.id.pass_reg);
-        mPhone = findViewById(R.id.cnf_password);
         loginto = findViewById(R.id.textview_register);
         mRegisterBtn = findViewById(R.id.button_reg);
         fAuth = FirebaseAuth.getInstance();

@@ -32,7 +32,8 @@ import com.google.firebase.auth.FirebaseUser;
         String email, password;
         private FirebaseAuth auth;
         SharedPreferences set_back;
-LinearLayout layout;
+        LinearLayout layout;
+
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             auth = FirebaseAuth.getInstance();

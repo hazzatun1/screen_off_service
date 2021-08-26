@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class userlist extends AppCompatActivity {
 
@@ -33,24 +34,28 @@ public class userlist extends AppCompatActivity {
     MyAdapter myAdapter;
     ArrayList<User> list;
     String email1 ="", providerId="", cname="";
-ConstraintLayout layout;
+    ConstraintLayout layout;
+    //User us;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlist);
         layout=findViewById(R.id.ul_back);
+        list = new ArrayList<User>();
+       // us=new User();
+
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             for (UserInfo profile : user.getProviderData()) {
-                 providerId = profile.getProviderId();
+                providerId = profile.getProviderId();
                 String uid = profile.getUid();
                 String acc_name = profile.getDisplayName();
-                 email1 = profile.getEmail();
+                email1 = profile.getEmail();
                 Uri photoUrl = profile.getPhotoUrl();
             }
 
-           SharedPreferences set_back = getSharedPreferences("set_back", Context.MODE_PRIVATE);
+            SharedPreferences set_back = getSharedPreferences("set_back", Context.MODE_PRIVATE);
             String back = set_back.getString("pic_name", "");
             if (back != null && !back.equals("")) {
 
@@ -70,42 +75,34 @@ ConstraintLayout layout;
 
             }
 
+            recyclerView = findViewById(R.id.userList);
+            database = FirebaseDatabase.getInstance().getReference("MyDigitalCounter");
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        recyclerView = findViewById(R.id.userList);
-        database = FirebaseDatabase.getInstance().getReference("MyDigitalCounter");
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        list = new ArrayList<>();
-        User us=new User(cname);
-
-
-            database.child(user.getUid()).child(us.get_name()).addValueEventListener(new ValueEventListener() {
+            database.child(user.getUid()).orderByValue().addValueEventListener(new ValueEventListener() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                   /// for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                      //      User value1 = dataSnapshot.getValue(User.class);
+                       // String name = value1.get_name().toString(); dataSnapshot.child(name)
+                        for (DataSnapshot booksSnapshot : snapshot.getChildren()) {
+                            User value = booksSnapshot.getValue(User.class);
+                            String mail = value.get_email();
+                            if (snapshot.exists() && mail.equals(email1)) {
+                                list.add(value);
+                                Toast.makeText(userlist.this, "only you!!!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(userlist.this, "nothing to show", Toast.LENGTH_SHORT).show();
+                            }
+                            Toast.makeText(userlist.this, "success to show", Toast.LENGTH_SHORT).show();
 
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        User value = dataSnapshot.getValue(User.class);
-                        assert value != null;
-                        String mail = value.get_email();
-                       if (snapshot.exists() && mail.equals(email1)) {
-                            // Exist! Do whatever.
-                           list.add(value);
-                           Toast.makeText(userlist.this, "only you!!!", Toast.LENGTH_SHORT).show();
-
-                        } else {
-                            // Don't exist!
-                           Toast.makeText(userlist.this, "nothing to show", Toast.LENGTH_SHORT).show();
+                            myAdapter = new MyAdapter(userlist.this, list);
+                            recyclerView.setAdapter(myAdapter);
+                            myAdapter.notifyDataSetChanged();
 
                         }
-
-
-                     //   Toast.makeText(userlist.this, "success to show", Toast.LENGTH_SHORT).show();
-
-                    }
-                    myAdapter = new MyAdapter(userlist.this, list);
-                    recyclerView.setAdapter(myAdapter);
-                    myAdapter.notifyDataSetChanged();
+                  //  }
                 }
 
                 @Override
@@ -116,6 +113,5 @@ ConstraintLayout layout;
 
 
         }
-
-
-    }}
+    }
+}
