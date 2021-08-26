@@ -13,16 +13,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     Context context;
-    FirebaseDatabase database;
-    DatabaseReference reference;
-
     ArrayList<User> list;
     private OnItemClickListener mListener;
 
@@ -30,6 +31,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         void onItemClick(int position);
     }
     public void setOnItemClickListener(OnItemClickListener listener) {
+
         mListener = listener;
     }
 
@@ -62,7 +64,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         }
 
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,7 +88,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-                        removeItem(position);
+                        if (list != null) {
+                            removeItem(position);
+                            list.clear();
+                            list.addAll(list);
+                        }
+                        else {
+                            list = list;
+                        }
+
                     }
                 })
 
@@ -102,12 +111,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             }
         });
 
-
-
-
     }
+
+    @SuppressLint("NotifyDataSetChanged")
     public void removeItem(int position) {
-        list.remove(position);
+        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+        assert user1 != null;
+        DatabaseReference reference = (DatabaseReference) FirebaseDatabase.getInstance()
+                .getReference("MyDigitalCounter")
+                .child(user1.getUid()).child(list.get(position).get_name());
+
+        reference.removeValue();
+
+       // list.remove(position);
         notifyDataSetChanged();
     }
 
@@ -118,12 +134,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView Id, Name, Count, Date;
+        TextView Name, Count, Date;
 
         public MyViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
 
-            Id = itemView.findViewById(R.id.id);
+            //Id = itemView.findViewById(R.id.id);
             Name = itemView.findViewById(R.id.name);
             Count = itemView.findViewById(R.id.count);
             Date = itemView.findViewById(R.id.date);
@@ -131,7 +147,5 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
 
     }
-
-
 
 }

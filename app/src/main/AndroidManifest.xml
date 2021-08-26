@@ -29,12 +29,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:node="merge"
-
         android:windowSoftInputMode="adjustNothing"
         tools:replace="android:label"
         android:name=".offline_firebase"
         >
-
 
         <activity
             android:name=".login_profile"

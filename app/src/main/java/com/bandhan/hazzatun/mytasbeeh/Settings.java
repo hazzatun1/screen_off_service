@@ -90,7 +90,6 @@ public class Settings extends AppCompatActivity {
         reference = rootNode.getReference("MyDigitalCounter");
         settings_bk = findViewById(R.id.set);
         set_lang = findViewById(R.id.btn5);
-
         spinner_1 = findViewById(R.id.btn3);
 
 

@@ -83,9 +83,6 @@ public class userlist extends AppCompatActivity {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                   /// for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                      //      User value1 = dataSnapshot.getValue(User.class);
-                       // String name = value1.get_name().toString(); dataSnapshot.child(name)
                         for (DataSnapshot booksSnapshot : snapshot.getChildren()) {
                             User value = booksSnapshot.getValue(User.class);
                             String mail = value.get_email();
@@ -101,8 +98,9 @@ public class userlist extends AppCompatActivity {
                             recyclerView.setAdapter(myAdapter);
                             myAdapter.notifyDataSetChanged();
 
+
                         }
-                  //  }
+
                 }
 
                 @Override
