@@ -59,6 +59,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.Date.setText(user.get_date());
         holder.itemView.setTag(holder);
         String gTarget = user.get_target();
+
         if(!gTarget.equals("0")) {
             holder.itemView.setBackgroundColor(Color.GREEN);
 

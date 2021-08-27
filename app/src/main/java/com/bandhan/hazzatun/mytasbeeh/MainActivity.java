@@ -4,12 +4,7 @@ import static android.content.ContentValues.TAG;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.view.KeyEvent.KEYCODE_HEADSETHOOK;
 import static java.lang.Integer.parseInt;
-
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,16 +14,10 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
-import android.os.Build;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-
-import android.os.PowerManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
@@ -187,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent i = new Intent(MainActivity.this, userlist.class);
                 startActivity(i);
-                //finish();
+
             }
         });
 
@@ -233,6 +222,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(in);
                 return true;
 
+            case R.id.item5:
+                Intent intt = new Intent(getApplicationContext(), KhotomAccount.class);
+                startActivity(intt);
+                return true;
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -257,9 +252,12 @@ public class MainActivity extends AppCompatActivity {
                 boolean b = toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
                 ArrayList<User> list;
                 String count = "0";
+                txv.setText("0");
+                cnt.setText("0");
+                mcounter=0;
                 User helperClass = new User(CID, cname, count, formattedDate, String.valueOf(mytargets), email1);
                 reference.child(userId).child(cname).setValue(helperClass);
-                txv.setText("0");
+
                 Intent i = new Intent(getApplicationContext(), userlist.class);
                 // i.putExtra("name", "cname");
                 i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -294,9 +292,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saves(View view) {
-        // counting = String.valueOf(mcounter).trim();
-        // target = String.valueOf(mytargets);
-
         reference.child(userId).child(cname)
                 .equalTo(name_input.getText().toString())
                 .addValueEventListener(new ValueEventListener() {
@@ -370,8 +365,49 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
         registerReceiver(myReceiver, filter);
+    }
+
+    public void calc_open(View view) {
+        EditText txv_et= findViewById(R.id.uput);
+        LinearLayout layout = new LinearLayout(MainActivity.this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText value1 = new EditText(MainActivity.this);
+        value1.setHint("Value1");
+        layout.addView(value1);
+        String uvalue1=String.valueOf(mcounter);
+        value1.setText(uvalue1);
+
+        AlertDialog.Builder alert2 = new AlertDialog.Builder(MainActivity.this);
+        alert2.setTitle("Add Outside counts");
+        final EditText value2 = new EditText(MainActivity.this);
+        value2.setHint("Value2");
+        layout.addView(value2);
+        alert2.setView(layout);
+        alert2.setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+                int val2 = 0;
+                if(!value2.getText().toString().isEmpty()) {
+                    val2 = Integer.parseInt(value2.getText().toString());
+                }
+                mcounter=(mcounter+val2);
+                txv_et.setText(String.valueOf(mcounter));
+                txv.setText(String.valueOf(mcounter));
 
 
+            }
+        })
+                .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+
+                        Toast.makeText(MainActivity.this, "Cancel", Toast.LENGTH_LONG).show();
+                        param2DialogInterface.cancel();
+
+                    }
+
+                });
+
+        alert2.create().show();
     }
 
 
@@ -387,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
                         lt.setClickable(true);
                         open.setClickable(false);
                         edit_btn.setClickable(false);
-                        //  stopService(new Intent(MainActivity.this, MediaButtonIntentReceiver.class));
+                        //stopService(new Intent(MainActivity.this, MediaButtonIntentReceiver.class));
                         Log.d(TAG, "Headset is unplugged");
                         break;
                     case 1:

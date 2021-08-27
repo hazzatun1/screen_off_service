@@ -22,4 +22,7 @@
     <string name="logout">প্রস্থান</string>
     <string name="go_back">ফিরে যাও</string>
     <string name="profile">পরিলেখ</string>
+    <string name="add_acc">হিসাব যোগ কর</string>
+    <string name="add">যোগ কর</string>
+
 </resources>

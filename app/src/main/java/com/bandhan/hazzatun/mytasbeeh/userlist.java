@@ -72,21 +72,22 @@ public class userlist extends AppCompatActivity {
                     default:
                         break;
                 }
-
             }
 
             recyclerView = findViewById(R.id.userList);
             database = FirebaseDatabase.getInstance().getReference("MyDigitalCounter");
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
             database.child(user.getUid()).orderByValue().addValueEventListener(new ValueEventListener() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                       // list.clear();
                         for (DataSnapshot booksSnapshot : snapshot.getChildren()) {
                             User value = booksSnapshot.getValue(User.class);
                             String mail = value.get_email();
-                            if (snapshot.exists() && mail.equals(email1)) {
+                            if (booksSnapshot.exists() && mail.equals(email1)) {
                                 list.add(value);
                                 Toast.makeText(userlist.this, "only you!!!", Toast.LENGTH_SHORT).show();
                             } else {
@@ -97,7 +98,6 @@ public class userlist extends AppCompatActivity {
                             myAdapter = new MyAdapter(userlist.this, list);
                             recyclerView.setAdapter(myAdapter);
                             myAdapter.notifyDataSetChanged();
-
 
                         }
 
@@ -112,4 +112,5 @@ public class userlist extends AppCompatActivity {
 
         }
     }
+
 }
