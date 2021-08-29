@@ -48,10 +48,9 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
     AudioManager audioManager;
     private int mcounter = 0;
-    private SharedPreferences prefs;
     Button cnt;
     TextView txv;
-    EditText et;
+    EditText txv_et;
     TextView name_input;
     EditText name_input_et;
     String value ="";
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     String email1 = "", providerId = "", name = "", userId = "";
     FirebaseUser user;
     private MusicIntentReceiver myReceiver;
-    SharedPreferences prefs1, set_locale, set_back, set_sound;
+    SharedPreferences prefs1, set_locale, set_back;
     LinearLayout layout;
 
     // PowerManager.WakeLock wakeLock;
@@ -91,20 +90,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        edit_btn = findViewById(R.id.edit_btn);
+
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             for (UserInfo profile : user.getProviderData()) {
                 providerId = profile.getProviderId();
                 name = profile.getDisplayName();
-                String uid = profile.getUid();
                 email1 = profile.getEmail();
                 userId = user.getUid();
             }
         }
 
-        layout = (LinearLayout) findViewById(R.id.main_back);
+        layout = findViewById(R.id.main_back);
         set_back = getSharedPreferences("set_back", Context.MODE_PRIVATE);
         String back = set_back.getString("pic_name", "");
         if (back != null && !back.equals("")) {
@@ -132,7 +130,9 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         reference = rootNode.getReference("MyDigitalCounter");
 
-        et = findViewById(R.id.uput);
+
+        edit_btn = findViewById(R.id.edit_btn);
+        txv_et= findViewById(R.id.uput);
         cnt = findViewById(R.id.count);
         txv = findViewById(R.id.txt);
         save = findViewById(R.id.save);
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             name_input_et.setText(cname);
             mcounter = parseInt(getIntent().getStringExtra("counts"));
             txv.setText(String.valueOf(mcounter));
-            et.setText(String.valueOf(mcounter));
+            txv_et.setText(String.valueOf(mcounter));
             mytargets = parseInt(getIntent().getStringExtra("tcounts"));
             targett.setText("Target: " + String.valueOf(mytargets));
             email1 = getIntent().getStringExtra("email");
@@ -202,7 +202,6 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.item1:
-
                 resets();
                 FirebaseAuth.getInstance().signOut();
                 Intent inte = new Intent(getApplicationContext(), Login.class);
@@ -253,14 +252,14 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<User> list;
                 String count = "0";
                 txv.setText("0");
-                cnt.setText("0");
+                txv_et.setText("0");
                 mcounter=0;
                 User helperClass = new User(CID, cname, count, formattedDate, String.valueOf(mytargets), email1);
                 reference.child(userId).child(cname).setValue(helperClass);
 
                 Intent i = new Intent(getApplicationContext(), userlist.class);
                 // i.putExtra("name", "cname");
-                i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+               // i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
             }
         }
@@ -270,11 +269,11 @@ public class MainActivity extends AppCompatActivity {
     public void edits(View view) {
 
         txv.setVisibility(txv.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-        et.setVisibility(et.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+        txv_et.setVisibility(txv_et.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
 
-        int mr = parseInt(et.getText().toString());
+        int mr = parseInt(txv_et.getText().toString());
 
-        et.setText((value = String.valueOf(mcounter)));
+        txv_et.setText((value = String.valueOf(mcounter)));
         txv.setText(String.valueOf(mcounter = mr));
 
 
@@ -332,12 +331,12 @@ public class MainActivity extends AppCompatActivity {
     public void lt(View view) { //night-mode
         haveIBeenClicked = !haveIBeenClicked;
         if (haveIBeenClicked) {
-            et.setTextColor(getResources().getColor(R.color.y));
+            txv_et.setTextColor(getResources().getColor(R.color.y));
             txv.setTextColor(getResources().getColor(R.color.y));
             cnt.setTextColor(getResources().getColor(R.color.y));
             layout.setBackgroundResource(R.drawable.bl);
         } else {
-            et.setTextColor(getResources().getColor(R.color.b));
+            txv_et.setTextColor(getResources().getColor(R.color.b));
             txv.setTextColor(getResources().getColor(R.color.b));
             cnt.setTextColor(getResources().getColor(R.color.b));
             layout.setBackgroundResource(R.drawable.bk);
@@ -368,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void calc_open(View view) {
-        EditText txv_et= findViewById(R.id.uput);
+
         LinearLayout layout = new LinearLayout(MainActivity.this);
         layout.setOrientation(LinearLayout.VERTICAL);
 
@@ -566,7 +565,7 @@ public class MainActivity extends AppCompatActivity {
             if (!CID.equals("")) {
                 CID = "";
             }
-            targett.setText("Target: " + String.valueOf(0));
+            targett.setText("Target: " + "0");
 
         }
     }
