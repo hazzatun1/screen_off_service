@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">আমার গণনা</string>
+    <string name="serial">ক্রমিক:</string>
+    <string name="CountName">নাম</string>
+    <string name="count">গণনা</string>
+    <string name="resume_count">চলমান</string>
+    <string name="default_title">অনুপস্থিত</string>
+    <string name="settings">নির্দিষ্টকরণ</string>
+    <string name="target">লক্ষ্য: </string>
+    <string name="Light">বাতি</string>
+    <string name="edit">সম্পাদন</string>
+    <string name="alarm">ঘন্টা নির্ধারণ</string>
+    <string name="reset">পুন:স্থাপন</string>
+    <string name="set">সেট করুন</string>
+    <string name="remove">সরান</string>
+    <string name="cancel">বাতিল</string>
+    <string name="sound">শব্দ সেট করুন</string>
+    <string name="background">পটভূমি সেট করুন</string>
+    <string name="setLanguage">ভাষা সেট করুন</string>
+    <string name="save">সংরক্ষণ</string>
+    <string name="open">খোলা</string>
+    <string name="upload_to_firebase">অনলাইন ব্যাকআপ</string>
+    <string name="download_to_device">ব্যাকআপ থেকে ডাউনলোড করুন</string>
+    <string name="Forgot_your_password">আপনি কি পাসওয়ার্ড ভুলে গেছেন? || </string>
+    <string name="login">লগইন</string>
+    <string name="already_registered">already_registered? </string>
+    <string name="register">register</string>
+    <string name="not_registered">not registered yet?</string>
+    <string name="r">g</string>
+    <string name="s">f</string>
+    <string name="t">g</string>
+
+</resources>

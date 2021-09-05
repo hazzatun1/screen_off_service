@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bk"
+    android:id="@+id/main_back"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/setting_menu_ic"
+            android:gravity="left"
+            android:onClick="showPopup"
+            tools:ignore="RtlHardcoded" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginHorizontal="70dp"
+            android:text="@string/app_name"
+            android:textSize="20sp"
+            tools:ignore="RtlHardcoded" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/target"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/target_string"
+            android:onClick="target_method"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/count_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10sp"
+        android:gravity="center"
+        android:text="@string/default_title"
+        android:textSize="55sp"
+        android:textColor="@color/b"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeMaxTextSize="100sp"
+        android:autoSizeStepGranularity="2sp"
+        />
+
+    <EditText
+        android:layout_marginBottom="10sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:id="@+id/count_name_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/default_title"
+        android:gravity="left"
+        android:text="@string/default_title"
+        android:textColor="@color/b"
+        android:visibility="gone"
+        android:textSize="55sp"
+        android:maxLength="12"
+        android:inputType=""
+        tools:ignore="LabelFor,RtlHardcoded"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeMaxTextSize="100sp"
+        android:autoSizeStepGranularity="2sp"
+        />
+
+
+    <EditText
+
+        android:id="@+id/uput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15sp"
+        android:gravity="center"
+        android:maxLength="6"
+        android:textColor="@color/b"
+        android:text="0"
+        android:clickable="true"
+        android:onClick="calc_open"
+        android:textSize="90sp"
+        android:visibility="gone"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal"
+        tools:ignore="HardcodedText,LabelFor,OnClick" />
+
+    <TextView
+        android:id="@+id/txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15sp"
+        android:gravity="center"
+
+        android:maxLength="6"
+        android:text="0"
+        android:textSize="90sp"
+        android:textColor="@color/b"
+        tools:ignore="HardcodedText" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:weightSum="2">
+
+
+        <Button
+            android:id="@+id/light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="lt"
+            android:text="@string/Light"
+            android:textSize="20sp"
+            android:layout_weight="1" />
+
+
+
+        <Button
+            android:id="@+id/edit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="edits"
+            android:layout_weight="1"
+            android:text="@string/edit"
+            android:textSize="20sp"
+            />
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="saves"
+            android:text="@string/save"
+            android:layout_weight="1"
+
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/open"
+            android:layout_weight="1"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <Button
+            android:id="@+id/count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_marginTop="15dp"
+            android:onClick="play"
+            android:text="@string/count"
+            android:textColor="@color/b"
+            android:textSize="70sp" />
+    </LinearLayout>
+
+
+</LinearLayout>

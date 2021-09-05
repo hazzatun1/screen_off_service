@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">আমার গণনা</string>
+    <string name="count">গণনা</string>
+    <string name="default_title">অনুপস্থিত</string>
+    <string name="settings">নির্দিষ্টকরণ</string>
+    <string name="target_string">লক্ষ্য: </string>
+    <string name="Light">বাতি</string>
+    <string name="edit">সম্পাদন</string>
+    <string name="alarm">ঘন্টা নির্ধারণ</string>
+    <string name="reset">পুন:স্থাপন</string>
+    <string name="set">সেট করুন</string>
+    <string name="remove">সরান</string>
+    <string name="cancel">বাতিল</string>
+    <string name="sound_mute">নীরব করুন</string>
+    <string name="sound_um">সাউন্ড করুন</string>
+    <string name="background">পটভূমি সেট করুন</string>
+    <string name="setLanguage">ভাষা সেট করুন</string>
+    <string name="save">সংরক্ষণ</string>
+    <string name="open">খোলা</string>
+   <!-- <string name="reset_app">RESET WHOLE APP</string>-->
+    <string name="logout">প্রস্থান</string>
+    <string name="go_back">ফিরে যাও</string>
+    <string name="profile">পরিলেখ</string>
+    <string name="add_acc">হিসাব যোগ কর</string>
+    <string name="add">যোগ কর</string>
+    <string name="muslim">খতম ই মজলিস</string>
+
+</resources>

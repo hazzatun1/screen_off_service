@@ -1,0 +1,59 @@
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+           public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        User user = dataSnapshot.getValue(User.class);
+
+                        list.add(user);
+                    }
+                   myAdapter = new MyAdapter(userlist.this, list);
+                    recyclerView.setAdapter(myAdapter);
+                   myAdapter.notifyDataSetChanged();
+           }
+
+            @Override
+           public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+ private static final String FILE_NAME = "exampleTasbeeh.txt";
+
+
+
+        prefs.edit().putString("count", value).apply();
+        prefs.edit().putString("cname", cname).apply();
+        prefs.edit().putString("tget", tgt).apply();
+
+
+      //  prefs = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
+      //  String strPref = prefs.getString("count", null);
+      //  String strPref2 = prefs.getString("cname", null);
+      //  String strPref3 = prefs.getString("tget", null);
+
+
+
+//   if (strPref != null && strPref2 != null && strPref3!=null) {
+       //     txv.setText(prefs.getString("count", "0"));
+        //    name_input.setText(prefs.getString("cname", "Default"));
+          //  targett.setText(prefs.getString("tget", "0"));
+        //    value = txv.getText().toString();
+        //    int mr = Integer.parseInt(value);
+       //     txv.setText(String.valueOf(mcounter = mr));
+      //  }
+
+String image_index = image[0];
+            switch (image_index)
+            {
+                case image[0]:
+                    m=1;
+                    break;
+                case image[1]:
+                    m=2;
+                    break;
+
+                case image[2]:
+                    m=6;
+                    break;

@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Layout;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -33,7 +35,7 @@ public class userlist extends AppCompatActivity {
     DatabaseReference database;
     MyAdapter myAdapter;
     ArrayList<User> list;
-    String email1 ="", providerId="", cname="";
+    String email1 ="", providerId="", cname="", target="";
     ConstraintLayout layout;
     //User us;
     @Override
@@ -42,8 +44,6 @@ public class userlist extends AppCompatActivity {
         setContentView(R.layout.activity_userlist);
         layout=findViewById(R.id.ul_back);
         list = new ArrayList<User>();
-       // us=new User();
-
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -79,7 +79,7 @@ public class userlist extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-            database.child(user.getUid()).orderByValue().addValueEventListener(new ValueEventListener() {
+            database.child(user.getUid()).orderByKey().addValueEventListener(new ValueEventListener() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -108,9 +108,12 @@ public class userlist extends AppCompatActivity {
 
                 }
             });
-
-
         }
     }
 
+    public void go_main(View view) {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        this.finish();
+    }
 }
