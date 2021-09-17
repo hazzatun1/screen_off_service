@@ -23,8 +23,6 @@ android {
 
 dependencies {
 
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation platform('com.google.firebase:firebase-bom:28.3.1')
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //noinspection GradleCompatible,GradleCompatible
@@ -33,11 +31,12 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.2.0'
     //noinspection GradleCompatible
     implementation 'androidx.legacy:legacy-support-v13:1.0.0'
-
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
 
 
     implementation 'com.google.firebase:firebase-auth:21.0.1'
-    implementation 'com.google.firebase:firebase-core:19.0.0'
+    implementation 'com.google.firebase:firebase-core:19.0.1'
     implementation 'com.google.firebase:firebase-database:20.0.1'
 
 

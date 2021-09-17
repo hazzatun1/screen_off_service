@@ -5,19 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -27,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
-import java.util.List;
 
 public class userlist extends AppCompatActivity {
 
@@ -35,24 +28,24 @@ public class userlist extends AppCompatActivity {
     DatabaseReference database;
     MyAdapter myAdapter;
     ArrayList<User> list;
-    String email1 ="", providerId="", cname="", target="";
+    String email1 ="", providerId="";
     ConstraintLayout layout;
-    //User us;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlist);
         layout=findViewById(R.id.ul_back);
-        list = new ArrayList<User>();
+        list = new ArrayList<>();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             for (UserInfo profile : user.getProviderData()) {
                 providerId = profile.getProviderId();
-                String uid = profile.getUid();
-                String acc_name = profile.getDisplayName();
+               // String uid = profile.getUid();
+               // String acc_name = profile.getDisplayName();
                 email1 = profile.getEmail();
-                Uri photoUrl = profile.getPhotoUrl();
+              //  Uri photoUrl = profile.getPhotoUrl();
             }
 
             SharedPreferences set_back = getSharedPreferences("set_back", Context.MODE_PRIVATE);
@@ -63,11 +56,11 @@ public class userlist extends AppCompatActivity {
                     case "bk":
                         layout.setBackgroundResource(R.drawable.bk);
                         break;
-                    case "pic_1":
-                        layout.setBackgroundResource(R.drawable.pic_1);
+                    case "pic1":
+                        layout.setBackgroundResource(R.drawable.pic1);
                         break;
-                    case "pic_2":
-                        layout.setBackgroundResource(R.drawable.pic_2);
+                    case "pic2":
+                        layout.setBackgroundResource(R.drawable.pic2);
                         break;
                     default:
                         break;
@@ -86,11 +79,13 @@ public class userlist extends AppCompatActivity {
                        // list.clear();
                         for (DataSnapshot booksSnapshot : snapshot.getChildren()) {
                             User value = booksSnapshot.getValue(User.class);
+                            assert value != null;
                             String mail = value.get_email();
                             if (booksSnapshot.exists() && mail.equals(email1)) {
                                 list.add(value);
                                 Toast.makeText(userlist.this, "only you!!!", Toast.LENGTH_SHORT).show();
-                            } else {
+                            }
+                            else {
                                 Toast.makeText(userlist.this, "nothing to show", Toast.LENGTH_SHORT).show();
                             }
                             Toast.makeText(userlist.this, "success to show", Toast.LENGTH_SHORT).show();

@@ -47,13 +47,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 public class KhatamCount extends AppCompatActivity {
 
     AudioManager audioManager;
-    private int mcounter = 0;
+    private Integer mcounter = 0, ttl=0;
     Button cnt;
     TextView txv;
     EditText txv_et;
@@ -69,7 +70,7 @@ public class KhatamCount extends AppCompatActivity {
     Button targett;
     Button lt;
     DatabaseReference reference;
-    String counting = "";
+    String counting = "", t_count;
     String target = "";
     Button save, edit_btn;
     Button open;
@@ -78,6 +79,7 @@ public class KhatamCount extends AppCompatActivity {
     private KhatamCount.MusicIntentReceiver myReceiver;
     SharedPreferences prefs1, set_locale, set_back;
     LinearLayout layout;
+    KhatamUser ku;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +95,7 @@ public class KhatamCount extends AppCompatActivity {
             }
         }
         setContentView(R.layout.activity_khatam_count);
-
+             ku=new KhatamUser();
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             for (UserInfo profile : user.getProviderData()) {
@@ -171,18 +173,17 @@ public class KhatamCount extends AppCompatActivity {
         formattedDate = df.format(c);
         targett.setBackgroundColor(Color.GREEN);
 
-        if (getIntent().hasExtra("k_name") && getIntent().hasExtra("tgt") ) {
+        if (getIntent().hasExtra("k_name") && getIntent().hasExtra("tgt")
+                && getIntent().hasExtra("myCount")) {
             cname = getIntent().getStringExtra("k_name");
             target=getIntent().getStringExtra("tgt");
+            mcounter=Integer.parseInt(getIntent().getStringExtra("myCount"));
             name_input.setText(cname);
             name_input_et.setText(cname);
             targett.setText("Target: "+target);
-            mcounter=0;
             txv.setText(String.valueOf(mcounter));
             txv_et.setText(String.valueOf(mcounter));
         }
-
-
 
     }
 
@@ -252,7 +253,7 @@ public class KhatamCount extends AppCompatActivity {
                 txv.setText("0");
                 txv_et.setText("0");
                 mcounter=0;
-                KhatamUser helperClass = new KhatamUser(email1, String.valueOf(mytargets), cname, formattedDate, count);
+                KhatamUser helperClass = new KhatamUser(email1, String.valueOf(mytargets), cname, formattedDate, count, "0");
                 reference.child(userId).child(cname).setValue(helperClass);
 
                 Intent i = new Intent(getApplicationContext(), userlist.class);
@@ -291,9 +292,9 @@ public class KhatamCount extends AppCompatActivity {
 
 
 
-    public void writeNewUser() {
+    public void setMyCount() {
         cname = name_input.getText().toString();
-        counting = txv.getText().toString();
+        counting = String.valueOf(mcounter);
 
         DatabaseReference updateData = FirebaseDatabase.getInstance()
                 .getReference("MyDigitalCounter")
@@ -306,10 +307,9 @@ public class KhatamCount extends AppCompatActivity {
                 if(dataSnapshot.exists()){
 
                     for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                        KhatamUser use=snapshot.getValue(KhatamUser.class);
-                        String email=use.getK_acc_email();
+                        KhatamUser usa=snapshot.getValue(KhatamUser.class);
+                        String email=usa.getK_acc_email();
                         if(email.equals(user.getEmail())) {
-
                             snapshot.getRef().child("myCount").setValue(counting);
                         }
 
@@ -324,13 +324,12 @@ public class KhatamCount extends AppCompatActivity {
             }
         });
 
-
-
     }
 
 
     public void saves(View view) {
-        writeNewUser();
+        setMyCount();
+        //addgroupCounts();
         Intent i = new Intent(this, khatam_list.class);
         i.putExtra("k_count", String.valueOf(mcounter));
         i.putExtra("tgt", targett.getText().toString());
@@ -404,17 +403,13 @@ public class KhatamCount extends AppCompatActivity {
                 txv_et.setText(String.valueOf(mcounter));
                 txv.setText(String.valueOf(mcounter));
 
-
             }
         })
-                .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-
-                        Toast.makeText(KhatamCount.this, "Cancel", Toast.LENGTH_LONG).show();
-                        param2DialogInterface.cancel();
-
+        .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+         public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+         Toast.makeText(KhatamCount.this, "Cancel", Toast.LENGTH_LONG).show();
+         param2DialogInterface.cancel();
                     }
-
                 });
 
         alert2.create().show();
@@ -507,47 +502,44 @@ public class KhatamCount extends AppCompatActivity {
                 txv.setText(String.valueOf(mcounter));//will work by save button
             }
         })
-                .setNegativeButton(R.string.remove, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+        .setNegativeButton(R.string.remove, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
-                        reference.child("Group").child(cname)
-                                .equalTo(name_input.getText().toString())
-                                .addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
+        reference.child("Group").child(cname)
+        .equalTo(name_input.getText().toString())
+        .addValueEventListener(new ValueEventListener() {
+         @Override
+         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                        if (dataSnapshot.hasChild(cname)) {
+         if (dataSnapshot.hasChild(cname)) {
                                             // maxId=dataSnapshot.getChildrenCount();
-                                            Toast.makeText(KhatamCount.this, "name already exists", Toast.LENGTH_SHORT).show();
+        Toast.makeText(KhatamCount.this, "name already exists", Toast.LENGTH_SHORT).show();
 
-                                        }
+        }
                                         //  reference.child(String.valueOf(maxId+1)).setvalue();
-                                        else {
-                                            if (mytargets != 0) {
-                                                String mytarget = "0";
-                                                User helperClass = new User(CID, cname, String.valueOf(mcounter), formattedDate, mytarget, email1);
+         else {
+         if (mytargets != 0) {
+             String mytarget = "0";
+             User helperClass = new User(CID, cname, String.valueOf(mcounter), formattedDate, mytarget, email1);
 
-                                                reference.child(userId).child(cname).setValue(helperClass);
-                                                mytargets = 0;
-                                                targett.setText("Target: "+mytarget);
-                                                Toast.makeText(KhatamCount.this, "success to update", Toast.LENGTH_SHORT).show();
+             reference.child(userId).child(cname).setValue(helperClass);
+             mytargets = 0;
+             targett.setText("Target: "+mytarget);
+             Toast.makeText(KhatamCount.this, "success to update", Toast.LENGTH_SHORT).show();
 
-                                            }
-                                        }
+             }
+         }
+         }
 
+          @Override
+          public void onCancelled(DatabaseError databaseError) {
+          Toast.makeText(KhatamCount.this, "cancel", Toast.LENGTH_SHORT).show();
+           }
+            });
 
-                                    }
+            }
 
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                        Toast.makeText(KhatamCount.this, "cancel", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                });
-
-                    }
-
-                })
+            })
                 .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
@@ -574,6 +566,5 @@ public class KhatamCount extends AppCompatActivity {
         targett.setText("Target: " + mytargets);
 
     }
-
 
     }

@@ -46,7 +46,6 @@ public class khatam_adapter extends RecyclerView.Adapter<khatam_adapter.MyViewHo
         this.list = list;
     }
 
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

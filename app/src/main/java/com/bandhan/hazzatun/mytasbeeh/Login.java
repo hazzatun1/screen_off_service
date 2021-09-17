@@ -1,6 +1,5 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -22,7 +21,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
     public class Login extends AppCompatActivity {
         EditText mEmail, mPassword;
@@ -40,10 +38,11 @@ import com.google.firebase.auth.FirebaseUser;
 
             if (auth.getCurrentUser() != null) {
                 startActivity(new Intent(Login.this, MainActivity.class));
-                finish();
+                this.finish();
             }
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
+
             mEmail = findViewById(R.id.email_login);
             mPassword = findViewById(R.id.pass_login);
             fAuth = FirebaseAuth.getInstance();
@@ -59,11 +58,11 @@ import com.google.firebase.auth.FirebaseUser;
                     case "bk":
                         layout.setBackgroundResource(R.drawable.bk);
                         break;
-                    case "pic_1":
-                        layout.setBackgroundResource(R.drawable.pic_1);
+                    case "pic1":
+                        layout.setBackgroundResource(R.drawable.pic1);
                         break;
-                    case "pic_2":
-                        layout.setBackgroundResource(R.drawable.pic_2);
+                    case "pic2":
+                        layout.setBackgroundResource(R.drawable.pic2);
                         break;
                     default:
                         break;
@@ -106,7 +105,7 @@ import com.google.firebase.auth.FirebaseUser;
 
                         fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
+                            public void onComplete( Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
 
@@ -145,7 +144,7 @@ import com.google.firebase.auth.FirebaseUser;
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e) {
+                        public void onFailure( Exception e) {
                             Toast.makeText(Login.this, "Error ! Reset Link is Not Sent" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });

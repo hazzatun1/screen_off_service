@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
     private MusicIntentReceiver myReceiver;
     SharedPreferences prefs1, set_locale, set_back;
     LinearLayout layout;
-
     // PowerManager.WakeLock wakeLock;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

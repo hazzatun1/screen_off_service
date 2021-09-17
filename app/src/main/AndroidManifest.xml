@@ -30,6 +30,11 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:node="merge"
         tools:replace="android:label">
+        <service
+            android:name=".MyServiceScreenOff"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".KhatamCount"
             android:exported="true" />
@@ -90,8 +95,6 @@
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
         </service>
-
-        <receiver android:name=".MediaButtonIntentReceiver" />
     </application>
 
 </manifest>

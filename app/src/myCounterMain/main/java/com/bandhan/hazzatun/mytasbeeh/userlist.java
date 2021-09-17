@@ -44,7 +44,6 @@ public class userlist extends AppCompatActivity {
         setContentView(R.layout.activity_userlist);
         layout=findViewById(R.id.ul_back);
         list = new ArrayList<User>();
-       // us=new User();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

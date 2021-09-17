@@ -2,20 +2,13 @@ package com.bandhan.hazzatun.mytasbeeh;
 
 import java.io.Serializable;
 
-public class KhatamUser implements Serializable {
+public class KhatamUser implements Serializable{
     String k_acc_email;
     String k_target;
     String k_count_name;
     String date;
     String myCount;
-
-    public String getMyCount() {
-        return myCount;
-    }
-
-    public void setMyCount(String myCount) {
-        this.myCount = myCount;
-    }
+    String tCount;
 
     public KhatamUser() {
 
@@ -30,12 +23,13 @@ public class KhatamUser implements Serializable {
         this.date=date;
     }
 
-    public KhatamUser( String email, String target, String count_name, String date, String myCount) {
+    public KhatamUser( String email, String target, String count_name, String date, String myCount, String tCount) {
         this.k_acc_email=email;
         this.k_target=target;
         this.k_count_name=count_name;
         this.date=date;
         this.myCount=myCount;
+        this.tCount=tCount;
     }
 
 
@@ -69,6 +63,22 @@ public class KhatamUser implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+    public String gettCount() {
+        return tCount;
+    }
+
+    public String settCount(String tCount) {
+        this.tCount = tCount;
+        return null;
+    }
+
+    public String getMyCount() {
+        return myCount;
+    }
+
+    public void setMyCount(String myCount) {
+        this.myCount = myCount;
     }
 
 

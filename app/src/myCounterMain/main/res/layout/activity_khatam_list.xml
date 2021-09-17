@@ -62,9 +62,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <TextView
+    <Button
         android:id="@+id/k_total"
         android:text="TotalCountKhatam"
+        android:clickable="true"
+        android:onClick="tCount"
         android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
