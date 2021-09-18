@@ -141,14 +141,17 @@ public class MainActivity extends AppCompatActivity {
 
         if (strPref != null || strPref2 != null || strPref3 != null) {
 
+            cname=prefs1.getString("cname", "Default");
             name_input.setText(prefs1.getString("cname", "Default"));
             name_input_et.setText(prefs1.getString("cname", "Default"));
+
             target=prefs1.getString("tget", "0");
             targett.setText("Target: "+target);
 
             this.mytargets= Integer.parseInt(target);
 
             txv.setText(prefs1.getString("count", "0"));
+            txv_et.setText(prefs1.getString("count", "0"));
             value = txv.getText().toString();
             this.mcounter = Integer.parseInt(value);
 
@@ -157,15 +160,9 @@ public class MainActivity extends AppCompatActivity {
                     .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                             if (dataSnapshot.exists()) {
-                                // Exist! Do whatever.
-                                Toast.makeText(MainActivity.this, "exists this data", Toast.LENGTH_SHORT).show();
-
-                            } else {
-                                // Don't exist! Do something.
-                                writeNewUser();
-                               // Toast.makeText(MainActivity.this, "success to insert", Toast.LENGTH_SHORT).show();
+                                dataSnapshot.getRef().setValue(cname);
+                                Toast.makeText(MainActivity.this, "Success updating", Toast.LENGTH_SHORT).show();
 
                             }
 
@@ -450,10 +447,13 @@ public class MainActivity extends AppCompatActivity {
                         edit_btn.setClickable(true);
                         //stopService(new Intent(MainActivity.this, MediaButtonIntentReceiver.class));
                         Log.d(TAG, "Headset is unplugged");
-                     //   stopService(new Intent(MainActivity.this, MyServiceScreenOff.class));
+                        stopService(new Intent(MainActivity.this, MyServiceScreenOff.class));
                         break;
                     case 1:
                         Log.d(TAG, "Headset is plugged");
+                        //Intent intt = new Intent(MainActivity.this, MyServiceScreenOff.class);
+                        //intt.putExtra("mcounter", mcounter);
+                        //startService(intt);
                         break;
                     default:
                         Log.d(TAG, "Undetermined state");
@@ -468,11 +468,6 @@ public class MainActivity extends AppCompatActivity {
     @Override  //headphone count
     public boolean onKeyDown(int keyCode, KeyEvent event) {
          if (keyCode == KEYCODE_HEADSETHOOK) {
-
-
-//             Intent intent = new Intent(this, MyServiceScreenOff.class);
-//             intent.putExtra("mcounter", mcounter);
-//             startService(intent);
 
              cnt.setClickable(false);
              targett.setClickable(false);

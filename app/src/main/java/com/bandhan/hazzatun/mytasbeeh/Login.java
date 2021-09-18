@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,12 +35,14 @@ import com.google.firebase.auth.FirebaseAuth;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
+
             auth = FirebaseAuth.getInstance();
 
             if (auth.getCurrentUser() != null) {
-                startActivity(new Intent(Login.this, MainActivity.class));
+                startActivity(new Intent(Login.this, SplashActivity.class));
                 this.finish();
             }
+
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
 
@@ -81,21 +84,20 @@ import com.google.firebase.auth.FirebaseAuth;
                     if (netInfo == null) {
                         Toast.makeText(Login.this, "No Internet", Toast.LENGTH_SHORT).show();
 
-
                     }
                     else {
                         email = mEmail.getText().toString().trim();
                         password = mPassword.getText().toString().trim();
 
-//                    if (TextUtils.isEmpty(email)) {
-//                        mEmail.setError("Email is Required.");
-//                        return;
-//                    }
+                    if (TextUtils.isEmpty(email)) {
+                        mEmail.setError("Email is Required.");
+                        return;
+                    }
 //
-//                    if (TextUtils.isEmpty(password)) {
-//                        mPassword.setError("Password is Required.");
-//                        return;
-//                    }
+                    if (TextUtils.isEmpty(password)) {
+                        mPassword.setError("Password is Required.");
+                        return;
+                    }
 //
 //                    if (password.length() < 6) {
 //                        mPassword.setError("Password Must be >= 6 Characters");
@@ -109,8 +111,10 @@ import com.google.firebase.auth.FirebaseAuth;
                                 if (task.isSuccessful()) {
                                     Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
 
-                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                    Intent intent=new Intent(Login.this,SplashActivity.class);
+                                    startActivity(intent);
                                     finish();
+
                                 } else {
                                     Toast.makeText(Login.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
@@ -161,6 +165,8 @@ import com.google.firebase.auth.FirebaseAuth;
             passwordResetDialog.create().show();
         }
         });
+
+
     }
     public void gotoreg(View view) {
         Intent intent = new Intent(this, Register.class);

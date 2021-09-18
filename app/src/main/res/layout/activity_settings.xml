@@ -44,8 +44,11 @@
         android:text="@string/alarm"
         android:onClick="setAlarm"
         android:textSize="20sp"
-        android:gravity="center"
+        android:gravity="left"
+        android:drawableLeft="@mipmap/ic_alarm"
+        android:paddingLeft="100dp"
         android:layout_marginBottom="30dp"
+
         />
 
     <Switch
@@ -59,7 +62,7 @@
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 
- <Button
+    <Button
         android:id="@+id/Attack"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
