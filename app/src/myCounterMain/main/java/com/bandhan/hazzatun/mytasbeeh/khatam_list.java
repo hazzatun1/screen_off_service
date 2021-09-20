@@ -71,7 +71,7 @@ int ttl=0;
             k_count=getIntent().getStringExtra("k_count");
             tgt=getIntent().getStringExtra("tgt");
            // total_k=getIntent().getStringExtra("t_count");
-           //
+
         }
 
 

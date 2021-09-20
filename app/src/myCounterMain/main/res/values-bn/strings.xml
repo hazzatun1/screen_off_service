@@ -18,6 +18,7 @@
     <string name="setLanguage">ভাষা সেট করুন</string>
     <string name="save">সংরক্ষণ</string>
     <string name="open">খোলা</string>
+    <string name="login">Login</string>
    <!-- <string name="reset_app">RESET WHOLE APP</string>-->
     <string name="logout">প্রস্থান</string>
     <string name="go_back">ফিরে যাও</string>
@@ -25,5 +26,7 @@
     <string name="add_acc">হিসাব যোগ কর</string>
     <string name="add">যোগ কর</string>
     <string name="muslim">খতম ই মজলিস</string>
+    <string name="group_count">GroupCount</string>
+    <string name="menu">MenuBar</string>
 
 </resources>

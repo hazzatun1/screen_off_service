@@ -7,15 +7,31 @@
     android:id="@+id/reg_back"
     tools:context=".Register"
     android:orientation="vertical"
-    android:background="@drawable/bk"
+    android:background="@drawable/pic2"
     android:gravity="center">
 
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="@string/app_name"
+        android:textSize="20sp"
+        tools:ignore="RtlHardcoded" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="50dp"
+        android:alpha="0.4"
+        app:srcCompat="@mipmap/ic_launcher_foreground" />
 
     <LinearLayout
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="#c2ffffff"
+
         android:orientation="vertical">
 
         <EditText
@@ -25,8 +41,12 @@
             android:layout_marginTop="10dp"
             android:paddingLeft="2dp"
             android:background="#ffffff"
+            android:drawableLeft="@android:drawable/ic_dialog_email"
             android:inputType="textEmailAddress"
-            android:hint="Email" />
+            android:hint="Email"
+            android:textColorHint="@color/b"
+
+            />
 
 
         <EditText
@@ -36,39 +56,44 @@
             android:layout_marginTop="20dp"
             android:background="#ffffff"
             android:inputType="textPassword"
-            android:hint="Password"/>
+            android:hint="Password"
+            android:drawableLeft="@android:drawable/ic_lock_idle_lock"
+            android:textColorHint="@color/b"
+            />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/button_reg"
-        android:layout_width="190dp"
-        android:layout_height="40dp"
+        android:layout_width="116dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="#04ea00"
-        android:textColor="#ffffff"
-        android:text="Register"/>
+        android:drawableLeft="@drawable/ic_reg_ico"
+        android:text="Register"
+        android:textColor="#ffffff" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:textColor="#ffffff"
+            android:layout_height="wrap_content"
             android:text="already registered?"
-            android:textSize="20sp"/>
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textview_register"
             android:layout_width="92dp"
             android:layout_height="35dp"
             android:clickable="true"
-            android:paddingLeft="10dp"
+            android:drawableLeft="@drawable/ic_login_iicon"
             android:text="Login"
+            android:layout_gravity="center"
             android:textColor="#04ea00"
             android:textSize="20sp"
             android:textStyle="bold" />

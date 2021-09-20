@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     String formattedDate = "";
     private int mytargets = 0;
     Button targett;
-    Button lt;
+    ImageButton lt;
     DatabaseReference reference;
     String counting = "";
     String target = "";
@@ -108,11 +109,11 @@ public class MainActivity extends AppCompatActivity {
                 case "bk":
                     layout.setBackgroundResource(R.drawable.bk);
                     break;
-                case "pic_1":
-                    layout.setBackgroundResource(R.drawable.pic_1);
+                case "pic1":
+                    layout.setBackgroundResource(R.drawable.pic1);
                     break;
-                case "pic_2":
-                    layout.setBackgroundResource(R.drawable.pic_2);
+                case "pic2":
+                    layout.setBackgroundResource(R.drawable.pic2);
                     break;
                 default:
                     break;
@@ -138,17 +139,41 @@ public class MainActivity extends AppCompatActivity {
         name_input_et = findViewById(R.id.count_name_et);
         lt = findViewById(R.id.light);
 
-        if (strPref != null && strPref2 != null && strPref3 != null) {
+        if (strPref != null || strPref2 != null || strPref3 != null) {
 
+            cname=prefs1.getString("cname", "Default");
             name_input.setText(prefs1.getString("cname", "Default"));
+            name_input_et.setText(prefs1.getString("cname", "Default"));
+
             target=prefs1.getString("tget", "0");
             targett.setText("Target: "+target);
 
             this.mytargets= Integer.parseInt(target);
 
             txv.setText(prefs1.getString("count", "0"));
+            txv_et.setText(prefs1.getString("count", "0"));
             value = txv.getText().toString();
             this.mcounter = Integer.parseInt(value);
+
+            reference.child(userId).child(cname)
+                    .equalTo(name_input.getText().toString())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                dataSnapshot.getRef().setValue(cname);
+                                Toast.makeText(MainActivity.this, "Success updating", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(MainActivity.this, "cancel", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
         }
 
         if (getIntent().hasExtra("cID") && getIntent().hasExtra("cName") && getIntent().hasExtra("counts")) {
@@ -177,11 +202,59 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        txv_et.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                LinearLayout layout = new LinearLayout(MainActivity.this);
+                layout.setOrientation(LinearLayout.VERTICAL);
+
+                final EditText value1 = new EditText(MainActivity.this);
+                value1.setHint("Inside value");
+                layout.addView(value1);
+                String uvalue1=String.valueOf(mcounter);
+                value1.setText(uvalue1);
+
+                AlertDialog.Builder alert2 = new AlertDialog.Builder(MainActivity.this);
+                alert2.setTitle("Add Outside counts");
+                final EditText value2 = new EditText(MainActivity.this);
+                value2.setHint("Outside data");
+                layout.addView(value2);
+                alert2.setView(layout);
+                alert2.setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+                        int val2 = 0;
+                        if(!value2.getText().toString().isEmpty()) {
+                            val2 = Integer.parseInt(value2.getText().toString());
+                        }
+                        mcounter=(mcounter+val2);
+                        txv_et.setText(String.valueOf(mcounter));
+                        txv.setText(String.valueOf(mcounter));
+
+
+                    }
+                })
+                        .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface param2DialogInterface, int param2Int) {
+
+                                Toast.makeText(MainActivity.this, "Cancel", Toast.LENGTH_LONG).show();
+                                param2DialogInterface.cancel();
+
+                            }
+
+                        });
+
+                alert2.create().show();
+                return true;
+            }
+        });
+
+
+
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         formattedDate = df.format(c);
         targett.setBackgroundColor(Color.GREEN);
-
 
     }
 
@@ -333,11 +406,7 @@ public class MainActivity extends AppCompatActivity {
             cnt.setTextColor(getResources().getColor(R.color.y));
             layout.setBackgroundResource(R.drawable.bl);
         } else {
-            txv_et.setTextColor(getResources().getColor(R.color.b));
-            txv.setTextColor(getResources().getColor(R.color.b));
-            cnt.setTextColor(getResources().getColor(R.color.b));
-            layout.setBackgroundResource(R.drawable.bk);
-
+            this.recreate();
         }
     }
 
@@ -363,49 +432,6 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(myReceiver, filter);
     }
 
-    public void calc_open(View view) {
-
-        LinearLayout layout = new LinearLayout(MainActivity.this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-
-        final EditText value1 = new EditText(MainActivity.this);
-        value1.setHint("Value1");
-        layout.addView(value1);
-        String uvalue1=String.valueOf(mcounter);
-        value1.setText(uvalue1);
-
-        AlertDialog.Builder alert2 = new AlertDialog.Builder(MainActivity.this);
-        alert2.setTitle("Add Outside counts");
-        final EditText value2 = new EditText(MainActivity.this);
-        value2.setHint("Value2");
-        layout.addView(value2);
-        alert2.setView(layout);
-        alert2.setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-                int val2 = 0;
-                if(!value2.getText().toString().isEmpty()) {
-                    val2 = Integer.parseInt(value2.getText().toString());
-                }
-                mcounter=(mcounter+val2);
-                txv_et.setText(String.valueOf(mcounter));
-                txv.setText(String.valueOf(mcounter));
-
-
-            }
-        })
-                .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface param2DialogInterface, int param2Int) {
-
-                        Toast.makeText(MainActivity.this, "Cancel", Toast.LENGTH_LONG).show();
-                        param2DialogInterface.cancel();
-
-                    }
-
-                });
-
-        alert2.create().show();
-    }
-
 
     class MusicIntentReceiver extends BroadcastReceiver {
         @Override
@@ -417,13 +443,17 @@ public class MainActivity extends AppCompatActivity {
                         cnt.setClickable(true);
                         targett.setClickable(true);
                         lt.setClickable(true);
-                        open.setClickable(false);
-                        edit_btn.setClickable(false);
+                        open.setClickable(true);
+                        edit_btn.setClickable(true);
                         //stopService(new Intent(MainActivity.this, MediaButtonIntentReceiver.class));
                         Log.d(TAG, "Headset is unplugged");
+                        stopService(new Intent(MainActivity.this, MyServiceScreenOff.class));
                         break;
                     case 1:
                         Log.d(TAG, "Headset is plugged");
+                        //Intent intt = new Intent(MainActivity.this, MyServiceScreenOff.class);
+                        //intt.putExtra("mcounter", mcounter);
+                        //startService(intt);
                         break;
                     default:
                         Log.d(TAG, "Undetermined state");
@@ -434,10 +464,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     @Override  //headphone count
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
          if (keyCode == KEYCODE_HEADSETHOOK) {
+
              cnt.setClickable(false);
              targett.setClickable(false);
              lt.setClickable(false);
@@ -447,7 +478,8 @@ public class MainActivity extends AppCompatActivity {
              myReceiver = new MusicIntentReceiver();
              audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
              audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
-             audioManager.setSpeakerphoneOn(true);
+             audioManager.setSpeakerphoneOn(true);// will continue beep sound though headphone connected.
+
              //handle click
              if (mytargets == 0) {
                  mcounter++;
@@ -475,11 +507,6 @@ public class MainActivity extends AppCompatActivity {
          }
      return super.onKeyDown(keyCode, event);
     }
-
-
-
-
-
 
 
         public void target_method (View view){

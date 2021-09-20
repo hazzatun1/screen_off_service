@@ -1,40 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
+<item
+    android:id="@+id/action_more"
+    android:icon="@mipmap/ic_settings"
+    android:title="@string/menu"
+    app:showAsAction="always">
+<menu>
     <item
         android:id="@+id/item1"
         android:title="@string/logout"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
+        android:icon="@mipmap/ic_logout"
         android:onClick="onOptionsItemSelected"
         tools:ignore="HardcodedText" />
 
     <item
         android:id="@+id/item2"
         android:title="@string/reset"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
+        android:icon="@mipmap/ic_reset"
         android:onClick="onOptionsItemSelected"
         tools:ignore="HardcodedText" />
     <item
         android:id="@+id/item3"
         android:title="@string/settings"
-        app:showAsAction="never"
+        android:icon="@mipmap/ic_settings"
+        app:showAsAction="ifRoom"
         android:onClick="onOptionsItemSelected"
         tools:ignore="HardcodedText" />
     <item
         android:id="@+id/item4"
         android:title="@string/profile"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
+        android:icon="@mipmap/ic_profile"
         android:onClick="onOptionsItemSelected"
         tools:ignore="HardcodedText" />
 
     <item
         android:id="@+id/item5"
-        android:title="@string/muslim"
-        app:showAsAction="never"
+        android:title="@string/group_count"
+        app:showAsAction="ifRoom"
+        android:icon="@mipmap/ic_group"
         android:onClick="onOptionsItemSelected"
         tools:ignore="HardcodedText" />
 
 
+</menu>
+</item>
 </menu>

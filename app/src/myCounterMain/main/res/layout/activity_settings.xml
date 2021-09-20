@@ -2,50 +2,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bk"
+    android:background="@drawable/pic_2"
     android:id="@+id/set"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Settings">
 
-
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="end"
-        android:onClick="go_main"
-        android:text="@string/go_back"
-        android:textSize="20sp" />
+        android:orientation="horizontal"
+        android:background="@color/y"
+        android:layout_marginBottom="30dp"
+        >
 
-    <TextView
-        android:id="@+id/id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        android:text="@string/settings"
-        android:textSize="20sp"
-        />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="left"
+            android:background="@mipmap/ic_back"
+            android:onClick="go_main"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25pt"
+            android:text="@string/settings"
+            android:textColor="@color/b"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
 
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:text="@string/alarm"
         android:onClick="setAlarm"
         android:textSize="20sp"
-        android:gravity="center"
+        android:gravity="left"
+        android:drawableLeft="@mipmap/ic_alarm"
+        android:paddingLeft="100dp"
+        android:layout_marginBottom="30dp"
+
         />
+
     <Switch
         android:id="@+id/btn2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginBottom="30dp"
         android:text="@string/sound_mute"
         android:textSize="20sp"
         android:gravity="center"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
- <Button
+
+
+    <Button
         android:id="@+id/Attack"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -57,28 +74,18 @@
         android:id="@+id/btn3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginBottom="30dp"
         android:text="@string/background"
         android:textSize="20sp"
         android:gravity="center"
 
         />
 
-  <!--  <Button
-        android:id="@+id/btn4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="@string/reset_app"
-        android:onClick="reset_whole_zikr"
-        android:textSize="20sp"
-        android:gravity="center"
-        />-->
     <Button
         android:id="@+id/btn5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+
         android:text="@string/setLanguage"
         android:onClick="setLang"
         android:textSize="20sp"
@@ -86,6 +93,4 @@
 
         />
 
-    <!--<LinearLayout android:layout_height="match_parent" android:layout_width="match_parent"-->
-<!--    xmlns:android="http://schemas.android.com/apk/res/android">-->
 </LinearLayout>

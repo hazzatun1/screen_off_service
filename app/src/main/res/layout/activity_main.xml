@@ -77,15 +77,19 @@
         android:id="@+id/count_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10sp"
         android:gravity="center"
         android:text="@string/default_title"
-        android:textSize="70dp"
         android:textColor="@color/b"
+        android:textSize="35sp"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeMaxTextSize="70sp"
+        android:autoSizeStepGranularity="2sp"
+        android:singleLine="true"
         />
 
     <EditText
-        android:layout_marginBottom="10sp"
+
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:id="@+id/count_name_et"
@@ -96,8 +100,12 @@
         android:text="@string/default_title"
         android:textColor="@color/b"
         android:visibility="gone"
-        android:textSize="70dp"
-        android:maxLength="12"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeMaxTextSize="70sp"
+        android:autoSizeStepGranularity="2sp"
+        android:textSize="35sp"
+        android:maxLines="1"
         />
 
 
@@ -113,7 +121,7 @@
         android:text="0"
         android:clickable="true"
         android:onClick="calc_open"
-        android:textSize="90dp"
+        android:textSize="90sp"
         android:visibility="gone"
         android:importantForAutofill="no"
         android:inputType="numberDecimal"
@@ -127,7 +135,7 @@
         android:gravity="center"
         android:maxLength="6"
         android:text="0"
-        android:textSize="90dp"
+        android:textSize="90sp"
         android:textColor="@color/b"
         tools:ignore="HardcodedText" />
 
@@ -144,7 +152,7 @@
             android:onClick="edits"
             android:text="@string/edit"
             android:gravity="left"
-android:layout_marginBottom="5dp"
+            android:layout_marginBottom="5dp"
             android:drawableLeft="@drawable/ic_edit"
             android:paddingLeft="50pt"
             android:textSize="20dp"

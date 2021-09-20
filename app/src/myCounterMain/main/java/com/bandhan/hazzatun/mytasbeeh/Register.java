@@ -65,11 +65,11 @@ public class Register extends AppCompatActivity {
                 case "bk":
                     layout.setBackgroundResource(R.drawable.bk);
                     break;
-                case "pic_1":
-                    layout.setBackgroundResource(R.drawable.pic_1);
+                case "pic1":
+                    layout.setBackgroundResource(R.drawable.pic1);
                     break;
-                case "pic_2":
-                    layout.setBackgroundResource(R.drawable.pic_2);
+                case "pic2":
+                    layout.setBackgroundResource(R.drawable.pic2);
                     break;
                 default:
                     break;
