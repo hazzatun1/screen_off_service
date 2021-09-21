@@ -44,7 +44,7 @@ public class khatam_list extends AppCompatActivity {
     String email1 ="", providerId="", cname="";
     LinearLayout layout;
     String kName="", tgt="", k_count="";
-    TextView k_name, k_target, k_member, k_total, k_tdate, myCount;
+    TextView k_name, k_target, k_member, k_total, k_tdate, myCount, header;
     String tday="", total_k="", email="", t_count="", my_count="";
     FirebaseUser user;
 int ttl=0;
@@ -76,6 +76,7 @@ int ttl=0;
 
 
 
+        header =findViewById(R.id.head_info);
         k_name=findViewById(R.id.k_name);
         k_target=findViewById(R.id.k_target);
         k_member=findViewById(R.id.k_member);
@@ -86,12 +87,14 @@ int ttl=0;
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         tday = df.format(c);
         k_tdate.setText("Today: "+tday);
-        k_name.setText("Khatam Name: " +kName);
-        k_target.setText("Khatam Target: " +tgt);
+        k_name.setText("Group Name " +kName);
+        k_target.setText("Group Target: " +tgt);
         myCount.setText("MyCount: "+k_count);
         k_total.setText("Total: "+total_k);
         database = FirebaseDatabase.getInstance().getReference("MyDigitalCounter");
          user = FirebaseAuth.getInstance().getCurrentUser();
+
+         header.setText("Hello "+user.getDisplayName());
 
 
         database.child("Group").child(kName).addValueEventListener(new ValueEventListener() {
@@ -151,7 +154,7 @@ int ttl=0;
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //list_khatam.clear();
                 for (DataSnapshot booksSnapshot : snapshot.getChildren()) {
-                    k_member.setText("Khatam Member: "+String.valueOf(booksSnapshot.getChildrenCount()));
+                    k_member.setText("Group Member: "+String.valueOf(booksSnapshot.getChildrenCount()));
                     }
                 }
 

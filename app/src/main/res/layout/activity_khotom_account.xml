@@ -5,16 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".KhotomAccount"
+    android:background="@drawable/pic2"
     android:orientation="vertical">
 
-    <Button
-        android:text="If Muslim - Khotom Page"
+    <TextView
+        android:gravity="center"
+        android:text="@string/gCount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="15sp"
         />
+
     <EditText
         android:id="@+id/edit_text1"
-        android:hint="GroupName"
+        android:hint="@string/gname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
@@ -22,7 +26,7 @@
 
     <EditText
         android:id="@+id/edit_text2"
-        android:hint="GroupTarget"
+        android:hint="@string/gTarget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
@@ -31,14 +35,14 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set Group"
+        android:text="@string/gCreate"
         android:onClick="add_k_name"
         tools:ignore="OnClick" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="only your group"
+        android:text="@string/mGroup"
         android:onClick="goGroup"
         tools:ignore="OnClick" />
 
@@ -48,14 +52,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 />
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add email"
+                android:text="@string/add_member"
                 android:onClick="addItemToList"
                 tools:ignore="OnClick" />
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/del_member"-->
+<!--        android:onClick="delItemfromList"-->
+<!--        tools:ignore="OnClick" />-->
 
+</LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/khatamList"

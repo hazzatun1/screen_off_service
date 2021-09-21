@@ -35,20 +35,13 @@
             android:name=".SplashActivity"
             android:exported="true"/>
 
-        <service
-            android:name=".MyServiceScreenOff"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity
             android:name=".KhatamCount"
             android:exported="true" />
         <activity
             android:name=".khatam_list"
             android:exported="true" />
-        <activity
-            android:name=".KhotomAccount"
-            android:exported="true" />
+
         <activity
             android:name=".login_profile"
             android:exported="true"
@@ -71,6 +64,10 @@
             android:configChanges="locale"
             android:exported="true"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".KhotomAccount"
+            android:exported="true"/>
         <activity
             android:name=".Login"
             android:configChanges="locale"

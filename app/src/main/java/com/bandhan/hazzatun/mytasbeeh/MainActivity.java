@@ -447,7 +447,7 @@ public class MainActivity extends AppCompatActivity {
                         edit_btn.setClickable(true);
                         //stopService(new Intent(MainActivity.this, MediaButtonIntentReceiver.class));
                         Log.d(TAG, "Headset is unplugged");
-                        stopService(new Intent(MainActivity.this, MyServiceScreenOff.class));
+                       // stopService(new Intent(MainActivity.this, MyServiceScreenOff.class));
                         break;
                     case 1:
                         Log.d(TAG, "Headset is plugged");
