@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -68,7 +70,7 @@ public class KhatamCount extends AppCompatActivity {
     String formattedDate = "";
     private int mytargets = 0;
     Button targett;
-    Button lt;
+    ImageButton lt;
     DatabaseReference reference;
     String counting = "", t_count;
     String target = "";
@@ -81,6 +83,7 @@ public class KhatamCount extends AppCompatActivity {
     LinearLayout layout;
     KhatamUser ku;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,7 +152,7 @@ public class KhatamCount extends AppCompatActivity {
 
             name_input.setText(prefs1.getString("cname", "Default"));
             target=prefs1.getString("tget", "0");
-            targett.setText("Target: "+target);
+            targett.setText(getString(R.string.target_string)+target);
 
             this.mytargets= Integer.parseInt(target);
 
@@ -163,7 +166,10 @@ public class KhatamCount extends AppCompatActivity {
         open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(KhatamCount.this, userlist.class);
+                Intent i = new Intent(KhatamCount.this, khatam_list.class);
+                i.putExtra("k_count", String.valueOf(mcounter));
+                i.putExtra("tgt", String.valueOf(mytargets));
+                i.putExtra("cname", name_input.getText().toString());
                 startActivity(i);
             }
         });
@@ -177,10 +183,11 @@ public class KhatamCount extends AppCompatActivity {
                 && getIntent().hasExtra("myCount")) {
             cname = getIntent().getStringExtra("k_name");
             target=getIntent().getStringExtra("tgt");
+            mytargets=Integer.parseInt(target);
             mcounter=Integer.parseInt(getIntent().getStringExtra("myCount"));
             name_input.setText(cname);
             name_input_et.setText(cname);
-            targett.setText("Target: "+target);
+            targett.setText(getString(R.string.target_string)+target);
             txv.setText(String.valueOf(mcounter));
             txv_et.setText(String.valueOf(mcounter));
         }
@@ -188,48 +195,7 @@ public class KhatamCount extends AppCompatActivity {
     }
 
 
-    public void showPopup(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.counter_menu, popup.getMenu());
-        popup.show();
-    }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.item1:
-                resets();
-                FirebaseAuth.getInstance().signOut();
-                Intent inte = new Intent(getApplicationContext(), Login.class);
-                startActivity(inte);
-                return true;
-            case R.id.item2:
-                resets();
-                return true;
-            case R.id.item3:
-                this.finish();
-                Intent i = new Intent(getApplicationContext(), Settings.class);
-                startActivity(i);
-                return true;
-
-            case R.id.item4:
-                Intent in = new Intent(getApplicationContext(), login_profile.class);
-                startActivity(in);
-                return true;
-
-            case R.id.item5:
-                Intent intt = new Intent(getApplicationContext(), KhotomAccount.class);
-                startActivity(intt);
-                return true;
-
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
 
     public void play(View view) {
@@ -332,7 +298,27 @@ public class KhatamCount extends AppCompatActivity {
         //addgroupCounts();
         Intent i = new Intent(this, khatam_list.class);
         i.putExtra("k_count", String.valueOf(mcounter));
-        i.putExtra("tgt", targett.getText().toString());
+        i.putExtra("tgt", String.valueOf(mytargets));
+        i.putExtra("cname", name_input.getText().toString());
+        startActivity(i);
+        this.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(), khatam_list.class);
+        // i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.putExtra("k_count", String.valueOf(mcounter));
+        i.putExtra("tgt", String.valueOf(mytargets));
+        i.putExtra("cname", name_input.getText().toString());
+        startActivity(i);
+        this.finish();
+    }
+
+    public void go_main(View view) {
+        Intent i = new Intent(this, khatam_list.class);
+        i.putExtra("k_count", String.valueOf(mcounter));
+        i.putExtra("tgt", String.valueOf(mytargets));
         i.putExtra("cname", name_input.getText().toString());
         startActivity(i);
         this.finish();
@@ -416,6 +402,8 @@ public class KhatamCount extends AppCompatActivity {
     }
 
 
+
+
     private class MusicIntentReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -497,7 +485,7 @@ public class KhatamCount extends AppCompatActivity {
             public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
                 mytargets = parseInt(editText3.getText().toString());
-                targett.setText("Target: " + String.valueOf(mytargets));
+                targett.setText(getString(R.string.target_string) + String.valueOf(mytargets));
                 mcounter = 0;
                 txv.setText(String.valueOf(mcounter));//will work by save button
             }
@@ -524,7 +512,7 @@ public class KhatamCount extends AppCompatActivity {
 
              reference.child(userId).child(cname).setValue(helperClass);
              mytargets = 0;
-             targett.setText("Target: "+mytarget);
+             targett.setText(getString(R.string.target_string)+mytarget);
              Toast.makeText(KhatamCount.this, "success to update", Toast.LENGTH_SHORT).show();
 
              }
@@ -563,8 +551,9 @@ public class KhatamCount extends AppCompatActivity {
         if (!CID.equals("")) {
             CID = "";
         }
-        targett.setText("Target: " + mytargets);
+        targett.setText(getString(R.string.target_string) + mytargets);
 
     }
+
 
     }

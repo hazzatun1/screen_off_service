@@ -47,11 +47,11 @@ public class khatam_list extends AppCompatActivity {
     TextView k_name, k_target, k_member, k_total, k_tdate, myCount, header;
     String tday="", total_k="", email="", t_count="", my_count="";
     FirebaseUser user;
-int ttl=0;
+    int ttl=0;
     //User us;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_khatam_list);
         layout=findViewById(R.id.kl_back);
@@ -86,31 +86,31 @@ int ttl=0;
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         tday = df.format(c);
-        k_tdate.setText("Today: "+tday);
-        k_name.setText("Group Name " +kName);
-        k_target.setText("Group Target: " +tgt);
-        myCount.setText("MyCount: "+k_count);
-        k_total.setText("Total: "+total_k);
+        k_tdate.setText(getString(R.string.date_today)+tday);
+        k_name.setText(getString(R.string.groupname) +kName);
+        k_target.setText(getString(R.string.target_string) +tgt);
+        myCount.setText(getString(R.string.my_count)+k_count);
+        k_total.setText(getString(R.string.totalcount) +total_k);
         database = FirebaseDatabase.getInstance().getReference("MyDigitalCounter");
          user = FirebaseAuth.getInstance().getCurrentUser();
-
-         header.setText("Hello "+user.getDisplayName());
+        // header.setText(getString(R.string.hello) + user.getDisplayName());
 
 
         database.child("Group").child(kName).addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
+            @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //list_khatam.clear();
                 for (DataSnapshot booksSnapshot : snapshot.getChildren()) {
                     try {
                         KhatamUser users = booksSnapshot.getValue(KhatamUser.class);
+                        assert users != null;
                         String mail=users.getK_acc_email();
-                        if(mail.equals(user.getEmail())) {
+                        if(mail.matches(user.getEmail())) {
                             my_count = users.getMyCount();
                             t_count = users.gettCount();
-                            myCount.setText("MyCount: " + my_count);
-                            k_total.setText("Total: " + t_count);
+                            myCount.setText(getString(R.string.my_count) + my_count);
+                            k_total.setText(getString(R.string.totalcount) + t_count);
                         }
 
                     } catch (DatabaseException e) {
@@ -154,7 +154,7 @@ int ttl=0;
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //list_khatam.clear();
                 for (DataSnapshot booksSnapshot : snapshot.getChildren()) {
-                    k_member.setText("Group Member: "+String.valueOf(booksSnapshot.getChildrenCount()));
+                    k_member.setText(getString(R.string.groupmember) +String.valueOf(booksSnapshot.getChildrenCount()));
                     }
                 }
 
@@ -166,11 +166,7 @@ int ttl=0;
 
     }
 
-    public void go_main(View view) {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-        this.finish();
-    }
+
 
     public void saveToCount(View view) {
         Intent i = new Intent(this, KhatamCount.class);
@@ -200,7 +196,7 @@ int ttl=0;
                 if(dataSnapshot.exists()){
                     for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                         KhatamUser usa=snapshot.getValue(KhatamUser.class);
-                        int tcou=Integer.valueOf(usa.getMyCount());
+                        int tcou=Integer.parseInt(usa.getMyCount());
                         total += tcou;
                         ttl=total;
                         // snapshot.getRef().child("tCount").setValue(String.valueOf(total));
@@ -219,6 +215,19 @@ int ttl=0;
 
     }
 
+    public void go_main(View view) {
+        Intent i = new Intent(this, KhotomAccount.class);
+        startActivity(i);
+        this.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(), KhotomAccount.class);
+        // i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        this.finish();
+    }
 
 
 

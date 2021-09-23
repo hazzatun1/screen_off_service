@@ -58,6 +58,7 @@ public class KhotomAccount extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference("MyDigitalCounter");
         user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         email1=user.getEmail();
         list_khatam=new ArrayList<KhatamUser>();
         email2=findViewById(R.id.edit_text);
@@ -103,11 +104,13 @@ public class KhotomAccount extends AppCompatActivity {
 
     public void add_k_name(View view) {
         count_name=et_k_name.getText().toString();
-        database.child("Group").child(count_name)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                       // for (DataSnapshot booksSnapshot : dataSnapshot.getChildren()) {
+
+        if(!count_name.trim().matches("") &&  !targt_et.getText().toString().trim().matches("")) {
+            database.child("Group").child(count_name)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                             if (dataSnapshot.exists()) {
                                 Toast.makeText(KhotomAccount.this, "this group exists", Toast.LENGTH_SHORT).show();
 
@@ -116,15 +119,20 @@ public class KhotomAccount extends AppCompatActivity {
 
                             }
                         }
-                   // }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-    });
+                        }
+
+                    });
+        }
+        else{
+            Toast.makeText(KhotomAccount.this, "Group Data is empty", Toast.LENGTH_SHORT).show();
+        }
 
     }
+
     public void writeNewGroup() {
 
         count_name=et_k_name.getText().toString();
@@ -136,37 +144,37 @@ public class KhotomAccount extends AppCompatActivity {
         Toast.makeText(KhotomAccount.this, "success to insert", Toast.LENGTH_SHORT).show();
     }
 
- public void go_main(View view) {
- Intent i = new Intent(this, MainActivity.class);
- startActivity(i);
- this.finish();
- }
 
 
     public void addItemToList(View view) {
-        count_name = et_k_name.getText().toString();
-        mail2 = email2.getText().toString();
-        auth.fetchSignInMethodsForEmail(mail2)
-                .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
 
-                        boolean isNewUser = Objects.requireNonNull(task.getResult().getSignInMethods()).isEmpty();
+            count_name = et_k_name.getText().toString();
+            mail2 = email2.getText().toString();
+        if(!count_name.trim().matches("") && !mail2.trim().matches("")) {
+            auth.fetchSignInMethodsForEmail(mail2)
+                    .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
 
-                        if (isNewUser) {
-                            Toast.makeText(KhotomAccount.this, "unregistered email", Toast.LENGTH_SHORT).show();
+                            boolean isNewUser = Objects.requireNonNull(task.getResult().getSignInMethods()).isEmpty();
+
+                            if (isNewUser) {
+                                Toast.makeText(KhotomAccount.this, "unregistered email", Toast.LENGTH_SHORT).show();
+                            } else {
+
+                                //Toast.makeText(KhotomAccount.this, "this member existed", Toast.LENGTH_SHORT).show();
+                                writenewMember();
+
+                            }
                         }
-                        else {
 
-                    //Toast.makeText(KhotomAccount.this, "this member existed", Toast.LENGTH_SHORT).show();
-                            writenewMember();
-
-                        }
-                    }
-
-                });
-
+                    });
+        }
+        else{
+            Toast.makeText(KhotomAccount.this, "Group Data is empty", Toast.LENGTH_SHORT).show();
+        }
     }
+
     public void writenewMember(){
         count_name = et_k_name.getText().toString();
         mail2 = email2.getText().toString();
@@ -210,12 +218,22 @@ public class KhotomAccount extends AppCompatActivity {
    // }
 
     public void goGroup(View view) {
-    Intent i = new Intent(this, khatam_list.class);
-    i.putExtra("name", et_k_name.getText().toString());
-    i.putExtra("tgt", targt_et.getText().toString());
-    startActivity(i);
-    this.finish();
-
+        if(!et_k_name.getText().toString().trim().matches("") &&
+                !targt_et.getText().toString().trim().matches("")) {
+            Intent i = new Intent(this, khatam_list.class);
+            i.putExtra("name", et_k_name.getText().toString());
+            i.putExtra("tgt", targt_et.getText().toString());
+            startActivity(i);
+            this.finish();
+        }
+        else{
+            Toast.makeText(KhotomAccount.this, "Please assure your group", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void go_main(View view) {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        this.finish();
     }
 
 

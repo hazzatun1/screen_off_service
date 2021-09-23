@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">আমার গণনা</string>
+    <string name="app_name">ডিজিটাল কাউন্টার</string>
     <string name="count">গণনা</string>
     <string name="default_title">অনুপস্থিত</string>
     <string name="settings">নির্দিষ্টকরণ</string>
@@ -18,21 +18,27 @@
     <string name="setLanguage">ভাষা সেট করুন</string>
     <string name="save">সংরক্ষণ</string>
     <string name="open">খোলা</string>
-    <string name="login">Login</string>
+    <string name="login">প্রবেশ করুন</string>
    <!-- <string name="reset_app">RESET WHOLE APP</string>-->
     <string name="logout">প্রস্থান</string>
     <string name="profile">পরিলেখ</string>
     <string name="add">যোগ কর</string>
-    <string name="group_count">GroupCount</string>
-    <string name="menu">MenuBar</string>
-    <string name="email">Email: </string>
-    <string name="add_member">Add Member: </string>
-    <string name="gCount">Group Count</string>
-    <string name="gname">Group Name</string>
-    <string name="gTarget">Group Target</string>
-    <string name="gCreate">Create Group</string>
-    <string name="mGroup">My Group</string>
-    <string name="del_member">del_member</string>
+    <string name="group_count">গ্রুপ কাউন্ট</string>
+    <string name="menu">মেনুবার</string>
+    <string name="email">ইমেইল: </string>
+    <string name="add_member">সদস্য যোগ করুন: </string>
+    <string name="gCount">গ্রুপ কাউন্ট</string>
+    <string name="gname">দলের নাম: </string>
+    <string name="gTarget">গ্রুপ টার্গেট</string>
+    <string name="gCreate">গ্রুপ তৈরি করুন</string>
+    <string name="mGroup">আমার দল</string>
+    <string name="del_member">সদস্য মুছে দিন</string>
+    <string name="groupmember">দলের সদস্য: </string>
+    <string name="totalcount">মোট গণনা: </string>
+    <string name="my_count">আমার গণনা: </string>
+    <string name="grouptarget">গ্রুপ টার্গেট</string>
+    <string name="groupname">দলের নাম: </string>
+    <string name="date_today">আজকের তারিখ: </string>
 
 
 </resources>

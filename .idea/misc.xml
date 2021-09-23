@@ -14,6 +14,8 @@
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/drawable-anydpi/ic_reg_ico.xml" value="0.2203125" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.109375" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/drawable-v24/setting_menu_ic.xml" value="0.2203125" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/drawable/ic_back_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/drawable/ic_click_icon.xml" value="0.13645833333333332" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/drawable/ic_edit.xml" value="0.2203125" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/drawable/ic_launcher_background.xml" value="0.109375" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/drawable/ic_login_icon.xml" value="0.1" />
@@ -23,16 +25,35 @@
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/drawable/ic_tgt.xml" value="0.2203125" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/drawable/list_divider.xml" value="0.109375" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/drawable/setting_menu_ic.xml" value="0.109375" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-land/activity_main.xml" value="0.825" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-land/activity_settings.xml" value="0.825" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-land/activity_splash.xml" value="0.825" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-land/activity_userlist.xml" value="0.1" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-land/khatam_list.xml" value="0.825" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw320dp/activity_main.xml" value="0.1203125" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw320dp/activity_settings.xml" value="0.1203125" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw320dp/activity_splash.xml" value="0.1203125" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw320dp/activity_userlist.xml" value="0.1203125" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw320dp/khatam_list.xml" value="0.1203125" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw480dp/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw480dp/activity_userlist.xml" value="0.1" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw480dp/khatam_list.xml" value="0.28875" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw600dp/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw600dp/activity_splash.xml" value="0.18046875" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw600dp/activity_userlist.xml" value="0.1" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw600dp/item.xml" value="0.1" />
-        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/activity_khatam_count.xml" value="0.1" />
-        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/activity_khatam_list.xml" value="0.22" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw600dp/khatam_list.xml" value="0.1203125" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw720dp/activity_main.xml" value="0.11" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw720dp/activity_settings.xml" value="0.11279296875" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw720dp/activity_userlist.xml" value="0.1" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-sw720dp/khatam_list.xml" value="0.1" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout-w320dp/activity_main.xml" value="0.1203125" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/activity_khatam_count.xml" value="0.12" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/activity_khatam_list.xml" value="0.1" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/activity_khotom_account.xml" value="0.1" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/activity_login.xml" value="0.18" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/activity_login_profile.xml" value="0.18" />
-        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/activity_main.xml" value="0.18" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/activity_open_page.xml" value="0.1" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/activity_register.xml" value="0.15" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/activity_settings.xml" value="0.22" />
@@ -43,6 +64,11 @@
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/save_list.xml" value="0.1" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/layout/view_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/menu/counter_menu.xml" value="0.1265625" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/mipmap-anydpi-v26/ic_back.xml" value="0.1" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/mipmap-anydpi-v26/ic_click.xml" value="0.2082051282051282" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/mipmap-anydpi-v26/ic_click2.xml" value="0.13645833333333332" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/mipmap-anydpi-v26/ic_click2_round.xml" value="0.13645833333333332" />
+        <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/mipmap-anydpi-v26/ic_click_round.xml" value="0.13645833333333332" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.21" />
         <entry key="..\:/Users/hazza/AndroidStudioProjects/myCounter/app/src/main/res/mipmap-anydpi-v26/ic_reg_round.xml" value="0.1638888888888889" />

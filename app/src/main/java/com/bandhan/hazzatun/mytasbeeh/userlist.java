@@ -1,5 +1,7 @@
 package com.bandhan.hazzatun.mytasbeeh;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -77,22 +79,22 @@ public class userlist extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                        // list.clear();
-                        for (DataSnapshot booksSnapshot : snapshot.getChildren()) {
-                            User value = booksSnapshot.getValue(User.class);
-                            assert value != null;
-                            String mail = value.get_email();
-                            if (booksSnapshot.exists() && mail.equals(email1)) {
-                                list.add(value);
-                                Toast.makeText(userlist.this, "only you!!!", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                Toast.makeText(userlist.this, "nothing to show", Toast.LENGTH_SHORT).show();
-                            }
-                            Toast.makeText(userlist.this, "success to show", Toast.LENGTH_SHORT).show();
+                    for (DataSnapshot booksSnapshot : snapshot.getChildren()) {
+                        User value = booksSnapshot.getValue(User.class);
+                        assert value != null;
+                        String mail = value.get_email();
+                        if (booksSnapshot.exists() && mail.equals(email1)) {
+                            list.add(value);
+                            Toast.makeText(userlist.this, "only you!!!", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(userlist.this, "nothing to show", Toast.LENGTH_SHORT).show();
+                        }
+                        Toast.makeText(userlist.this, "success to show", Toast.LENGTH_SHORT).show();
 
-                            myAdapter = new MyAdapter(userlist.this, list);
-                            recyclerView.setAdapter(myAdapter);
-                            myAdapter.notifyDataSetChanged();
+                        myAdapter = new MyAdapter(userlist.this, list);
+                        recyclerView.setAdapter(myAdapter);
+                        myAdapter.notifyDataSetChanged();
 
                         }
 
@@ -108,7 +110,17 @@ public class userlist extends AppCompatActivity {
 
     public void go_main(View view) {
         Intent i = new Intent(this, MainActivity.class);
+       // i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         this.finish();
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+       // i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        this.finish();
+    }
+
 }

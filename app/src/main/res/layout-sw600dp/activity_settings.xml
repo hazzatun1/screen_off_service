@@ -1,0 +1,95 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pic_2"
+    android:id="@+id/set"
+    android:orientation="vertical"
+    tools:context=".Settings">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/y"
+        android:layout_marginBottom="30dp"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="left"
+            android:background="@mipmap/ic_back"
+            android:onClick="go_main"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25pt"
+            android:text="@string/settings"
+            android:textColor="@color/b"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/alarm"
+        android:onClick="setAlarm"
+        android:textSize="20sp"
+        android:gravity="left"
+        android:drawableLeft="@mipmap/ic_alarm"
+        android:paddingLeft="100dp"
+        android:layout_marginBottom="30dp"
+
+        />
+
+    <Switch
+        android:id="@+id/btn2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="@string/sound_mute"
+        android:textSize="20sp"
+        android:gravity="center"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/background"
+        android:onClick="set_background"
+         />
+
+    <Spinner
+        android:id="@+id/btn3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="@string/background"
+        android:textSize="20sp"
+        android:gravity="center"
+
+        />
+
+    <Button
+        android:id="@+id/btn5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="@string/setLanguage"
+        android:onClick="setLang"
+        android:textSize="20sp"
+        android:gravity="center"
+
+        />
+
+</LinearLayout>
