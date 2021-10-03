@@ -39,6 +39,7 @@
     <string name="grouptarget">গ্রুপ টার্গেট</string>
     <string name="groupname">দলের নাম: </string>
     <string name="date_today">আজকের তারিখ: </string>
+    <string name="group_create">গ্রুপ তৈরি </string>
 
 
 </resources>

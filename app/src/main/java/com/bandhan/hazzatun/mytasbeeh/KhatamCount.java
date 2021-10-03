@@ -130,10 +130,7 @@ public class KhatamCount extends AppCompatActivity {
 
         }
 
-        prefs1 = getSharedPreferences("auto.tasbeeh.data", MODE_PRIVATE);
-        String strPref = prefs1.getString("count", null);
-        String strPref2 = prefs1.getString("cname", null);
-        String strPref3 = prefs1.getString("tget", null);
+
         FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
         reference = rootNode.getReference("MyDigitalCounter");
 
@@ -148,18 +145,7 @@ public class KhatamCount extends AppCompatActivity {
         name_input_et = findViewById(R.id.count_name_et);
         lt = findViewById(R.id.light);
 
-        if (strPref != null && strPref2 != null && strPref3 != null) {
 
-            name_input.setText(prefs1.getString("cname", "Default"));
-            target=prefs1.getString("tget", "0");
-            targett.setText(getString(R.string.target_string)+target);
-
-            this.mytargets= Integer.parseInt(target);
-
-            txv.setText(prefs1.getString("count", "0"));
-            value = txv.getText().toString();
-            this.mcounter = Integer.parseInt(value);
-        }
 
         open = findViewById(R.id.open);
 
@@ -339,21 +325,6 @@ public class KhatamCount extends AppCompatActivity {
 
         }
     }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        value = String.valueOf(mcounter);
-        cname = name_input.getText().toString();
-        target = String.valueOf(mytargets);
-        prefs1.edit().putString("count", value).apply();
-        prefs1.edit().putString("cname", cname).apply();
-        prefs1.edit().putString("tget", target).apply();
-
-
-    }
-
 
     @Override
     public void onResume() {

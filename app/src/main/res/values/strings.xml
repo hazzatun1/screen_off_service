@@ -39,7 +39,7 @@
     <string name="grouptarget">GroupTarget: </string>
     <string name="groupname">GroupName: </string>
     <string name="date_today">Date Today: </string>
-
+    <string name="group_create">Create Group </string>
 
 
 </resources>
