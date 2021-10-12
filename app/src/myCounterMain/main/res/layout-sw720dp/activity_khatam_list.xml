@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/pic2"
+    android:id="@+id/kl_back"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".khatam_list">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/y"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="start"
+            android:background="@mipmap/ic_back"
+            android:onClick="go_main"
+            />
+
+
+        <TextView
+            android:id="@+id/head_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25pt"
+            android:text="@string/mGroup"
+            android:textSize="23dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/d_tday"
+        android:text="@string/date_today"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/b"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="saveToCount"
+
+
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="50dp"
+            android:src="@mipmap/ic_click"
+            android:background="@android:color/transparent"
+            android:onClick="saveToCount"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            >
+
+
+            <TextView
+                android:id="@+id/k_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/groupname"
+                android:textSize="20dp"
+                android:textColor="@color/b"/>
+
+            <TextView
+                android:id="@+id/k_target"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/grouptarget"
+                android:textSize="20dp"
+                android:textColor="@color/b"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/k_member"
+        android:text="@string/groupmember"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/b"/>
+
+    <TextView
+        android:id="@+id/myCount"
+        android:text="@string/my_count"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/b"/>
+
+    <Button
+        android:id="@+id/k_total"
+        android:text="@string/totalcount"
+        android:clickable="true"
+        android:onClick="tCount"
+        android:textSize="20dp"
+        android:gravity="start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@mipmap/ic_click"
+        android:background="#FFFFFF"
+        android:paddingRight="50dp"
+        android:textAllCaps="false"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/khatamListList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</LinearLayout>
