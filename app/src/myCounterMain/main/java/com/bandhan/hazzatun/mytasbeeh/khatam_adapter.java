@@ -81,7 +81,7 @@ public class khatam_adapter extends RecyclerView.Adapter<khatam_adapter.MyViewHo
             public boolean onLongClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                builder.setTitle("Delete the khatam group");
+                builder.setTitle("Delete the group");
 
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {
@@ -113,7 +113,7 @@ public class khatam_adapter extends RecyclerView.Adapter<khatam_adapter.MyViewHo
     @SuppressLint("NotifyDataSetChanged")
     public void removeItem(int position) {
         FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
-        assert user1 != null;
+        //assert user1 != null;
         DatabaseReference reference = (DatabaseReference) FirebaseDatabase.getInstance()
                 .getReference("MyDigitalCounter")
                 .child("Group").child(list.get(position).getK_count_name());

@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 final EditText value1 = new EditText(MainActivity.this);
                 value1.setHint("Inside value");
                 layout.addView(value1);
-                String uvalue1=String.valueOf(mcounter);
+                String uvalue1=txv_et.getText().toString();
                 value1.setText(uvalue1);
 
                 AlertDialog.Builder alert2 = new AlertDialog.Builder(MainActivity.this);
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                         if(!value2.getText().toString().isEmpty()) {
                             val2 = Integer.parseInt(value2.getText().toString());
                         }
-                        mcounter=(mcounter+val2);
+                        mcounter=(Integer.parseInt(uvalue1)+val2);
                         txv_et.setText(String.valueOf(mcounter));
                         txv.setText(String.valueOf(mcounter));
 

@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
@@ -34,16 +35,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class KhotomAccount extends AppCompatActivity {
     String k_count_name="", myCount="0", tCount="0";
     FirebaseUser user;
-    String email="", target="", count_name="", date="", email1="";
+    String email="", target="", count_name="", date="", email1="", mail2="";
     DatabaseReference database;
     khatam_adapter kAdapter;
     ArrayList<KhatamUser> list_khatam;
-    EditText email2, et_k_name, targt_et;
+    EditText member, et_k_name, targt_et;
     RecyclerView recyclerView;
     FirebaseAuth auth;
    // String key;
@@ -59,7 +61,7 @@ public class KhotomAccount extends AppCompatActivity {
         assert user != null;
         email1=user.getEmail();
         list_khatam=new ArrayList<KhatamUser>();
-        email2=findViewById(R.id.edit_text);
+        member=findViewById(R.id.edit_text);
         et_k_name=findViewById(R.id.edit_text1);
         targt_et=findViewById(R.id.edit_text2);
         if (getIntent().hasExtra("cName") && getIntent().hasExtra("target")){
@@ -72,7 +74,7 @@ public class KhotomAccount extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        database.child("Group").orderByKey().addValueEventListener(new ValueEventListener() {
+        database.child("Group").child(count_name).addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -98,6 +100,38 @@ public class KhotomAccount extends AppCompatActivity {
 
     }
 
+
+
+    public void add_k_name(View view) {
+        count_name=et_k_name.getText().toString();
+
+        if(!count_name.trim().matches("") &&  !targt_et.getText().toString().trim().matches("")) {
+            database.child("Group").child(count_name)
+                    .addListenerForSingleValueEvent(new ValueEventListener(){
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot data) {
+
+                            if (data.getChildrenCount()>0) {
+                                Toast.makeText(KhotomAccount.this, "this group existed", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                writeNewGroup();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+
+                    });
+        }
+        else{
+            Toast.makeText(KhotomAccount.this, "Group Data is empty", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     public void writeNewGroup() {
 
         count_name=et_k_name.getText().toString();
@@ -105,51 +139,101 @@ public class KhotomAccount extends AppCompatActivity {
         email=email1;
         date=new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         KhatamUser helperClass = new KhatamUser(email, target, count_name, date, myCount, tCount);
-        database.child("Group").child(String.valueOf(helperClass.getK_count_name())).push().setValue(helperClass);
-    }
-    public void add_k_name(View view) {
-
-        writeNewGroup();
-
+        database.child("Group").child(count_name).push().setValue(helperClass);
+        Toast.makeText(KhotomAccount.this, "success to insert", Toast.LENGTH_SHORT).show();
     }
 
 
+
+    public void addItemToList(View view) {
+
+            count_name = et_k_name.getText().toString();
+            mail2 = member.getText().toString();
+        if(!count_name.trim().matches("") && !mail2.trim().matches("")) {
+            auth.fetchSignInMethodsForEmail(mail2)
+                    .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+
+                            boolean isNewUser = Objects.requireNonNull(task.getResult().getSignInMethods()).isEmpty();
+
+                            if (isNewUser) {
+                                Toast.makeText(KhotomAccount.this, "unregistered email", Toast.LENGTH_SHORT).show();
+                            } else {
+
+                                writenewMember();
+
+                            }
+                        }
+
+                    });
+        }
+        else{
+            Toast.makeText(KhotomAccount.this, "Member email is empty", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void writenewMember(){
+        count_name = et_k_name.getText().toString();
+        mail2 = member.getText().toString();
+        target=targt_et.getText().toString();
+
+        Query q= database.child("Group").child(count_name)
+                .orderByChild("k_acc_email")
+                .equalTo(mail2);
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            if(dataSnapshot.getChildrenCount()>0) {
+                //groupname found
+                Toast.makeText(KhotomAccount.this, "this member existed", Toast.LENGTH_SHORT).show();
+
+            }else{
+                //groupname not found
+                newMember();
+            }
+
+        }
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    });
+    }
+
+
+    public void newMember(){
+        count_name=et_k_name.getText().toString();
+        target=targt_et.getText().toString();
+        email=member.getText().toString();
+        date=new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        KhatamUser helperClass = new KhatamUser(email, target, count_name, date, myCount, tCount);
+        database.child("Group").child(count_name).push().setValue(helperClass);
+        Toast.makeText(KhotomAccount.this, "success to insert", Toast.LENGTH_SHORT).show();
+    }
+
+    //public void delItemfromList(View view) {
+   // }
+
+    public void goGroup(View view) {
+        if(!et_k_name.getText().toString().trim().matches("") &&
+                !targt_et.getText().toString().trim().matches("")) {
+            Intent i = new Intent(this, khatam_list.class);
+            i.putExtra("name", et_k_name.getText().toString());
+            i.putExtra("tgt", targt_et.getText().toString());
+            startActivity(i);
+            this.finish();
+        }
+        else{
+            Toast.makeText(KhotomAccount.this, "Please assure your group", Toast.LENGTH_SHORT).show();
+        }
+    }
     public void go_main(View view) {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         this.finish();
     }
 
-    public void writeNewMember() {
-        count_name=et_k_name.getText().toString();
-        email=email2.getText().toString();
-        auth.fetchSignInMethodsForEmail(email)
-                .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
 
-                        boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
-
-                        if (isNewUser) {
-                            Toast.makeText(KhotomAccount.this, "invalid email", Toast.LENGTH_SHORT).show();
-                        } else {
-                            date=new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                            KhatamUser helperClass = new KhatamUser(email, target, count_name, date, myCount, tCount);
-                            database.child("Group").child(helperClass.getK_count_name()).push().setValue(helperClass);
-                        }
-
-                    }
-                });
-    }
-    public void addItemToList(View view) {
-        writeNewMember();
-    }
-
-    public void goGroup(View view) {
-        Intent i = new Intent(this, khatam_list.class);
-        i.putExtra("name",et_k_name.getText().toString());
-        i.putExtra("tgt",targt_et.getText().toString());
-        startActivity(i);
-        this.finish();
-    }
 }
+

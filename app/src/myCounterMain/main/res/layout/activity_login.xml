@@ -66,8 +66,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="30sp">
+        android:layout_marginTop="30sp"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -82,8 +82,8 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:clickable="true"
-            android:focusable="true"
             android:drawableLeft="@drawable/ic_reg_ico"
+            android:focusable="true"
             android:onClick="gotoreg"
             android:text="register"
             android:textColor="#04ea00"
@@ -93,11 +93,11 @@
             android:id="@+id/forgot_pass"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:textStyle="bold"
             android:clickable="true"
-            android:textColor="#04ea00"
             android:drawableLeft="@mipmap/ic_forgot_pass"
-            android:text="ForgotPassword?"/>
+            android:text="ForgotPassword?"
+            android:textColor="#04ea00"
+            android:textStyle="bold" />
 
 
     </LinearLayout>

@@ -3,80 +3,127 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bk"
+    android:background="@drawable/pic2"
     android:id="@+id/kl_back"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".khatam_list">
-
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="end"
-        android:onClick="go_main"
-        android:text="@string/go_back"
-        android:textSize="20sp"
-        tools:ignore="MissingConstraints" />
+        android:orientation="horizontal"
+        android:background="@color/y"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="start"
+            android:background="@mipmap/ic_back"
+            android:onClick="go_main"
+            />
+
+
+        <TextView
+            android:id="@+id/head_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25pt"
+            android:text="@string/mGroup"
+            android:textSize="23dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/d_tday"
-        android:text="Date Today"
-        android:textSize="20sp"
+        android:text="@string/date_today"
+        android:textSize="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/b"
         />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:onClick="saveToCount"
-    >
-    <TextView
-        android:id="@+id/k_name"
-         android:text="KhatamName"
-        android:textSize="20sp"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-        />
+        android:layout_margin="1dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="saveToCount"
 
-        <TextView
-            android:id="@+id/k_target"
-            android:layout_width="match_parent"
+
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="KhatamTarget"
-            android:textSize="20sp" />
-</LinearLayout>
+            android:layout_gravity="end"
+            android:layout_marginEnd="50dp"
+            android:src="@mipmap/ic_click"
+            android:background="@android:color/transparent"
+            android:onClick="saveToCount"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            >
+
+
+            <TextView
+                android:id="@+id/k_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/groupname"
+                android:textSize="20dp"
+                android:textColor="@color/b"/>
+
+            <TextView
+                android:id="@+id/k_target"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/grouptarget"
+                android:textSize="20dp"
+                android:textColor="@color/b"/>
+
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/k_member"
-        android:text="KhatamMember"
-        android:textSize="20sp"
+        android:text="@string/groupmember"
+        android:textSize="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/k_total"
-        android:text="TotalCountKhatam"
-        android:clickable="true"
-        android:onClick="tCount"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textColor="@color/b"/>
 
     <TextView
         android:id="@+id/myCount"
-        android:text="My Count: "
-        android:textSize="20sp"
+        android:text="@string/my_count"
+        android:textSize="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textColor="@color/b"/>
+
+    <Button
+        android:id="@+id/k_total"
+        android:text="@string/totalcount"
+        android:clickable="true"
+        android:onClick="tCount"
+        android:textSize="20dp"
+        android:gravity="start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@mipmap/ic_click"
+        android:background="#FFFFFF"
+        android:paddingRight="50dp"
+        android:textAllCaps="false"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/khatamListList"

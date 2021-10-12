@@ -62,7 +62,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         if(!gTarget.equals("0")) {
             holder.itemView.setBackgroundColor(Color.GREEN);
-
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

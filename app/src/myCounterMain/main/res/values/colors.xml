@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="y">#FF0</color>
     <color name="b">#000</color>
+    <color name="transparent">#00000000</color>
 
 
 </resources>

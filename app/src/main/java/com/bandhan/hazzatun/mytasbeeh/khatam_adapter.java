@@ -81,7 +81,7 @@ public class khatam_adapter extends RecyclerView.Adapter<khatam_adapter.MyViewHo
             public boolean onLongClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                builder.setTitle("Delete the khatam group");
+                builder.setTitle("Delete the group");
 
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface param2DialogInterface, int param2Int) {

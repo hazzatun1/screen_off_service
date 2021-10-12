@@ -53,6 +53,11 @@ import com.google.firebase.auth.FirebaseAuth;
             forgotTextLink = findViewById(R.id.forgot_pass);
             layout=(LinearLayout)findViewById(R.id.login_back);
 
+            mEmail.setText("nisarun.elma@gmail.com");
+            mPassword.setText("123456");
+            
+
+
             set_back=getSharedPreferences("set_back", Context.MODE_PRIVATE);
             String back = set_back.getString("pic_name", "");
             if (back != null && !back.equals("")){

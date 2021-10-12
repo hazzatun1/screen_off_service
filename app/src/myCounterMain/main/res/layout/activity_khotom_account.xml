@@ -5,24 +5,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".KhotomAccount"
+    android:background="@drawable/pic2"
     android:orientation="vertical">
-
-    <Button
-        android:text="If Muslim - Khotom Page"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+
+        <ImageButton
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+            android:background="@mipmap/ic_back"
+            android:gravity="left"
+            android:onClick="go_main"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.3"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:text="@string/group_count"
+            android:textSize="20dp"
+            android:textColor="@color/b"
+            />
+
+
+    </LinearLayout>
+
+
     <EditText
         android:id="@+id/edit_text1"
-        android:hint="GroupName"
+        android:hint="@string/gname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
+
         />
 
     <EditText
         android:id="@+id/edit_text2"
-        android:hint="GroupTarget"
+        android:hint="@string/gTarget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
@@ -31,15 +61,17 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set Group"
+        android:text="@string/gCreate"
         android:onClick="add_k_name"
+        android:drawableLeft="@drawable/ic_reg_ico"
         tools:ignore="OnClick" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="only your group"
+        android:text="@string/mGroup"
         android:onClick="goGroup"
+        android:drawableLeft="@drawable/ic_info"
         tools:ignore="OnClick" />
 
             <EditText
@@ -48,14 +80,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 />
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add email"
+                android:text="@string/add_member"
                 android:onClick="addItemToList"
+            android:drawableLeft="@drawable/ic_list"
                 tools:ignore="OnClick" />
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/del_member"-->
+<!--        android:onClick="delItemfromList"-->
+<!--        tools:ignore="OnClick" />-->
 
+</LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/khatamList"

@@ -4,6 +4,8 @@ import static android.content.ContentValues.TAG;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.view.KeyEvent.KEYCODE_HEADSETHOOK;
 import static java.lang.Integer.parseInt;
+
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout layout;
     // PowerManager.WakeLock wakeLock;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             name_input_et.setText(prefs1.getString("cname", "Default"));
 
             target=prefs1.getString("tget", "0");
-            targett.setText("Target: "+target);
+            targett.setText(getString(R.string.target_string) + target);
 
             this.mytargets= Integer.parseInt(target);
 
@@ -186,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
             txv.setText(String.valueOf(mcounter));
             txv_et.setText(String.valueOf(mcounter));
             mytargets = parseInt(getIntent().getStringExtra("tcounts"));
-            targett.setText("Target: " + String.valueOf(mytargets));
+            targett.setText(getString(R.string.target_string) + String.valueOf(mytargets));
             email1 = getIntent().getStringExtra("email");
         }
 
@@ -196,7 +199,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(MainActivity.this, userlist.class);
+                Intent i = new Intent(getApplicationContext(), userlist.class);
+                //i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
 
             }
@@ -212,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 final EditText value1 = new EditText(MainActivity.this);
                 value1.setHint("Inside value");
                 layout.addView(value1);
-                String uvalue1=String.valueOf(mcounter);
+                String uvalue1=txv_et.getText().toString();
                 value1.setText(uvalue1);
 
                 AlertDialog.Builder alert2 = new AlertDialog.Builder(MainActivity.this);
@@ -227,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                         if(!value2.getText().toString().isEmpty()) {
                             val2 = Integer.parseInt(value2.getText().toString());
                         }
-                        mcounter=(mcounter+val2);
+                        mcounter=(Integer.parseInt(uvalue1)+val2);
                         txv_et.setText(String.valueOf(mcounter));
                         txv.setText(String.valueOf(mcounter));
 
@@ -447,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
                         edit_btn.setClickable(true);
                         //stopService(new Intent(MainActivity.this, MediaButtonIntentReceiver.class));
                         Log.d(TAG, "Headset is unplugged");
-                        stopService(new Intent(MainActivity.this, MyServiceScreenOff.class));
+                       // stopService(new Intent(MainActivity.this, MyServiceScreenOff.class));
                         break;
                     case 1:
                         Log.d(TAG, "Headset is plugged");
@@ -517,10 +521,11 @@ public class MainActivity extends AppCompatActivity {
             alert2.setView(editText3);
 
             alert2.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
+                @SuppressLint("SetTextI18n")
                 public void onClick(DialogInterface param2DialogInterface, int param2Int) {
 
                     mytargets = parseInt(editText3.getText().toString());
-                    targett.setText("Target: " + String.valueOf(mytargets));
+                    targett.setText(getString(R.string.target_string) + String.valueOf(mytargets));
                     mcounter = 0;
                     txv.setText(String.valueOf(mcounter));//will work by save button
                 }
@@ -531,8 +536,9 @@ public class MainActivity extends AppCompatActivity {
                             reference.child(userId).child(cname)
                                     .equalTo(name_input.getText().toString())
                                     .addValueEventListener(new ValueEventListener() {
+                                        @SuppressLint("SetTextI18n")
                                         @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                             if (dataSnapshot.hasChild(cname)) {
                                                 // maxId=dataSnapshot.getChildrenCount();
@@ -547,7 +553,7 @@ public class MainActivity extends AppCompatActivity {
 
                                                     reference.child(userId).child(cname).setValue(helperClass);
                                                     mytargets = 0;
-                                                    targett.setText("Target: "+mytarget);
+                                                    targett.setText(getString(R.string.target_string) + mytarget);
                                                     Toast.makeText(MainActivity.this, "success to update", Toast.LENGTH_SHORT).show();
 
                                                 }
@@ -580,6 +586,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        @SuppressLint("SetTextI18n")
         public void resets () {
             mcounter = 0;
             mytargets = 0;
@@ -589,7 +596,7 @@ public class MainActivity extends AppCompatActivity {
             if (!CID.equals("")) {
                 CID = "";
             }
-            targett.setText("Target: " + "0");
+            targett.setText(getString(R.string.target_string) + "0");
 
         }
     }
