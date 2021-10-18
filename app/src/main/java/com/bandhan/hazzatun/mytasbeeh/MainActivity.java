@@ -20,6 +20,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
@@ -50,7 +52,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     AudioManager audioManager;
-    private int mcounter = 0;
+    public int mcounter = 0;
     Button cnt;
     TextView txv;
     EditText txv_et;
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     Button open;
     String email1 = "", providerId = "", name = "", userId = "";
     FirebaseUser user;
-    private MusicIntentReceiver myReceiver;
+    private MediaButtonIntentReceiver myReceiver;
     SharedPreferences prefs1, set_locale, set_back;
     LinearLayout layout;
     // PowerManager.WakeLock wakeLock;
@@ -424,49 +426,18 @@ public class MainActivity extends AppCompatActivity {
         prefs1.edit().putString("count", value).apply();
         prefs1.edit().putString("cname", cname).apply();
         prefs1.edit().putString("tget", target).apply();
-
-
+       //
+        startService(new Intent(this, MyServiceScreenOff.class));
     }
 
 
     @Override
     public void onResume() {
+        stopService(new Intent(this, MyServiceScreenOff.class));
         super.onResume();
-        IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
-        registerReceiver(myReceiver, filter);
-    }
-
-
-    class MusicIntentReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
-                int state = intent.getIntExtra("state", -1);
-                switch (state) {
-                    case 0:
-                        cnt.setClickable(true);
-                        targett.setClickable(true);
-                        lt.setClickable(true);
-                        open.setClickable(true);
-                        edit_btn.setClickable(true);
-                        //stopService(new Intent(MainActivity.this, MediaButtonIntentReceiver.class));
-                        Log.d(TAG, "Headset is unplugged");
-                       // stopService(new Intent(MainActivity.this, MyServiceScreenOff.class));
-                        break;
-                    case 1:
-                        Log.d(TAG, "Headset is plugged");
-                        //Intent intt = new Intent(MainActivity.this, MyServiceScreenOff.class);
-                        //intt.putExtra("mcounter", mcounter);
-                        //startService(intt);
-                        break;
-                    default:
-                        Log.d(TAG, "Undetermined state");
-                }
-            }
-        }
+       // startService(new Intent(this, MyServiceScreenOff.class));
 
     }
-
 
 
     @Override  //headphone count
@@ -479,7 +450,7 @@ public class MainActivity extends AppCompatActivity {
              open.setClickable(false);
              edit_btn.setClickable(false);
 
-             myReceiver = new MusicIntentReceiver();
+             myReceiver = new MediaButtonIntentReceiver();
              audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
              audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
              audioManager.setSpeakerphoneOn(true);// will continue beep sound though headphone connected.

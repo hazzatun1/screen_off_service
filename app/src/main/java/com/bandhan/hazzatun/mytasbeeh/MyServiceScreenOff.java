@@ -15,10 +15,14 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class MyServiceScreenOff extends Service {
     public MyServiceScreenOff() {
     }
+    //KeyEvent event;
+    private MediaButtonIntentReceiver me = new MediaButtonIntentReceiver();
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -34,11 +38,12 @@ public class MyServiceScreenOff extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        MediaButtonIntentReceiver me= new MediaButtonIntentReceiver();
-        MainActivity m= new MainActivity();
-        //m.onKeyDown(KEYCODE_HEADSETHOOK, me.event);
-        me.onReceive(this, intent);
+        Toast.makeText(this, "BUTTON PRESSED!", Toast.LENGTH_SHORT).show();
+       // MediaButtonIntentReceiver me= new MediaButtonIntentReceiver();
+        //MainActivity m= new MainActivity();
 
+       // m.onKeyDown(KEYCODE_HEADSETHOOK, event);
+        me.onReceive(this, intent);
 
 
         return START_STICKY;

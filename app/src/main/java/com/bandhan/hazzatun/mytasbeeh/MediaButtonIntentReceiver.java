@@ -16,7 +16,6 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
         super();
     }
 
-    @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -24,9 +23,8 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
         if (action == KeyEvent.ACTION_DOWN) {
 
             MainActivity m= new MainActivity();
-
             m.onKeyDown(KEYCODE_HEADSETHOOK, event);
-            Toast.makeText(context, "BUTTON PRESSED!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "BUTTON PRESSED!", Toast.LENGTH_SHORT).show();
         }
         abortBroadcast();
     }
