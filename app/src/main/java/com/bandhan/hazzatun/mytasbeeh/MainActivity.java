@@ -52,9 +52,9 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     AudioManager audioManager;
-    public int mcounter = 0;
+    public static int mcounter = 0;
     Button cnt;
-    TextView txv;
+    private TextView txv;
     EditText txv_et;
     TextView name_input;
     EditText name_input_et;
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     String cname = "";
     String names = "";
     String formattedDate = "";
-    private int mytargets = 0;
+    public static int mytargets = 0;
     Button targett;
     ImageButton lt;
     DatabaseReference reference;
@@ -74,10 +74,9 @@ public class MainActivity extends AppCompatActivity {
     Button open;
     String email1 = "", providerId = "", name = "", userId = "";
     FirebaseUser user;
-    private MediaButtonIntentReceiver myReceiver;
+//    private MediaButtonIntentReceiver myReceiver;
     SharedPreferences prefs1, set_locale, set_back;
     LinearLayout layout;
-    // PowerManager.WakeLock wakeLock;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -337,6 +336,7 @@ public class MainActivity extends AppCompatActivity {
                 // i.putExtra("name", "cname");
                // i.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
+
             }
         }
     }
@@ -427,16 +427,32 @@ public class MainActivity extends AppCompatActivity {
         prefs1.edit().putString("cname", cname).apply();
         prefs1.edit().putString("tget", target).apply();
        //
-        startService(new Intent(this, MyServiceScreenOff.class));
+//        Intent intent = new Intent(MainActivity.this, MyServiceScreenOff.class);
+//        String mc=String.valueOf(mcounter);
+//        intent.putExtra("mcounter", mc);
+//        startService(intent);
+
+        stopService(new Intent(this, MyServiceScreenOff.class));
+        txv.setText(String.valueOf(mcounter));
+
+
     }
 
 
     @Override
     public void onResume() {
-        stopService(new Intent(this, MyServiceScreenOff.class));
-        super.onResume();
-       // startService(new Intent(this, MyServiceScreenOff.class));
 
+
+       // stopService(new Intent(this, MyServiceScreenOff.class));
+
+        super.onResume();
+
+        //myReceiver = new MediaButtonIntentReceiver(mcounter);
+
+        //startService(new Intent(this, MediaButtonIntentReceiver.class));
+//
+        Intent intent = new Intent(MainActivity.this, MyServiceScreenOff.class);
+       startService(intent);
     }
 
 
@@ -450,7 +466,7 @@ public class MainActivity extends AppCompatActivity {
              open.setClickable(false);
              edit_btn.setClickable(false);
 
-             myReceiver = new MediaButtonIntentReceiver();
+            // myReceiver = new MediaButtonIntentReceiver();
              audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
              audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
              audioManager.setSpeakerphoneOn(true);// will continue beep sound though headphone connected.

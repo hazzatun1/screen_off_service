@@ -32,12 +32,12 @@
         tools:node="merge"
         tools:replace="android:label">
 
-        <receiver android:name=".MediaButtonIntentReceiver"
-            android:exported="true">
+<!--        <receiver android:name=".MediaButtonIntentReceiver"-->
+<!--            android:exported="true">-->
 <!--            <intent-filter>-->
 <!--                <action android:name="com.bandhan.hazzatun.mytasbeeh" />-->
 <!--            </intent-filter>-->
-        </receiver>
+<!--        </receiver>-->
 
         <activity
             android:name=".SplashActivity"
@@ -91,11 +91,7 @@
         </intent-filter>
         </activity>
 
-        <service
-            android:name=".MyServiceScreenOff"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
+        <service android:name=".MyServiceScreenOff"> </service>
 
         <service android:name="com.google.firebase.components.ComponentDiscoveryService">
             <meta-data
